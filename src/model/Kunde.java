@@ -1,4 +1,5 @@
 package model;
+
 import javax.swing.JOptionPane;
 
 import java.util.Date;
@@ -67,16 +68,14 @@ public class Kunde {
 		}
 
 	}
-	
-	  public static void infoBox(String password)
-	    {
-	        JOptionPane.showMessageDialog(null, password);
-	    }
-	  
-	  public static void infoBox()
-	    {
-	        JOptionPane.showMessageDialog(null, "no password for you, idiot!");
-	    }
+
+	public static void infoBox(String password) {
+		JOptionPane.showMessageDialog(null, password);
+	}
+
+	public static void infoBox() {
+		JOptionPane.showMessageDialog(null, "no password for you, idiot!");
+	}
 
 // || oder ((ab == ab && ab == 1) || 1==1)
 	public void passwordZurueckSetzen(int kundenNummer, String email, int alter) {

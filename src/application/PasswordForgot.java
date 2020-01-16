@@ -54,18 +54,5 @@ public class PasswordForgot {
 		Kunde kunde = new Kunde();
 		kunde.passwordVergessen(username.getText(), email.getText(), Integer.parseInt(alter.getText()));
 	}
-	
-//	
-//	public void passwordVergessen(String username, String email, int alter) { // kontrolle und wirklich void?
-//		if (this.email == email) {
-//			if (this.alter == alter) {
-//				getPassword();
-//			}
-//		} else {
-//			System.err.println("user nicht gefunden");
-//			return;
-//		}
-//
-//	}
-	
+
 }
