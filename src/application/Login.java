@@ -40,21 +40,37 @@ public class Login {
 	private TextField username;
 	@FXML
 	private TextField password;
-	
+	@FXML
+	private Button reg;
+	@FXML
+	private Button forgot;
+
 	private Main parent;
-	
+
 	public Login() {
 
 	}
-	
+
 	@FXML
 	public void handleLogin() {
-		System.out.println(username.getText());
-		System.out.println(password.getText());
-		Kunde kunde = new Kunde();
-		
+		// System.out.println(username.getText());
+		// System.out.println(password.getText());
+		Kunde kunde = new Kunde(username.getText(), "1234"); // hier muss vergleich mit liste rein
+
 		kunde.login(password.getText());
-		
+
+	}
+
+	@FXML
+	public void handleRegistration() {
+		Kunde kunde = new Kunde(username.getText(), password.getText());
+
+	}
+
+	@FXML
+	public void handlePasswordForgot() {
+		Kunde kunde = new Kunde();
+		kunde.passwordVergessen(username.getText());
 	}
 
 	public void setParent(Main main) {

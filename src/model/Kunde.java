@@ -1,4 +1,5 @@
 package model;
+
 import java.util.Date;
 
 public class Kunde {
@@ -12,7 +13,7 @@ public class Kunde {
 	private int telefonNummer; // string? <- falsch in klassendiagramm? oder wegen abständen?
 	private String email;
 	private String username;
-	private String password = "1234";
+	private String password;
 	boolean gesperrt = false;
 	private String kkInhaber;
 	private long kkNummer;
@@ -20,9 +21,16 @@ public class Kunde {
 	private int kkPruefnummer;
 //neu dazugefügt
 	private String lockReason;
-public Kunde() {
-	// TODO Auto-generated constructor stub
-}
+
+	public Kunde() {
+		setUsername("test");
+		setPassword("1234");
+	}
+	public Kunde(String username, String password) {
+		setUsername(username);
+		setPassword(password);
+	}
+
 	public void lockKunde(String lockReason) {
 		this.lockReason = lockReason;
 		setGesperrt(true);
@@ -44,34 +52,45 @@ public Kunde() {
 		}
 	}
 
-	public void passwordVergessen(int kundenNummer, String email, int alter) { // kontrolle und wirklich void?
-		if (this.email == email) {
-			if (this.alter == alter) {
-				getPassword();
-			}
+	public void passwordVergessen(String username) { // kontrolle und wirklich void?
+		if (this.username.equals(username)) {
+			getPassword();
 		} else {
 			System.err.println("user nicht gefunden");
 			return;
 		}
 
 	}
+//	
+//	public void passwordVergessen(int kundenNummer, String email, int alter) { // kontrolle und wirklich void?
+//		if (this.email == email) {
+//			if (this.alter == alter) {
+//				getPassword();
+//			}
+//		} else {
+//			System.err.println("user nicht gefunden");
+//			return;
+//		}
+//
+//	}
+
 // || oder ((ab == ab && ab == 1) || 1==1)
 	public void passwordZurueckSetzen(int kundenNummer, String email, int alter) {
 		if (this.email == email && this.alter == alter) {
-				setPassword("1234");
-				System.out.println("Wir haben Ihr Password auf 1234 gesetzt");
-			
+			setPassword("1234");
+			System.out.println("Wir haben Ihr Password auf 1234 gesetzt");
+
 		} else {
 			System.err.println("user nicht gefunden");
 		}
 	}
 
 	public Boolean login(String password) {
-		
+
 		if (this.password.equals(password)) {
 			System.out.println("eingeloggt"); // brauchen wir ein logged in status?
 			return true;
-		} 
+		}
 		return false;
 	}
 
@@ -152,6 +171,7 @@ public Kunde() {
 	}
 
 	public String getPassword() {
+		System.out.println(password);
 		return password;
 	}
 
