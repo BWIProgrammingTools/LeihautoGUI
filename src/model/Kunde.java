@@ -25,7 +25,10 @@ public class Kunde {
 	public Kunde() {
 		setUsername("test");
 		setPassword("1234");
+		setEmail("test@test.test");
+		setAlter(99);
 	}
+
 	public Kunde(String username, String password) {
 		setUsername(username);
 		setPassword(password);
@@ -52,8 +55,9 @@ public class Kunde {
 		}
 	}
 
-	public void passwordVergessen(String username) { // kontrolle und wirklich void?
-		if (this.username.equals(username)) {
+	public void passwordVergessen(String login, String email, int alter) {
+		if (this.email.equals(email) && this.alter == alter) {
+
 			getPassword();
 		} else {
 			System.err.println("user nicht gefunden");
@@ -61,18 +65,6 @@ public class Kunde {
 		}
 
 	}
-//	
-//	public void passwordVergessen(int kundenNummer, String email, int alter) { // kontrolle und wirklich void?
-//		if (this.email == email) {
-//			if (this.alter == alter) {
-//				getPassword();
-//			}
-//		} else {
-//			System.err.println("user nicht gefunden");
-//			return;
-//		}
-//
-//	}
 
 // || oder ((ab == ab && ab == 1) || 1==1)
 	public void passwordZurueckSetzen(int kundenNummer, String email, int alter) {

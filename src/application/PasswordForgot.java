@@ -17,7 +17,6 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -33,57 +32,40 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Kunde;
 
-public class Login {
+public class PasswordForgot {
 
-	@FXML
-	private Button login;
 	@FXML
 	private TextField username;
 	@FXML
-	private TextField password;
+	private TextField email;
 	@FXML
-	private Button reg;
+	private TextField alter;
 	@FXML
 	private Button forgot;
 
 	private Main parent;
-	private Stage outputStage;
 
-	public Login() {
-
-	}
-
-	@FXML
-	public void handleLogin() {
-		// System.out.println(username.getText());
-		// System.out.println(password.getText());
-		Kunde kunde = new Kunde(username.getText(), "1234"); // hier muss vergleich mit liste rein
-
-		kunde.login(password.getText());
+	public PasswordForgot() {
 
 	}
 
 	@FXML
-	public void handleRegistration() {
-		Kunde kunde = new Kunde(username.getText(), password.getText());
-
+	public void handlePasswordForgot() {
+		Kunde kunde = new Kunde();
+		kunde.passwordVergessen(username.getText(), email.getText(), Integer.parseInt(alter.getText()));
 	}
-
-	@FXML
-	//neues Fenster (pw vergessen) öffnen
-	public void handleNewPasswordForgot() throws SQLException, IOException { 
-
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PasswordForget.fxml"));
-		Parent root = fxmlLoader.load();
-		Stage stage = new Stage();
-		stage.initModality(Modality.APPLICATION_MODAL);
-		stage.setOpacity(1);
-		stage.setTitle("My New Stage Title");
-		stage.setScene(new Scene(root, 450, 450));
-		stage.showAndWait();
-	}
-
-	public void setParent(Main main) {
-		this.parent = main;
-	}
+	
+//	
+//	public void passwordVergessen(String username, String email, int alter) { // kontrolle und wirklich void?
+//		if (this.email == email) {
+//			if (this.alter == alter) {
+//				getPassword();
+//			}
+//		} else {
+//			System.err.println("user nicht gefunden");
+//			return;
+//		}
+//
+//	}
+	
 }
