@@ -1,17 +1,22 @@
 package application;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.print.DocFlavor.INPUT_STREAM;
+import javax.swing.JOptionPane;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -50,9 +55,49 @@ public class PasswordForgot {
 	}
 
 	@FXML
-	public void handlePasswordForgot() {
-		Kunde kunde = new Kunde();
-		kunde.passwordVergessen(username.getText(), email.getText(), Integer.parseInt(alter.getText()));
-	}
+	public boolean handlePasswordForgot() {
+		// Kunde kunde = new Kunde();
+		// kunde.passwordVergessen(username.getText(), email.getText(),
+		// Integer.parseInt(alter.getText()));
 
+		// hier wird eine leere ArrayList erstellt
+		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
+
+		// hier startet der Import der bestehenden Kundenliste
+		List<Kunde> importKundenListe = new ArrayList<Kunde>();
+		try {
+			FileInputStream fis = new FileInputStream("Kundenliste.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			// write object to file
+			importKundenListe = (ArrayList) ois.readObject();
+			// closing resources
+			ois.close();
+			fis.close();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
+		// der leeren Kundenliste angefügt
+		for (Kunde existingKunde : importKundenListe) {
+			emptyKundenListe.add(existingKunde);
+		}
+
+		// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
+		for (int i = 0; i < emptyKundenListe.size(); i++) {
+			// wenn username, email und alter korrekt sind, wird das pw ausgegeben
+			if (emptyKundenListe.get(i).getUsername().compareTo(username.getText()) == 0
+					&& emptyKundenListe.get(i).getEmail().compareTo(email.getText()) == 0
+					&& emptyKundenListe.get(i).getAlter() == Integer.parseInt(alter.getText())) {
+
+				JOptionPane.showMessageDialog(null, emptyKundenListe.get(i).getPassword());
+				return true;
+				// wenn username und passwort zwar stimmen aber der Kunde blockiert ist, kommt
+				// hier eine Fehlermeldung
+			}
+
+		}
+		// wenn username und passwort nicht auffindbar sind, kommt hier ein fehler
+		JOptionPane.showMessageDialog(null, "User nicht gefunden!");
+		return false;
+	}
 }

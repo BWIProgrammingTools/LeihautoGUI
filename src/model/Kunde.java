@@ -260,7 +260,7 @@ public class Kunde implements Serializable {
 	}
 
 	public String getPassword() {
-		System.out.println(password);
+//		System.out.println(password);
 		return password;
 	}
 
