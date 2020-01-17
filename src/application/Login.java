@@ -64,14 +64,22 @@ public class Login {
 	}
 
 	@FXML
-	public void handleRegistration() {
-		Kunde kunde = new Kunde(username.getText(), password.getText());
+	//neues Fenster (Registration) öffnen
+	public void handleRegistrationButton() throws SQLException, IOException { 
 
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Registration.fxml"));
+		Parent root = fxmlLoader.load();
+		Stage stage = new Stage();
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.setOpacity(1);
+		stage.setTitle("Kundenregistration");
+		stage.setScene(new Scene(root, 700, 700));
+		stage.showAndWait();
 	}
 
 	@FXML
 	//neues Fenster (pw vergessen) öffnen
-	public void handleNewPasswordForgot() throws SQLException, IOException { 
+	public void handlePasswordForgotButton() throws SQLException, IOException { 
 
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PasswordForget.fxml"));
 		Parent root = fxmlLoader.load();

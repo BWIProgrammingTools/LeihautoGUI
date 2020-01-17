@@ -2,38 +2,67 @@ package model;
 
 import javax.swing.JOptionPane;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Kunde {
 
 	private int kundenNummer = 1;
-	private String strasse;
+	private String strasseUndNummer;
 	private String ort;
 	private int plz;
 	private String land;
 	private int alter;
-	private int telefonNummer; // string? <- falsch in klassendiagramm? oder wegen abstÃ¤nden?
+	private String telefonNummer; // string? <- falsch in klassendiagramm? oder wegen abstÃ¤nden?
 	private String email;
 	private String username;
 	private String password;
-	boolean gesperrt = false;
+	private boolean gesperrt = false;
 	private String kkInhaber;
 	private long kkNummer;
-	private Date kkAblaufdatum; // nicht string
+	private String kkAblaufdatum; // nicht string
 	private int kkPruefnummer;
 //neu dazugefÃ¼gt
 	private String lockReason;
 
+	//Konstruktor für Tests
 	public Kunde() {
 		setUsername("test");
 		setPassword("1234");
 		setEmail("test@test.test");
 		setAlter(99);
 	}
-
+	//Konstruktor für Tests
 	public Kunde(String username, String password) {
 		setUsername(username);
 		setPassword(password);
+	}
+	
+	
+	//Konstruktor für Registration
+	public Kunde(String sUN, String ort, int plz, String land, int alter, String telefonNummer, String email,
+			String username, String password, String kkInhaber, long kkNummer, String kkAblaufdatum, int kkPruefnummer) {
+		setStrasseUndNummer(sUN);
+		setOrt(ort);
+		setPlz(plz);
+		setLand(land);
+		setAlter(alter);
+		setTelefonNummer(telefonNummer);
+		setEmail(email);
+		setUsername(username);
+		setPassword(password);
+		this.gesperrt = false;
+		setKkInhaber(kkInhaber);
+		setKkNummer(kkNummer);
+		setKkAblaufdatum(kkAblaufdatum); // nicht string
+		setKkPruefnummer(kkPruefnummer);
+		this.lockReason="";
 	}
 
 	public void lockKunde(String lockReason) {
@@ -57,7 +86,7 @@ public class Kunde {
 		}
 	}
 
-	public void passwordVergessen(String login, String email, int alter) {
+	public void passwordVergessen(String username, String email, int alter) {
 		if (this.email.equals(email) && this.alter == alter) {
 
 			Kunde.infoBox(getPassword());
@@ -97,8 +126,55 @@ public class Kunde {
 		return false;
 	}
 
-	public void adKunde() {
+	public void addKunde() {
 
+	}
+	
+	//Methode für Kundenregistration
+	public void registration(Kunde kunde) {
+		// hier wird eine leere ArrayList erstellt
+		List<KundenListe> KundenListe = new ArrayList<KundenListe>();
+
+		// hier startet der Import der bestehenden Kundenliste
+		List<ExistingKundenListe> importKundenListe = new ArrayList<ExistingKundenListe>();
+		try {
+			FileInputStream fis = new FileInputStream("Kundenliste.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			// write object to file
+			importKundenListe = (ArrayList) ois.readObject();
+			System.out.println("Done");
+			// closing resources
+			ois.close();
+			fis.close();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
+		// der leeren Kundenliste angefügt
+		for (Kunde existingKunde : importKundenListe) {
+			KundenListe.add(existingKunde);
+			System.out.println(kundenTest);
+		}
+//hier wird ein neuer Kunde instanziert
+		//varKundenTest = new KundenTest();
+
+		// hier wird der neue Kunde der ursprünglich leeren aber mittlerweile befüllten
+		// liste angefügt
+		emptyKundenListe.add(varKundenTest);
+
+//hier wird die aktualisierte kundenliste wieder herausgeschrieben
+		try {
+			FileOutputStream fos = new FileOutputStream("Kundenliste.ser");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			// write object to file
+			oos.writeObject(emptyKundenListe);
+			System.out.println("Done");
+			// closing resources
+			oos.close();
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public int getKundenNummer() {
@@ -109,12 +185,12 @@ public class Kunde {
 		this.kundenNummer = kundenNummer;
 	}
 
-	public String getStrasse() {
-		return strasse;
+	public String getStrasseUndNummer() {
+		return strasseUndNummer;
 	}
 
-	public void setStrasse(String strasse) {
-		this.strasse = strasse;
+	public void setStrasseUndNummer(String strasseUndNummer) {
+		this.strasseUndNummer = strasseUndNummer;
 	}
 
 	public String getOrt() {
@@ -149,11 +225,11 @@ public class Kunde {
 		this.alter = alter;
 	}
 
-	public int getTelefonNummer() {
+	public String getTelefonNummer() {
 		return telefonNummer;
 	}
 
-	public void setTelefonNummer(int telefonNummer) {
+	public void setTelefonNummer(String telefonNummer) {
 		this.telefonNummer = telefonNummer;
 	}
 
@@ -206,11 +282,11 @@ public class Kunde {
 		this.kkNummer = kkNummer;
 	}
 
-	public Date getKkAblaufdatum() {
+	public String getKkAblaufdatum() {
 		return kkAblaufdatum;
 	}
 
-	public void setKkAblaufdatum(Date kkAblaufdatum) {
+	public void setKkAblaufdatum(String kkAblaufdatum) {
 		this.kkAblaufdatum = kkAblaufdatum;
 	}
 
