@@ -17,6 +17,11 @@ public class Einzelkunde extends Kunde {
 		setFuehrerausweisNummer(fuehrerausweisNummer);
 	}
 
+	// String to String Methode
+	public String toString() {
+		return "Kunde:: Nummer= " + this.getKundenNummer() + " Email= " + this.getEmail() + " Nachname= "
+				+ this.nachname;
+	}
 
 	public String getVorname() {
 		return vorname;

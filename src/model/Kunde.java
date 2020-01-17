@@ -31,23 +31,25 @@ public class Kunde {
 //neu dazugefÃ¼gt
 	private String lockReason;
 
-	//Konstruktor für Tests
+	// Konstruktor für Tests
 	public Kunde() {
 		setUsername("test");
 		setPassword("1234");
 		setEmail("test@test.test");
 		setAlter(99);
 	}
-	//Konstruktor für Tests
+
+	// Konstruktor für Tests
 	public Kunde(String username, String password) {
 		setUsername(username);
 		setPassword(password);
 	}
-	
-	
-	//Konstruktor für Registration
+
+	// Konstruktor für Registration
 	public Kunde(String sUN, String ort, int plz, String land, int alter, String telefonNummer, String email,
-			String username, String password, String kkInhaber, long kkNummer, String kkAblaufdatum, int kkPruefnummer) {
+			String username, String password, String kkInhaber, long kkNummer, String kkAblaufdatum,
+			int kkPruefnummer) {
+		this.kundenNummer = kundenNummer++;
 		setStrasseUndNummer(sUN);
 		setOrt(ort);
 		setPlz(plz);
@@ -62,7 +64,7 @@ public class Kunde {
 		setKkNummer(kkNummer);
 		setKkAblaufdatum(kkAblaufdatum); // nicht string
 		setKkPruefnummer(kkPruefnummer);
-		this.lockReason="";
+		this.lockReason = "";
 	}
 
 	public void lockKunde(String lockReason) {
@@ -129,14 +131,14 @@ public class Kunde {
 	public void addKunde() {
 
 	}
-	
-	//Methode für Kundenregistration
-	public void registration(Kunde kunde) {
+
+	// Methode für Kundenregistration
+	public void registration(Kunde varKunde) {
 		// hier wird eine leere ArrayList erstellt
-		List<KundenListe> KundenListe = new ArrayList<KundenListe>();
+		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
 
 		// hier startet der Import der bestehenden Kundenliste
-		List<ExistingKundenListe> importKundenListe = new ArrayList<ExistingKundenListe>();
+		List<Kunde> importKundenListe = new ArrayList<Kunde>();
 		try {
 			FileInputStream fis = new FileInputStream("Kundenliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
@@ -152,17 +154,18 @@ public class Kunde {
 		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
 		// der leeren Kundenliste angefügt
 		for (Kunde existingKunde : importKundenListe) {
-			KundenListe.add(existingKunde);
-			System.out.println(kundenTest);
+			emptyKundenListe.add(existingKunde);
+			System.out.println(existingKunde);
 		}
-//hier wird ein neuer Kunde instanziert
-		//varKundenTest = new KundenTest();
+		// hier wird ein neuer Kunde instanziert
+		// varKundenTest = new KundenTest();
 
 		// hier wird der neue Kunde der ursprünglich leeren aber mittlerweile befüllten
 		// liste angefügt
-		emptyKundenListe.add(varKundenTest);
+		emptyKundenListe.add(varKunde);
+		System.out.println(varKunde);
 
-//hier wird die aktualisierte kundenliste wieder herausgeschrieben
+		// hier wird die aktualisierte kundenliste wieder herausgeschrieben
 		try {
 			FileOutputStream fos = new FileOutputStream("Kundenliste.ser");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -175,6 +178,11 @@ public class Kunde {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	// String to String Methode
+	public String toString() {
+		return "Kunde:: Nummer=" + this.kundenNummer + " Email=" + this.email;
 	}
 
 	public int getKundenNummer() {
