@@ -8,12 +8,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.io.Serializable;
 
-public class Kunde {
+public class Kunde implements Serializable {
 
-	private int kundenNummer = 1;
+	private static final long serialVersionUID = -299482035708790407L;
+
+	private int kundenNummer = 0;
 	private String strasseUndNummer;
 	private String ort;
 	private int plz;
@@ -49,7 +51,7 @@ public class Kunde {
 	public Kunde(String sUN, String ort, int plz, String land, int alter, String telefonNummer, String email,
 			String username, String password, String kkInhaber, long kkNummer, String kkAblaufdatum,
 			int kkPruefnummer) {
-		this.kundenNummer = kundenNummer++;
+		kundenNummer++;
 		setStrasseUndNummer(sUN);
 		setOrt(ort);
 		setPlz(plz);
@@ -59,12 +61,12 @@ public class Kunde {
 		setEmail(email);
 		setUsername(username);
 		setPassword(password);
-		this.gesperrt = false;
+		setGesperrt(false);
 		setKkInhaber(kkInhaber);
 		setKkNummer(kkNummer);
 		setKkAblaufdatum(kkAblaufdatum); // nicht string
 		setKkPruefnummer(kkPruefnummer);
-		this.lockReason = "";
+		setLockReason("");
 	}
 
 	public void lockKunde(String lockReason) {
@@ -156,6 +158,7 @@ public class Kunde {
 		for (Kunde existingKunde : importKundenListe) {
 			emptyKundenListe.add(existingKunde);
 			System.out.println(existingKunde);
+			++this.kundenNummer;
 		}
 		// hier wird ein neuer Kunde instanziert
 		// varKundenTest = new KundenTest();

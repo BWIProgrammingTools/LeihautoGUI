@@ -87,10 +87,10 @@ public class Registration {
 	// 5. exportiert die neue ArrayList wieder als Kundenliste
 	@FXML
 	public void handleRegistration() {
-		Kunde vareinzelkunde = new Kunde(strasseUndNummer.getText(), ort.getText(), Integer.parseInt(plz.getText()),
+		Kunde vareinzelkunde = new Einzelkunde(strasseUndNummer.getText(), ort.getText(), Integer.parseInt(plz.getText()),
 				land.getText(), Integer.parseInt(alter.getText()), telefonNummer.getText(), email.getText(),
 				username.getText(), passwort.getText(), kkInhaber.getText(), Long.parseLong(kkNummer.getText()),
-				kkAblaufdatum.getText(), Integer.parseInt(kkPruefnummer.getText()));
+				kkAblaufdatum.getText(), Integer.parseInt(kkPruefnummer.getText()), vorname.getText(), nachname.getText(), Integer.parseInt(fuehrerausweisNummer.getText()));
 		vareinzelkunde.registration(vareinzelkunde);
 	}
 
