@@ -51,7 +51,6 @@ public class Kunde implements Serializable {
 	public Kunde(String sUN, String ort, int plz, String land, int alter, String telefonNummer, String email,
 			String username, String password, String kkInhaber, long kkNummer, String kkAblaufdatum,
 			int kkPruefnummer) {
-		kundenNummer++;
 		setStrasseUndNummer(sUN);
 		setOrt(ort);
 		setPlz(plz);
