@@ -11,7 +11,7 @@ import javafx.stage.StageStyle;
 
 public class MainKunde extends Application {
 
-	//das ist ein Kommentar zum testen
+	//testkommentar
 	private Stage primaryStage;
 	private AnchorPane layout;
 
