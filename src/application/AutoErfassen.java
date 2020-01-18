@@ -35,6 +35,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import model.Auto;
+import model.Einzelkunde;
 import model.Kunde;
 
 import javafx.fxml.FXML;
@@ -65,8 +67,10 @@ public class AutoErfassen {
 
 	}
 	
-	public void handleAutoErfassen() {
-		
+	@FXML
+	public void handleAutoErfassenButton() {
+		Auto varAuto = new Auto(marke.getText(), getriebe.getText(), treibstoff.getText(), farbe.getText());
+		varAuto.autoErfassen(varAuto);
 	}
 
 }
