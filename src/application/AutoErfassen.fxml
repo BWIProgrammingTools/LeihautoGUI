@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AutoErfassen">
+   <children>
+      <TextField fx:id="marke" layoutX="216.0" layoutY="90.0" promptText="Marke" />
+      <TextField fx:id="farbe" layoutX="216.0" layoutY="136.0" promptText="Farbe" />
+      <TextField fx:id="getriebe" layoutX="216.0" layoutY="185.0" promptText="Getriebeart" />
+      <TextField fx:id="treibstoff" layoutX="216.0" layoutY="236.0" promptText="Treibstoff" />
+      <ComboBox fx:id="getriebeCombo" layoutX="215.0" layoutY="296.0" prefWidth="150.0" promptText="GetriebeartCombo" />
+      <ComboBox fx:id="treibstoffCombo" layoutX="215.0" layoutY="351.0" prefWidth="150.0" promptText="TreibstoffartCombo" />
+      <Button fx:id="autoerfassen" layoutX="215.0" layoutY="434.0" mnemonicParsing="false" onAction="#handleAutoErfassen" prefHeight="62.0" prefWidth="149.0" text="Auto erfassen" />
+   </children>
+</AnchorPane>

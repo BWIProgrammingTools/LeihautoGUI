@@ -51,7 +51,7 @@ public class Login {
 	@FXML
 	private Button forgot;
 
-	private Main parent;
+	private MainKunde parent;
 	private Stage outputStage;
 
 	public Login() {
@@ -147,7 +147,7 @@ public class Login {
 		stage.showAndWait();
 	}
 
-	public void setParent(Main main) {
+	public void setParent(MainKunde main) {
 		this.parent = main;
 	}
 }

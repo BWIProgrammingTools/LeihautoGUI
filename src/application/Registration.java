@@ -73,7 +73,7 @@ public class Registration {
 	@FXML
 	private Button registration;
 
-	private Main parent;
+	private MainKunde parent;
 
 	public Registration() {
 

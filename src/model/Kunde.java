@@ -145,7 +145,7 @@ public class Kunde implements Serializable {
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
 			importKundenListe = (ArrayList) ois.readObject();
-			System.out.println("Done");
+			System.out.println("Import Done");
 			// closing resources
 			ois.close();
 			fis.close();
@@ -173,7 +173,7 @@ public class Kunde implements Serializable {
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			// write object to file
 			oos.writeObject(emptyKundenListe);
-			System.out.println("Done");
+			System.out.println("Export Done");
 			// closing resources
 			oos.close();
 			fos.close();

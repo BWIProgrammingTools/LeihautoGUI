@@ -9,7 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class Main extends Application {
+public class MainAdmin extends Application {
 
 	private Stage primaryStage;
 	private AnchorPane layout;
@@ -17,21 +17,21 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("Login");
+		this.primaryStage.setTitle("AdminPortal");
 
 		try {
 		FXMLLoader loader = new FXMLLoader(
-					Main.class.getResource("Login.fxml"));
+					MainAdmin.class.getResource("AdminPortal.fxml"));
 			layout = (AnchorPane) loader.load();
 			
 			Scene scene = new Scene(layout);
 			//Klasse uebergeben
-			Login login = loader.getController();
+			AdminPortal adminPortal = loader.getController();
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
 			primaryStage.initStyle(StageStyle.DECORATED);
 			//parent uebergeben
-			login.setParent(this);
+			adminPortal.setParent(this);
 			primaryStage.show();
 		} catch (IOException e) {
 			// Exception gets thrown if the fxml file could not be loaded

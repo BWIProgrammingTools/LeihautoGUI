@@ -48,7 +48,7 @@ public class PasswordForgot {
 	@FXML
 	private Button forgot;
 
-	private Main parent;
+	private MainKunde parent;
 
 	public PasswordForgot() {
 
@@ -56,9 +56,6 @@ public class PasswordForgot {
 
 	@FXML
 	public boolean handlePasswordForgot() {
-		// Kunde kunde = new Kunde();
-		// kunde.passwordVergessen(username.getText(), email.getText(),
-		// Integer.parseInt(alter.getText()));
 
 		// hier wird eine leere ArrayList erstellt
 		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();

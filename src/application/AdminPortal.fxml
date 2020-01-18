@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="684.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AdminPortal">
+   <children>
+      <Button fx:id="autoErfassen" layoutX="210.0" layoutY="188.0" mnemonicParsing="false" onAction="#handleAutoErfassen" prefHeight="70.0" prefWidth="178.0" text="Auto erfassen" />
+      <Button fx:id="frei" layoutX="210.0" layoutY="274.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="178.0" text="???" />
+      <Button fx:id="frei2" layoutX="210.0" layoutY="365.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="178.0" text="???" />
+   </children>
+</AnchorPane>
