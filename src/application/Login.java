@@ -123,7 +123,7 @@ public class Login {
 	// neues Fenster (Registration) öffnen
 	public void handleRegistrationButton() throws SQLException, IOException {
 
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Registration.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RegistrationEinzel.fxml"));
 		Parent root = fxmlLoader.load();
 		Stage stage = new Stage();
 		stage.initModality(Modality.APPLICATION_MODAL);

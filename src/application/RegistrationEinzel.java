@@ -33,7 +33,7 @@ import javafx.stage.StageStyle;
 import model.Einzelkunde;
 import model.Kunde;
 
-public class Registration {
+public class RegistrationEinzel {
 
 	// Felder und Buttons vom SceneBuilder FXML mappen
 	@FXML
@@ -75,7 +75,7 @@ public class Registration {
 
 	private MainKunde parent;
 
-	public Registration() {
+	public RegistrationEinzel() {
 
 	}
 
@@ -86,7 +86,7 @@ public class Registration {
 	// 4. added das Objekt ebenfalls der ArrayList
 	// 5. exportiert die neue ArrayList wieder als Kundenliste
 	@FXML
-	public void handleRegistration() {
+	public void handleRegistrationAbschliessenButton() {
 		Kunde vareinzelkunde = new Einzelkunde(strasseUndNummer.getText(), ort.getText(), Integer.parseInt(plz.getText()),
 				land.getText(), Integer.parseInt(alter.getText()), telefonNummer.getText(), email.getText(),
 				username.getText(), passwort.getText(), kkInhaber.getText(), Long.parseLong(kkNummer.getText()),
