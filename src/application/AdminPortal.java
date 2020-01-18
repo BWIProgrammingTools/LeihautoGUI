@@ -54,7 +54,7 @@ public class AdminPortal {
 
 	}
 
-	// neues Fenster (Auto erfassen) öffnen
+	// neues Fenster (AutoErfassen) öffnen
 	@FXML
 	public void handleAutoErfassen() throws SQLException, IOException {
 
