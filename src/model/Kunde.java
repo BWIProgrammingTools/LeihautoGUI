@@ -16,6 +16,10 @@ public class Kunde implements Serializable {
 	private static final long serialVersionUID = -299482035708790407L;
 
 	private int kundenNummer = 0;
+	private String vorname;
+	private String nachname;
+	private String fuehrerscheinnummer;
+	private String firmenname;
 	private String strasseUndNummer;
 	private String ort;
 	private int plz;
@@ -60,12 +64,10 @@ public class Kunde implements Serializable {
 		setEmail(email);
 		setUsername(username);
 		setPassword(password);
-		setGesperrt(false);
 		setKkInhaber(kkInhaber);
 		setKkNummer(kkNummer);
 		setKkAblaufdatum(kkAblaufdatum); // nicht string
 		setKkPruefnummer(kkPruefnummer);
-		setLockReason("");
 	}
 
 	public void lockKunde(String lockReason) {

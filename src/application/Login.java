@@ -47,11 +47,14 @@ public class Login {
 	@FXML
 	private TextField password;
 	@FXML
-	private Button reg;
+	private Button registrationEinzel;
+	@FXML
+	private Button registrationFirma;
 	@FXML
 	private Button forgot;
 
 	private MainKunde parent;
+	
 	private Stage outputStage;
 
 	public Login() {
@@ -121,7 +124,7 @@ public class Login {
 
 	@FXML
 	// neues Fenster (Registration) öffnen
-	public void handleRegistrationButton() throws SQLException, IOException {
+	public void handleRegistrationButtonEinzel() throws SQLException, IOException {
 
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RegistrationEinzel.fxml"));
 		Parent root = fxmlLoader.load();
@@ -129,6 +132,20 @@ public class Login {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setOpacity(1);
 		stage.setTitle("Kundenregistration");
+		stage.setScene(new Scene(root, 700, 700));
+		stage.showAndWait();
+	}
+
+	@FXML
+	
+	public void handleRegistrationButtonFirma() throws SQLException, IOException {
+
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RegistrationFirma.fxml"));
+		Parent root = fxmlLoader.load();
+		Stage stage = new Stage();
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.setOpacity(1);
+		stage.setTitle("Firmenregistration");
 		stage.setScene(new Scene(root, 700, 700));
 		stage.showAndWait();
 	}
