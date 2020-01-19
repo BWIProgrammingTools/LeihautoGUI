@@ -15,11 +15,7 @@ public class Kunde implements Serializable {
 
 	private static final long serialVersionUID = -299482035708790407L;
 
-	private int kundenNummer = 0;
-	private String vorname;
-	private String nachname;
-	private String fuehrerscheinnummer;
-	private String firmenname;
+	private int kundenNummer = 1;
 	private String strasseUndNummer;
 	private String ort;
 	private int plz;
@@ -79,7 +75,7 @@ public class Kunde implements Serializable {
 		setLockReason("");
 		setGesperrt(false);
 	}
-
+	//wird momentan nicht benötigt, kann allenfalls gelöscht werden
 	public String passwordAendern(String oldPassword, String password) { // kontrolle bzw login
 
 		if (password == oldPassword) {
@@ -90,7 +86,7 @@ public class Kunde implements Serializable {
 			return "falsches password";
 		}
 	}
-
+	//wird momentan nicht benötigt, kann allenfalls gelöscht werden
 	public void passwordVergessen(String username, String email, int alter) {
 		if (this.email.equals(email) && this.alter == alter) {
 
@@ -110,7 +106,7 @@ public class Kunde implements Serializable {
 	public static void infoBox() {
 		JOptionPane.showMessageDialog(null, "no password for you, idiot!");
 	}
-
+	//wird momentan nicht benötigt, kann allenfalls gelöscht werden
 // || oder ((ab == ab && ab == 1) || 1==1)
 	public void passwordZurueckSetzen(int kundenNummer, String email, int alter) {
 		if (this.email == email && this.alter == alter) {
@@ -121,7 +117,7 @@ public class Kunde implements Serializable {
 			System.err.println("user nicht gefunden");
 		}
 	}
-
+	//wird momentan nicht benötigt, kann allenfalls gelöscht werden
 	public Boolean login(String password) {
 
 		if (this.password.equals(password)) {
@@ -184,9 +180,9 @@ public class Kunde implements Serializable {
 		}
 	}
 
-	// String to String Methode
+	// String to String Methode für Objektanzeige
 	public String toString() {
-		return "Kunde:: Nummer=" + this.kundenNummer + " Email=" + this.email;
+		return "Kunde:: Nummer=" + this.kundenNummer + " Username= " + this.username + " Passwort= " + this.password + " Email=" + this.email;
 	}
 
 	public int getKundenNummer() {
