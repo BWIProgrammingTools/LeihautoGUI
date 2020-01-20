@@ -168,11 +168,11 @@ public class Reservation implements Serializable{
 
 			Reservation varReservation = new Reservation();
 			varReservation.setReservationsID(4);
-			varReservation.setAutoID(5);
-			varReservation.setKundenNummer(4);
-			varReservation.reservationVon = new GregorianCalendar(2020, 2, 15);
-			varReservation.reservationBis = new GregorianCalendar(2020, 2, 20);
-			varReservation.reservationsKosten = 500;
+			varReservation.setAutoID(3);
+			varReservation.setKundenNummer(1);
+			varReservation.reservationVon = new GregorianCalendar(2020, 2, 12);
+			varReservation.reservationBis = new GregorianCalendar(2020, 2, 15);
+			varReservation.reservationsKosten = 300;
 			varReservation.setIstGereinigt(false);
 
 			reservationsListe.add(varReservation);
