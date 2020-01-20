@@ -18,8 +18,8 @@ public class Firmenkunde extends Kunde {
 
 	//Strint to String für Objektanzeige
 	public String toString() {
-		return "Kunde:: Nummer= " + this.getKundenNummer() + " Email= " + this.getEmail() + " Firmenname= "
-				+ this.firmenname + " Username= " + this.getUsername() + " Passwort= " + this.getPassword();
+		return "Firmenkunde:: Kundennummer= " + this.getKundenNummer() + ", gesperrt= " + this.isGesperrt() + ", Email= " + this.getEmail() + ", Firmenname= "
+				+ this.firmenname + ", Username= " + this.getUsername() + ", Passwort= " + this.getPassword();
 	}
 	
 	public String getFirmenname() {

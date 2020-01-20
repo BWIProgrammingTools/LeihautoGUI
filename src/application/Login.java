@@ -154,7 +154,7 @@ public class Login {
 	// neues Fenster (pw vergessen) öffnen
 	public void handlePasswordForgotButton() throws SQLException, IOException {
 
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PasswordForget.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PasswordForgot.fxml"));
 		Parent root = fxmlLoader.load();
 		Stage stage = new Stage();
 		stage.initModality(Modality.APPLICATION_MODAL);

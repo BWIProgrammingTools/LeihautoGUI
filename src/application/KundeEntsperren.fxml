@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="586.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.KundeEntsperren">
+   <children>
+      <Button fx:id="kundeentsperren" layoutX="236.0" layoutY="203.0" mnemonicParsing="false" onAction="#handleKundeEntsperrenButton" prefHeight="58.0" prefWidth="128.0" text="Kunde entsperren" />
+      <ComboBox fx:id="kundenIDBox" layoutX="225.0" layoutY="107.0" prefWidth="150.0" promptText="KundenID" />
+   </children>
+</AnchorPane>

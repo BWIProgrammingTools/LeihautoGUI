@@ -21,8 +21,8 @@ public class Einzelkunde extends Kunde implements Serializable {
 
 	// String to String Methode
 	public String toString() {
-		return "Kunde:: Kundennummer= " + this.getKundenNummer() + " Email= " + this.getEmail() + " Vorname= " + this.getVorname() + " Nachname= "
-				+ this.getNachname() + " Username= " + this.getUsername() + " Passwort= " + this.getPassword();
+		return "Einzelkunde:: Kundennummer= " + this.getKundenNummer() + ", gesperrt= " + this.isGesperrt() + ", Email= " + this.getEmail() + ", Vorname= " + this.getVorname() + ", Nachname= "
+				+ this.getNachname() + ", Username= " + this.getUsername() + ", Passwort= " + this.getPassword();
 	}
 
 	public String getVorname() {

@@ -19,6 +19,8 @@ import javax.print.DocFlavor.INPUT_STREAM;
 import javax.swing.JOptionPane;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,30 +48,52 @@ import javafx.scene.control.TextField;
 
 public class AutoErfassen {
 
+	// Listen für ComboBoxen
+	ObservableList<String> markeList = FXCollections.observableArrayList("Audi", "BMW", "Fiat", "Lamborghini",
+			"Mercedes", "Peugeot", "Renault");
+
+	ObservableList<String> farbeList = FXCollections.observableArrayList("Schwarz", "Weiss", "Rot", "Blau", "Gelb",
+			"Grün");
+
+	ObservableList<String> getriebeList = FXCollections.observableArrayList("Automat", "Schaltgetriebe");
+
+	ObservableList<String> treibstoffList = FXCollections.observableArrayList("Benzin", "Diesel", "Hybrid");
+
 	@FXML
-	private TextField marke;
+	private ComboBox<String> markeBox;
 	@FXML
-	private TextField farbe;
+	private ComboBox<String> farbeBox;
 	@FXML
-	private TextField getriebe;
+	private ComboBox<String> getriebeBox;
 	@FXML
-	private TextField treibstoff;
-	@FXML
-	private ComboBox getriebeCombo;
-	@FXML
-	private ComboBox treibstoffCombo;
+	private ComboBox<String> treibstoffBox;
+
 	@FXML
 	private Button autoerfassen;
+
+	// initialize für combobox
+	@FXML
+	private void initialize() {
+		markeBox.setValue("Audi");
+		markeBox.setItems(markeList);
+		farbeBox.setValue("Schwarz");
+		farbeBox.setItems(farbeList);
+		getriebeBox.setValue("Automat");
+		getriebeBox.setItems(getriebeList);
+		treibstoffBox.setValue("Benzin");
+		treibstoffBox.setItems(treibstoffList);
+	}
 
 	private MainAdmin parent;
 
 	public AutoErfassen() {
 
 	}
-	
+
 	@FXML
 	public void handleAutoErfassenButton() {
-		Auto varAuto = new Auto(marke.getText(), getriebe.getText(), treibstoff.getText(), farbe.getText());
+		Auto varAuto = new Auto(markeBox.getValue(), getriebeBox.getValue(), treibstoffBox.getValue(),
+				farbeBox.getValue());
 		varAuto.autoErfassen(varAuto);
 	}
 

@@ -21,7 +21,8 @@ public class Auto implements Serializable {
 	// zeitpunkt ersetzen
 	private boolean automatik = false;
 	private String farbe;
-	private boolean blockiert;
+	private boolean blockiert = false;
+	private boolean deaktiviert = false;
 
 	// Konstruktor für Autos
 	public Auto(String marke, String treibstoff, String getriebe, String farbe) {
@@ -33,56 +34,57 @@ public class Auto implements Serializable {
 
 	// String to String Methode für Objektausgabe
 	public String toString() {
-		return "Auto:: ID= " + this.getId() + " marke= " + this.getMarke() + " Farbe= " + this.getFarbe()
-				+ " Getriebe: " + this.getGetriebe() + " Treibstoffart: " + this.getTreibstoff();
+		return "Auto:: ID= " + this.getId() + ", marke= " + this.getMarke() + ", Farbe= " + this.getFarbe()
+				+ ", Getriebe: " + this.getGetriebe() + ", Treibstoffart: " + this.getTreibstoff() + ", Blockiert= "
+				+ this.isBlockiert() + ", Deaktiviert= " + this.isDeaktiviert();
 	}
-	
+
 	// Methode für Autoregistration
-		public void autoErfassen(Auto varAuto) {
-			// hier wird eine leere ArrayList erstellt
-			List<Auto> emptyAutoListe = new ArrayList<Auto>();
+	public void autoErfassen(Auto varAuto) {
+		// hier wird eine leere ArrayList erstellt
+		List<Auto> emptyAutoListe = new ArrayList<Auto>();
 
-			// hier startet der Import der bestehenden Autoliste
-			List<Auto> importAutoListe = new ArrayList<Auto>();
-			try {
-				FileInputStream fis = new FileInputStream("Autoliste.ser");
-				ObjectInputStream ois = new ObjectInputStream(fis);
-				// write object to file
-				importAutoListe = (ArrayList) ois.readObject();
-				System.out.println("Import Done");
-				// closing resources
-				ois.close();
-				fis.close();
-			} catch (IOException | ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-			// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
-			// der leeren Autoliste angefügt
-			for (Auto existingAuto : importAutoListe) {
-				emptyAutoListe.add(existingAuto);
-				System.out.println(existingAuto);
-				++this.id;
-			}
-
-			// hier wird das neue Auto der ursprünglich leeren aber mittlerweile befüllten
-			// liste angefügt
-			emptyAutoListe.add(varAuto);
-			System.out.println(varAuto);
-
-			// hier wird die aktualisierte Autoliste wieder herausgeschrieben
-			try {
-				FileOutputStream fos = new FileOutputStream("Autoliste.ser");
-				ObjectOutputStream oos = new ObjectOutputStream(fos);
-				// write object to file
-				oos.writeObject(emptyAutoListe);
-				System.out.println("Export Done");
-				// closing resources
-				oos.close();
-				fos.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		// hier startet der Import der bestehenden Autoliste
+		List<Auto> importAutoListe = new ArrayList<Auto>();
+		try {
+			FileInputStream fis = new FileInputStream("Autoliste.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			// write object to file
+			importAutoListe = (ArrayList) ois.readObject();
+			System.out.println("Import Done");
+			// closing resources
+			ois.close();
+			fis.close();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
 		}
+		// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
+		// der leeren Autoliste angefügt
+		for (Auto existingAuto : importAutoListe) {
+			emptyAutoListe.add(existingAuto);
+			System.out.println(existingAuto);
+			++this.id;
+		}
+
+		// hier wird das neue Auto der ursprünglich leeren aber mittlerweile befüllten
+		// liste angefügt
+		emptyAutoListe.add(varAuto);
+		System.out.println(varAuto);
+
+		// hier wird die aktualisierte Autoliste wieder herausgeschrieben
+		try {
+			FileOutputStream fos = new FileOutputStream("Autoliste.ser");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			// write object to file
+			oos.writeObject(emptyAutoListe);
+			System.out.println("Export Done");
+			// closing resources
+			oos.close();
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public String getGetriebe() {
 		return getriebe;
@@ -146,6 +148,14 @@ public class Auto implements Serializable {
 
 	public void setBlockiert(boolean blockiert) {
 		this.blockiert = blockiert;
+	}
+
+	public boolean isDeaktiviert() {
+		return deaktiviert;
+	}
+
+	public void setDeaktiviert(boolean deaktiviert) {
+		this.deaktiviert = deaktiviert;
 	}
 
 }

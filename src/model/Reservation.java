@@ -1,21 +1,35 @@
 package model;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
-public class Reservation {
+public class Reservation implements Serializable{
+	
+	private static final long serialVersionUID = -299482035708790407L;
 
-	private int reservationsID = 0;
+	private int reservationsID;	//wird momentan manuell gefüllt bis reservationsliste über kundenUI befüllt wird
 	private int autoID; // readonly
 	private int KundenNummer; // readonly
-	private Date reservationVon;
-	private Date reservationBis;
-	private boolean needsReparatus = false;
+	private GregorianCalendar reservationVon;
+	private GregorianCalendar reservationBis;
+	private boolean inReparatur = false;
 	private boolean istGereinigt = true;
 	private double reservationsKosten;
 	private double reservationsPreis = 100;
 	private double sicherheitsLeistung = 1000.00; // doppelt bei reparaturen und hier
+	private double reparaturKosten = 0;
+
+	
 
 	public boolean checkDate() { // datumVon, datumBis : date
-		return needsReparatus; // noch inkorrekt
+		return inReparatur; // noch inkorrekt
 	}
 
 	public void addReservation() {
@@ -33,9 +47,6 @@ public class Reservation {
 	public double reservationsKostenBerechnung() {
 		return reservationsPreis;
 	}
-	
-	
-	
 
 	public int getReservationsID() {
 		return reservationsID;
@@ -61,28 +72,28 @@ public class Reservation {
 		KundenNummer = kundenNummer;
 	}
 
-	public Date getReservationVon() {
+	public GregorianCalendar getReservationVon() {
 		return reservationVon;
 	}
 
-	public void setReservationVon(Date reservationVon) {
+	public void setReservationVon(GregorianCalendar reservationVon) {
 		this.reservationVon = reservationVon;
 	}
 
-	public Date getReservationBis() {
+	public GregorianCalendar getReservationBis() {
 		return reservationBis;
 	}
 
-	public void setReservationBis(Date reservationBis) {
+	public void setReservationBis(GregorianCalendar reservationBis) {
 		this.reservationBis = reservationBis;
 	}
 
-	public boolean isNeedsReparatus() {
-		return needsReparatus;
+	public boolean isInReparatus() {
+		return inReparatur;
 	}
 
-	public void setNeedsReparatus(boolean needsReparatus) {
-		this.needsReparatus = needsReparatus;
+	public void setInReparatus(boolean needsReparatus) {
+		this.inReparatur = needsReparatus;
 	}
 
 	public boolean isIstGereinigt() {
@@ -116,5 +127,70 @@ public class Reservation {
 	public void setSicherheitsLeistung(double sicherheitsLeistung) {
 		this.sicherheitsLeistung = sicherheitsLeistung;
 	}
+	
+	public double getReparaturKosten() {
+		return reparaturKosten;
+	}
+
+	public void setReparaturKosten(double reparaturKosten) {
+		this.reparaturKosten = reparaturKosten;
+	}
+	
+	// StringtoString für Anzeige einer Reservation
+		public String toString() {
+			return "Reservation:: ReservationsNummer=" + this.getReservationsID() + " AutoID= " + this.getAutoID()
+					+ " Kundennummer= " + this.getKundenNummer() + " needsReparatur= " + this.isInReparatus() + " ist Gereinigt= " + this.isIstGereinigt() + " Reserviert von=" + " Reservationskosten= "
+					+ this.getReservationsKosten() + " Von= " + this.reservationVon.getTime() + " Bis= " + this.reservationBis.getTime();
+		}
+		
+		//temporäres main, bis reservationsliste über kundenUI befüllt wird
+		public static void main(String[] args) {
+
+			List<Reservation> reservationsListe = new ArrayList<Reservation>();
+
+			List<Reservation> importReservationsListe = new ArrayList<Reservation>();
+			try {
+				FileInputStream fis = new FileInputStream("Reservationsliste.ser");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				// write object to file
+				importReservationsListe = (ArrayList) ois.readObject();
+				System.out.println("Done");
+				// closing resources
+				ois.close();
+				fis.close();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			for (Reservation reservation : importReservationsListe) {
+				reservationsListe.add(reservation);
+				System.out.println(reservation);
+			}
+
+			Reservation varReservation = new Reservation();
+			varReservation.setReservationsID(4);
+			varReservation.setAutoID(5);
+			varReservation.setKundenNummer(4);
+			varReservation.reservationVon = new GregorianCalendar(2020, 2, 15);
+			varReservation.reservationBis = new GregorianCalendar(2020, 2, 20);
+			varReservation.reservationsKosten = 500;
+			varReservation.setIstGereinigt(false);
+
+			reservationsListe.add(varReservation);
+			System.out.println(varReservation);
+
+			try {
+				FileOutputStream fos = new FileOutputStream("Reservationsliste.ser");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				// write object to file
+				oos.writeObject(reservationsListe);
+				System.out.println("Done");
+				// closing resources
+				oos.close();
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
 
 }
