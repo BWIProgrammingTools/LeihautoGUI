@@ -43,8 +43,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Auto;
 import model.Einzelkunde;
+import model.Firmenkunde;
 import model.Kunde;
-import model.Reparaturen;
 import model.Reservation;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -60,6 +60,42 @@ public class ReparaturAnmelden implements Serializable {
 
 	@FXML
 	private ComboBox<String> reservationsIDBox;
+
+	@FXML
+	private TextField kundenNRField;
+
+	@FXML
+	private TextField kundenNameField;
+
+	@FXML
+	private TextField kundenVornameField;
+
+	@FXML
+	private TextField firmenNameField;
+
+	@FXML
+	private TextField kundenStrasseField;
+
+	@FXML
+	private TextField kundenPLZField;
+
+	@FXML
+	private TextField kundenOrtField;
+
+	@FXML
+	private TextField autoIDField;
+
+	@FXML
+	private TextField autoMarkeField;
+
+	@FXML
+	private TextField autoFarbeField;
+
+	@FXML
+	private TextField autoGetriebeField;
+
+	@FXML
+	private TextField autoTreibstoffField;
 
 	@FXML
 	private Button reparaturanmelden;
@@ -98,8 +134,8 @@ public class ReparaturAnmelden implements Serializable {
 		for (int i = 0; i < emptyReservationsListe.size(); i++) {
 			// hier werden die IDs der ComboBox hinzugefügt, wo der Boolean inReparatur
 			// false ist
-			if (emptyReservationsListe.get(i).isInReparatus() == false && 
-					emptyReservationsListe.get(i).isIstGereinigt() == false) {
+			if (emptyReservationsListe.get(i).isInReparatus() == false
+					&& emptyReservationsListe.get(i).isIstGereinigt() == false) {
 				strings.add(Integer.toString(emptyReservationsListe.get(i).getReservationsID()));
 
 			}
@@ -111,6 +147,136 @@ public class ReparaturAnmelden implements Serializable {
 	private MainAdmin parent;
 
 	public ReparaturAnmelden() {
+
+	}
+
+	@FXML
+	public void zeigeReservationsAngaben() {
+		// hier wird eine leere ArrayList erstellt
+		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
+
+		// hier startet der Import der bestehenden Kundenliste
+		List<Reservation> importReservationsListe = new ArrayList<Reservation>();
+		try {
+			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			// write object to file
+			importReservationsListe = (ArrayList) ois.readObject();
+			// closing resources
+			ois.close();
+			fis.close();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
+		// der leeren Kundenliste angefügt
+		for (Reservation existingReservation : importReservationsListe) {
+			emptyReservationsListe.add(existingReservation);
+		}
+
+		// hier wird mit einer for Schlaufe durch die importierte Reservationsliste
+		// iteriert
+		for (int i = 0; i < emptyReservationsListe.size(); i++) {
+			// wenn reservationsID = Combobox Zahl ist wird fortgefahren
+			if (emptyReservationsListe.get(i).getReservationsID() == Integer.parseInt(reservationsIDBox.getValue())) {
+
+				// hier wird eine lokal Variable für die entsprechende AutoID der Reservation
+				// vergeben
+				int autoID = emptyReservationsListe.get(i).getAutoID();
+
+				// hier wird wieder die komplette Autoliste reingeladen
+
+				// hier wird eine leere ArrayList erstellt
+				List<Auto> emptyAutoListe = new ArrayList<Auto>();
+
+				// hier startet der Import der bestehenden Autoliste
+				List<Auto> importAutoListe = new ArrayList<Auto>();
+				try {
+					FileInputStream fis = new FileInputStream("Autoliste.ser");
+					ObjectInputStream ois = new ObjectInputStream(fis);
+					// write object to file
+					importAutoListe = (ArrayList) ois.readObject();
+					// closing resources
+					ois.close();
+					fis.close();
+				} catch (IOException | ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
+				// der leeren Autoliste angefügt
+				for (Auto existingAuto : importAutoListe) {
+					emptyAutoListe.add(existingAuto);
+
+				}
+				// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
+				for (int ii = 0; ii < emptyAutoListe.size(); ii++) {
+					// hier werden die entsprechenden Felder beschrieben
+					if (emptyAutoListe.get(ii).getId() == autoID) {
+						autoMarkeField.setText(emptyAutoListe.get(ii).getMarke());
+						autoFarbeField.setText(emptyAutoListe.get(ii).getFarbe());
+						autoGetriebeField.setText(emptyAutoListe.get(ii).getGetriebe());
+						autoTreibstoffField.setText(emptyAutoListe.get(ii).getTreibstoff());
+
+					}
+				}
+
+				// hier wird eine lokal Variable für die entsprechende AutoID der Reservation
+				// vergeben
+				int kundenID = emptyReservationsListe.get(i).getKundenNummer();
+
+				// hier wird wieder die komplette Autoliste reingeladen
+
+				// hier wird eine leere ArrayList erstellt
+				List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
+
+				// hier startet der Import der bestehenden Kundenliste
+				List<Kunde> importKundenListe = new ArrayList<Kunde>();
+				try {
+					FileInputStream fis = new FileInputStream("Kundenliste.ser");
+					ObjectInputStream ois = new ObjectInputStream(fis);
+					// write object to file
+					importKundenListe = (ArrayList) ois.readObject();
+					// closing resources
+					ois.close();
+					fis.close();
+				} catch (IOException | ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+
+				// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
+				// der leeren Kundenliste angefügt
+				for (Kunde existingKunde : importKundenListe) {
+					emptyKundenListe.add(existingKunde);
+				}
+
+				// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
+				for (int iii = 0; iii < emptyKundenListe.size(); iii++) {
+					// hier wird der entsprechende Kunde gemäss ID gesperrt
+					if (emptyKundenListe.get(iii).getKundenNummer() == kundenID
+							&& emptyKundenListe.get(iii) instanceof Einzelkunde
+							) {
+						kundenNameField.setText(((Einzelkunde) emptyKundenListe.get(iii)).getNachname());
+						kundenVornameField.setText(((Einzelkunde) emptyKundenListe.get(iii)).getVorname());
+						firmenNameField.setText("");
+						kundenStrasseField.setText(emptyKundenListe.get(iii).getStrasseUndNummer());
+						kundenPLZField.setText(String.valueOf(emptyKundenListe.get(iii).getPlz()));
+						kundenOrtField.setText(emptyKundenListe.get(iii).getOrt());
+
+					} 
+					else if (emptyKundenListe.get(iii).getKundenNummer() == kundenID
+							&& emptyKundenListe.get(iii) instanceof Firmenkunde) {
+						kundenNameField.setText("");
+						kundenVornameField.setText("");
+						firmenNameField.setText(((Firmenkunde) emptyKundenListe.get(iii)).getFirmenname());
+						kundenStrasseField.setText(emptyKundenListe.get(iii).getStrasseUndNummer());
+						kundenPLZField.setText(String.valueOf(emptyKundenListe.get(iii).getPlz()));
+						kundenOrtField.setText(emptyKundenListe.get(iii).getOrt());
+					}
+				}
+
+			}
+
+		}
 
 	}
 
@@ -139,9 +305,10 @@ public class ReparaturAnmelden implements Serializable {
 			emptyReservationsListe.add(existingReservation);
 		}
 
-		// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
+		// hier wird mit einer for Schlaufe durch die importierte Reservationsliste
+		// iteriert
 		for (int i = 0; i < emptyReservationsListe.size(); i++) {
-			// wenn username, email und alter korrekt sind, wird das pw ausgegeben
+			// wenn reservationsID = Combobox Zahl ist wird fortgefahren
 			if (emptyReservationsListe.get(i).getReservationsID() == Integer.parseInt(reservationsIDBox.getValue())) {
 				// hier wird der boolean needsReparatur in der Klasse Reservation geändert
 				// wenn die Reparatur abgeschlossen ist, muss man das wieder ändern (Reservation

@@ -62,7 +62,7 @@ public class Login {
 	}
 
 	@FXML
-	public boolean handleLogin() {
+	public boolean handleLogin() throws SQLException, IOException {
 
 		// hier wird eine leere ArrayList erstellt
 		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
@@ -93,7 +93,14 @@ public class Login {
 			if (emptyKundenListe.get(i).getUsername().compareTo(username.getText()) == 0
 					&& emptyKundenListe.get(i).getPassword().compareTo(password.getText()) == 0
 					&& emptyKundenListe.get(i).isGesperrt() == false) {
-				JOptionPane.showMessageDialog(null, "Du bist eingeloggt, Brudi!");
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AutoReservieren.fxml"));
+				Parent root = fxmlLoader.load();
+				Stage stage = new Stage();
+				stage.initModality(Modality.APPLICATION_MODAL);
+				stage.setOpacity(1);
+				stage.setTitle("Auto reservieren");
+				stage.setScene(new Scene(root, 700, 700));
+				stage.showAndWait();
 				return true;
 				// wenn username und passwort zwar stimmen aber der Kunde blockiert ist, kommt
 				// hier eine Fehlermeldung

@@ -28,11 +28,21 @@ public class AutoDeaktivieren implements Serializable {
 
 	private static final long serialVersionUID = -299482035708790407L;
 
-	// Listen für ComboBoxen
-	ObservableList<String> IdList = FXCollections.observableArrayList();
 
 	@FXML
 	private ComboBox<String> autoIDBox;
+
+	@FXML
+	private TextField autoMarkeField;
+	
+	@FXML
+	private TextField autoFarbeField;
+	
+	@FXML
+	private TextField autoGetriebeField;
+	
+	@FXML
+	private TextField autoTreibstoffField;
 
 	@FXML
 	private Button handleAutoLoeschenButton;
@@ -42,6 +52,7 @@ public class AutoDeaktivieren implements Serializable {
 		// hier findet die berechnung der Strings für die Combobox statt
 		// Liste für Dropdown
 		List<String> strings = new ArrayList<>();
+		// String markenString = new String();
 
 		// hier wird eine leere ArrayList erstellt
 		List<Auto> emptyAutoListe = new ArrayList<Auto>();
@@ -67,7 +78,8 @@ public class AutoDeaktivieren implements Serializable {
 		}
 		// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
 		for (int i = 0; i < emptyAutoListe.size(); i++) {
-			// hier werden die IDs der ComboBox hinzugefügt, wo der Boolean deaktiviert false ist
+			// hier werden die IDs der ComboBox hinzugefügt, wo der Boolean deaktiviert
+			// false ist
 			if (emptyAutoListe.get(i).isDeaktiviert() == false) {
 				strings.add(Integer.toString(emptyAutoListe.get(i).getId()));
 
@@ -75,6 +87,7 @@ public class AutoDeaktivieren implements Serializable {
 		}
 
 		autoIDBox.setItems(FXCollections.observableArrayList(strings));
+
 	}
 
 	private MainAdmin parent;
@@ -82,6 +95,46 @@ public class AutoDeaktivieren implements Serializable {
 	public AutoDeaktivieren() {
 
 	}
+
+	@FXML
+	public void zeigeAuto() {		
+		// hier wird eine leere ArrayList erstellt
+		List<Auto> emptyAutoListe = new ArrayList<Auto>();
+
+		// hier startet der Import der bestehenden Autoliste
+		List<Auto> importAutoListe = new ArrayList<Auto>();
+		try {
+			FileInputStream fis = new FileInputStream("Autoliste.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			// write object to file
+			importAutoListe = (ArrayList) ois.readObject();
+			// closing resources
+			ois.close();
+			fis.close();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
+		// der leeren Autoliste angefügt
+		for (Auto existingAuto : importAutoListe) {
+			emptyAutoListe.add(existingAuto);
+
+		}
+		// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
+		for (int i = 0; i < emptyAutoListe.size(); i++) {
+			//hier werden die entsprechenden Felder beschrieben
+			if (emptyAutoListe.get(i).getId() == Integer.parseInt(autoIDBox.getValue())) {
+				autoMarkeField.setText(emptyAutoListe.get(i).getMarke());
+				autoFarbeField.setText(emptyAutoListe.get(i).getFarbe());
+				autoGetriebeField.setText(emptyAutoListe.get(i).getGetriebe());
+				autoTreibstoffField.setText(emptyAutoListe.get(i).getTreibstoff());
+
+			}
+		}
+
+	}
+	
+	
 
 	@FXML
 	public void handleAutoDeaktivierenButton(ActionEvent event) {

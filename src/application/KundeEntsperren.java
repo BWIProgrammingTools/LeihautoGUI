@@ -44,8 +44,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Auto;
 import model.Einzelkunde;
+import model.Firmenkunde;
 import model.Kunde;
-import model.Reparaturen;
 import model.Reservation;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -60,6 +60,24 @@ public class KundeEntsperren implements Serializable {
 
 	@FXML
 	private ComboBox<String> kundenIDBox;
+
+	@FXML
+	private TextField kundenNameField;
+
+	@FXML
+	private TextField kundenVornameField;
+
+	@FXML
+	private TextField firmenNameField;
+
+	@FXML
+	private TextField kundenStrasseField;
+
+	@FXML
+	private TextField kundenPLZField;
+
+	@FXML
+	private TextField kundenOrtField;
 
 	@FXML
 	private Button kundeentsperren;
@@ -107,6 +125,56 @@ public class KundeEntsperren implements Serializable {
 	private MainAdmin parent;
 
 	public KundeEntsperren() {
+
+	}
+
+	@FXML
+	public void zeigeKunde() {
+		// hier wird eine leere ArrayList erstellt
+		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
+
+		// hier startet der Import der bestehenden Kundenliste
+		List<Kunde> importKundenListe = new ArrayList<Kunde>();
+		try {
+			FileInputStream fis = new FileInputStream("Kundenliste.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			// write object to file
+			importKundenListe = (ArrayList) ois.readObject();
+			// closing resources
+			ois.close();
+			fis.close();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
+		// der leeren Kundenliste angefügt
+		for (Kunde existingKunde : importKundenListe) {
+			emptyKundenListe.add(existingKunde);
+		}
+
+		// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
+		for (int i = 0; i < emptyKundenListe.size(); i++) {
+			// hier wird der entsprechende Kunde gemäss ID gesperrt
+			if (emptyKundenListe.get(i).getKundenNummer() == Integer.parseInt(kundenIDBox.getValue())
+					&& emptyKundenListe.get(i) instanceof Einzelkunde) {
+				kundenNameField.setText(((Einzelkunde) emptyKundenListe.get(i)).getNachname());
+				kundenVornameField.setText(((Einzelkunde) emptyKundenListe.get(i)).getVorname());
+				firmenNameField.setText("");
+				kundenStrasseField.setText(emptyKundenListe.get(i).getStrasseUndNummer());
+				kundenPLZField.setText(String.valueOf(emptyKundenListe.get(i).getPlz()));
+				kundenOrtField.setText(emptyKundenListe.get(i).getOrt());
+
+			} else if (emptyKundenListe.get(i).getKundenNummer() == Integer.parseInt(kundenIDBox.getValue())
+					&& emptyKundenListe.get(i) instanceof Firmenkunde) {
+				kundenNameField.setText("");
+				kundenVornameField.setText("");
+				firmenNameField.setText(((Firmenkunde) emptyKundenListe.get(i)).getFirmenname());
+				kundenStrasseField.setText(emptyKundenListe.get(i).getStrasseUndNummer());
+				kundenPLZField.setText(String.valueOf(emptyKundenListe.get(i).getPlz()));
+				kundenOrtField.setText(emptyKundenListe.get(i).getOrt());
+			}
+		}
 
 	}
 

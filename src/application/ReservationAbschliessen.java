@@ -44,7 +44,6 @@ import javafx.stage.StageStyle;
 import model.Auto;
 import model.Einzelkunde;
 import model.Kunde;
-import model.Reparaturen;
 import model.Reservation;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

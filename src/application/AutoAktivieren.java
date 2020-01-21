@@ -35,6 +35,18 @@ public class AutoAktivieren implements Serializable {
 	private ComboBox<String> autoIDBox;
 
 	@FXML
+	private TextField autoMarkeField;
+	
+	@FXML
+	private TextField autoFarbeField;
+	
+	@FXML
+	private TextField autoGetriebeField;
+	
+	@FXML
+	private TextField autoTreibstoffField;
+
+	@FXML
 	private Button handleAutoLoeschenButton;
 
 	// initialize für combobox
@@ -83,6 +95,44 @@ public class AutoAktivieren implements Serializable {
 
 	}
 
+	@FXML
+	public void zeigeAuto() {		
+		// hier wird eine leere ArrayList erstellt
+		List<Auto> emptyAutoListe = new ArrayList<Auto>();
+
+		// hier startet der Import der bestehenden Autoliste
+		List<Auto> importAutoListe = new ArrayList<Auto>();
+		try {
+			FileInputStream fis = new FileInputStream("Autoliste.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			// write object to file
+			importAutoListe = (ArrayList) ois.readObject();
+			// closing resources
+			ois.close();
+			fis.close();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
+		// der leeren Autoliste angefügt
+		for (Auto existingAuto : importAutoListe) {
+			emptyAutoListe.add(existingAuto);
+
+		}
+		// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
+		for (int i = 0; i < emptyAutoListe.size(); i++) {
+			//hier werden die entsprechenden Felder beschrieben
+			if (emptyAutoListe.get(i).getId() == Integer.parseInt(autoIDBox.getValue())) {
+				autoMarkeField.setText(emptyAutoListe.get(i).getMarke());
+				autoFarbeField.setText(emptyAutoListe.get(i).getFarbe());
+				autoGetriebeField.setText(emptyAutoListe.get(i).getGetriebe());
+				autoTreibstoffField.setText(emptyAutoListe.get(i).getTreibstoff());
+
+			}
+		}
+
+	}
+	
 	@FXML
 	public void handleAutoAktivierenButton(ActionEvent event) {
 		// hier wird eine leere ArrayList erstellt

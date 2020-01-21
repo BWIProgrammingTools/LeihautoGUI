@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -167,12 +168,12 @@ public class Reservation implements Serializable{
 			}
 
 			Reservation varReservation = new Reservation();
-			varReservation.setReservationsID(4);
-			varReservation.setAutoID(3);
-			varReservation.setKundenNummer(1);
-			varReservation.reservationVon = new GregorianCalendar(2020, 2, 12);
-			varReservation.reservationBis = new GregorianCalendar(2020, 2, 15);
-			varReservation.reservationsKosten = 300;
+			varReservation.setReservationsID(2);
+			varReservation.setAutoID(2);
+			varReservation.setKundenNummer(2);
+			varReservation.reservationVon = new GregorianCalendar(2020,1,4);
+			varReservation.reservationBis = new GregorianCalendar(2020,1,6);
+			varReservation.reservationsKosten = 200;
 			varReservation.setIstGereinigt(false);
 
 			reservationsListe.add(varReservation);

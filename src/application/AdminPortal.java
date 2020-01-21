@@ -111,7 +111,7 @@ public class AdminPortal {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setOpacity(1);
 		stage.setTitle("Reparatur anmelden");
-		stage.setScene(new Scene(root, 700, 700));
+		stage.setScene(new Scene(root, 850, 700));
 		stage.showAndWait();
 
 	}
