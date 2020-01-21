@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AutoErfassen">
@@ -11,5 +12,6 @@
       <ComboBox fx:id="farbeBox" layoutX="215.0" layoutY="136.0" prefWidth="150.0" promptText="Farbe" />
       <ComboBox fx:id="getriebeBox" layoutX="215.0" layoutY="185.0" prefWidth="150.0" promptText="Getriebeart" />
       <ComboBox fx:id="treibstoffBox" layoutX="215.0" layoutY="236.0" prefWidth="150.0" promptText="Treibstoff" />
+      <TextField fx:id="kostenProTag" layoutX="216.0" layoutY="288.0" promptText="Tagespreis" />
    </children>
 </AnchorPane>

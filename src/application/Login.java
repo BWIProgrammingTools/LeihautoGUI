@@ -93,12 +93,12 @@ public class Login {
 			if (emptyKundenListe.get(i).getUsername().compareTo(username.getText()) == 0
 					&& emptyKundenListe.get(i).getPassword().compareTo(password.getText()) == 0
 					&& emptyKundenListe.get(i).isGesperrt() == false) {
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AutoReservieren.fxml"));
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("KundenPortal.fxml"));
 				Parent root = fxmlLoader.load();
 				Stage stage = new Stage();
 				stage.initModality(Modality.APPLICATION_MODAL);
 				stage.setOpacity(1);
-				stage.setTitle("Auto reservieren");
+				stage.setTitle("Kundenportal");
 				stage.setScene(new Scene(root, 700, 700));
 				stage.showAndWait();
 				return true;

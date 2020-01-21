@@ -17,25 +17,24 @@ public class Auto implements Serializable {
 	private String marke;
 	private String treibstoff;
 	private String getriebe;
-	// automatik wird momentan nicht benötigt, allenfalls zu einem späteren
-	// zeitpunkt ersetzen
-	private boolean automatik = false;
 	private String farbe;
+	private double kostenProTag;
 	private boolean blockiert = false;
 	private boolean deaktiviert = false;
 
 	// Konstruktor für Autos
-	public Auto(String marke, String treibstoff, String getriebe, String farbe) {
+	public Auto(String marke, String treibstoff, String getriebe, String farbe, double kostenProTag) {
 		setMarke(marke);
 		setTreibstoff(treibstoff);
 		setGetriebe(getriebe);
 		setFarbe(farbe);
+		setKostenProTag(kostenProTag);
 	}
 
 	// String to String Methode für Objektausgabe
 	public String toString() {
 		return "Auto:: ID= " + this.getId() + ", marke= " + this.getMarke() + ", Farbe= " + this.getFarbe()
-				+ ", Getriebe: " + this.getGetriebe() + ", Treibstoffart: " + this.getTreibstoff() + ", Blockiert= "
+				+ ", Getriebe: " + this.getGetriebe() + ", Treibstoffart: " + this.getTreibstoff() + ", Tagespreis= "+ this.getKostenProTag() + ", Blockiert= "
 				+ this.isBlockiert() + ", Deaktiviert= " + this.isDeaktiviert();
 	}
 
@@ -126,12 +125,12 @@ public class Auto implements Serializable {
 		this.treibstoff = treibstoff;
 	}
 
-	public boolean isAutomatik() {
-		return automatik;
+	public double getKostenProTag() {
+		return kostenProTag;
 	}
 
-	public void setAutomatik(boolean automatik) {
-		this.automatik = automatik;
+	public void setKostenProTag(double kostenProTag) {
+		this.kostenProTag = kostenProTag;
 	}
 
 	public String getFarbe() {

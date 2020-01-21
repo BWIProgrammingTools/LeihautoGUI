@@ -67,6 +67,8 @@ public class AutoErfassen {
 	private ComboBox<String> getriebeBox;
 	@FXML
 	private ComboBox<String> treibstoffBox;
+	@FXML
+	private TextField kostenProTag;
 
 	@FXML
 	private Button autoerfassen;
@@ -84,8 +86,6 @@ public class AutoErfassen {
 		treibstoffBox.setItems(treibstoffList);
 	}
 
-	private MainAdmin parent;
-
 	public AutoErfassen() {
 
 	}
@@ -93,7 +93,7 @@ public class AutoErfassen {
 	@FXML
 	public void handleAutoErfassenButton() {
 		Auto varAuto = new Auto(markeBox.getValue(), getriebeBox.getValue(), treibstoffBox.getValue(),
-				farbeBox.getValue());
+				farbeBox.getValue(), Double.parseDouble(kostenProTag.getText()));
 		varAuto.autoErfassen(varAuto);
 	}
 
