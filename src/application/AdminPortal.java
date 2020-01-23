@@ -120,7 +120,7 @@ public class AdminPortal {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setOpacity(1);
 		stage.setTitle("Auto neu zuweisen");
-		stage.setScene(new Scene(root, 700, 700));
+		stage.setScene(new Scene(root, 900, 700));
 		stage.showAndWait();
 
 	}

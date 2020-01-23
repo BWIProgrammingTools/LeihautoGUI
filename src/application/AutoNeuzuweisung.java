@@ -77,6 +77,24 @@ public class AutoNeuzuweisung implements Serializable {
 	private TextField telNummer;
 
 	@FXML
+	private TextField markeField;
+
+	@FXML
+	private TextField farbeField;
+
+	@FXML
+	private TextField getriebeartField;
+
+	@FXML
+	private TextField treibstoffartField;
+
+	@FXML
+	private TextField tagesSatzField;
+
+	@FXML
+	private TextField autoIDField;
+
+	@FXML
 	private Button AutoSelektierenButton;
 
 	// Integer arrayList für reservierte AutoIDs
@@ -84,6 +102,12 @@ public class AutoNeuzuweisung implements Serializable {
 
 	// Integer arrayList für alle AutoIDs
 	List<Integer> alleAutoIDs = new ArrayList<Integer>();
+
+	// Integer arrayList für alle deaktivierten AutoIDs
+	List<Integer> alleDeaktiviertenAutoIDs = new ArrayList<Integer>();
+
+	// Integer arrayList für alle blockierte AutoIDs
+	List<Integer> alleBlockiertenAutoIDs = new ArrayList<Integer>();
 
 	// initialize des Fensters
 	public void initialize() throws IOException {
@@ -164,7 +188,7 @@ public class AutoNeuzuweisung implements Serializable {
 		for (int i = 0; i < emptyReservationsListe.size(); i++) {
 			// wenn reservationsID = Combobox Zahl ist wird fortgefahren
 			if (emptyReservationsListe.get(i).getReservationsID() == Integer.parseInt(reservationsID.getValue())) {
-				
+
 				// hier wird die ID der aktuellen Reservation (mittels lokaler Variable) in
 				// ein File geschrieben (muss Liste sein, da die weiterverwendung mittels
 				// einfachem Integer nicht zu funktionieren scheint
@@ -234,6 +258,48 @@ public class AutoNeuzuweisung implements Serializable {
 						kundenPLZField.setText(String.valueOf(emptyKundenListe.get(ii).getPlz()));
 						kundenOrtField.setText(emptyKundenListe.get(ii).getOrt());
 					}
+
+					// hier wird eine lokal Variable für die entsprechende AutoID der Reservation
+					// vergeben
+					int autoID = emptyReservationsListe.get(i).getAutoID();
+
+					// hier wird wieder die komplette Autoliste reingeladen
+
+					// hier wird eine leere ArrayList erstellt
+					List<Auto> emptyAutoListe = new ArrayList<Auto>();
+
+					// hier startet der Import der bestehenden Autoliste
+					List<Auto> importAutoListe = new ArrayList<Auto>();
+					try {
+						FileInputStream fis = new FileInputStream("Autoliste.ser");
+						ObjectInputStream ois = new ObjectInputStream(fis);
+						// write object to file
+						importAutoListe = (ArrayList) ois.readObject();
+						// closing resources
+						ois.close();
+						fis.close();
+					} catch (IOException | ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+					// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
+					// der leeren Autoliste angefügt
+					for (Auto existingAuto : importAutoListe) {
+						emptyAutoListe.add(existingAuto);
+
+					}
+					// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
+					for (int iii = 0; iii < emptyAutoListe.size(); iii++) {
+						// hier werden die entsprechenden Felder beschrieben
+						if (emptyAutoListe.get(iii).getId() == autoID) {
+							autoIDField.setText(String.valueOf(emptyAutoListe.get(iii).getId()));
+							markeField.setText(emptyAutoListe.get(iii).getMarke());
+							farbeField.setText(emptyAutoListe.get(iii).getFarbe());
+							getriebeartField.setText(emptyAutoListe.get(iii).getGetriebe());
+							treibstoffartField.setText(emptyAutoListe.get(iii).getTreibstoff());
+							tagesSatzField.setText(String.valueOf(emptyAutoListe.get(iii).getKostenProTag()));
+
+						}
+					}
 				}
 
 			}
@@ -282,33 +348,11 @@ public class AutoNeuzuweisung implements Serializable {
 				// reservation
 				GregorianCalendar kalenderVon = emptyReservationsListe.get(i).getReservationVon();
 				// hier wird das von Datum in eine Liste geschrieben
-//				try {
-//					FileOutputStream fos = new FileOutputStream("KalenderVon.ser");
-//					ObjectOutputStream oos = new ObjectOutputStream(fos);
-//					// write object to file
-//					oos.writeObject(kalenderVon);
-//					// closing resources
-//					oos.close();
-//					fos.close();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
 
 				// lokale Variable für entsprechendes reservationsVon der ausgewählten
 				// reservation
 				GregorianCalendar kalenderBis = emptyReservationsListe.get(i).getReservationBis();
 				// hier wird das bis Datum in eine Liste geschrieben
-//				try {
-//					FileOutputStream fos = new FileOutputStream("KalenderBis.ser");
-//					ObjectOutputStream oos = new ObjectOutputStream(fos);
-//					// write object to file
-//					oos.writeObject(kalenderBis);
-//					// closing resources
-//					oos.close();
-//					fos.close();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
 
 				List<Reservation> emptyReservationsListe2 = new ArrayList<Reservation>();
 
@@ -369,18 +413,33 @@ public class AutoNeuzuweisung implements Serializable {
 					emptyAutoListe.add(existingAuto);
 				}
 
-				// hier werden alle AutoIDs in die alleAutoIDs Arrayliste geladen
+				// hier werden alle AutoIDs der alleAutoIDs Arrayliste hinzugefüt
 				for (int iii = 0; iii < emptyAutoListe.size(); iii++) {
+					alleAutoIDs.add(emptyAutoListe.get(iii).getId());
+				}
+
+				// hier werden alle deaktivierten AutoIDs in die deaktivierteAutoIDs Arrayliste
+				// geladen
+				for (int iiii = 0; iiii < emptyAutoListe.size(); iiii++) {
 					// if, damit deaktivierte und in reparatur autos nicht angezeigt werden
-					if (emptyAutoListe.get(iii).isDeaktiviert() == false
-							|| emptyAutoListe.get(iii).isBlockiert() == false) {
-						alleAutoIDs.add(emptyAutoListe.get(iii).getId());
+					if (emptyAutoListe.get(iiii).isDeaktiviert() == true) {
+						alleDeaktiviertenAutoIDs.add(emptyAutoListe.get(iiii).getId());
+					}
+				}
+				// hier werden alle blockierten AutoIDs in die blockiertealleAutoIDs Arrayliste
+				// geladen
+				for (int iiiii = 0; iiiii < emptyAutoListe.size(); iiiii++) {
+					// if, damit deaktivierte und in reparatur autos nicht angezeigt werden
+					if (emptyAutoListe.get(iiiii).isBlockiert() == true) {
+						alleBlockiertenAutoIDs.add(emptyAutoListe.get(iiiii).getId());
 					}
 				}
 
-				// hier ziehen wir die IDs der reservierten Autos von allen IDs ab
+				// hier ziehen wir die IDs der reservierten,deaktiverten und blockierten Autos
+				// von allen IDs ab
 				alleAutoIDs.removeAll(reservierteIDs);
-				System.out.println(alleAutoIDs);
+				alleAutoIDs.removeAll(alleDeaktiviertenAutoIDs);
+				alleAutoIDs.removeAll(alleBlockiertenAutoIDs);
 
 				// hier wird die Liste mit den freien Autos herausgeschrieben
 				try {

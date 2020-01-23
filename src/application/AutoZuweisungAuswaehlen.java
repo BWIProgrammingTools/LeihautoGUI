@@ -198,6 +198,7 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 				emptyReservationsListe.get(i).setAutoID(Integer.parseInt(autoIDBox.getValue()));
 
 			}
+			System.out.println(emptyReservationsListe.get(i));
 			// hier wird die aktualisierte Reservationsliste wieder herausgeschrieben
 			try {
 				FileOutputStream fos = new FileOutputStream("Reservationsliste.ser");

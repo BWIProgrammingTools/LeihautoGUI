@@ -5,15 +5,21 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="595.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AutoNeuzuweisung">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="741.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AutoNeuzuweisung">
    <children>
       <ComboBox fx:id="reservationsID" layoutX="153.0" layoutY="84.0" onAction="#zeigeReservationsAngaben" prefWidth="150.0" promptText="ReservationsID" />
-      <TextField fx:id="kundenNameField" layoutX="154.0" layoutY="132.0" promptText="Name oder Firmenname" />
-      <TextField fx:id="kundenVornameField" layoutX="154.0" layoutY="172.0" promptText="Vorname" />
-      <TextField fx:id="kundenPLZField" layoutX="154.0" layoutY="243.0" promptText="PLZ" />
-      <TextField fx:id="kundenOrtField" layoutX="154.0" layoutY="281.0" promptText="Ort" />
+      <TextField fx:id="kundenNameField" editable="false" layoutX="154.0" layoutY="132.0" promptText="Name oder Firmenname" />
+      <TextField fx:id="kundenVornameField" editable="false" layoutX="154.0" layoutY="172.0" promptText="Vorname" />
+      <TextField fx:id="kundenPLZField" editable="false" layoutX="154.0" layoutY="243.0" promptText="PLZ" />
+      <TextField fx:id="kundenOrtField" editable="false" layoutX="154.0" layoutY="281.0" promptText="Ort" />
       <Button fx:id="AutoSelektierenButton" layoutX="153.0" layoutY="377.0" mnemonicParsing="false" onAction="#handleAutoSelektierenButton" prefHeight="58.0" prefWidth="150.0" text="neues Auto selektieren" />
-      <TextField fx:id="kundenStrasseField" layoutX="154.0" layoutY="209.0" promptText="Strasse und Nummer" />
-      <TextField fx:id="telNummer" layoutX="154.0" layoutY="316.0" promptText="Telefonnummer" />
+      <TextField fx:id="kundenStrasseField" editable="false" layoutX="154.0" layoutY="209.0" promptText="Strasse und Nummer" />
+      <TextField fx:id="telNummer" editable="false" layoutX="154.0" layoutY="316.0" promptText="Telefonnummer" />
+      <TextField fx:id="autoIDField" editable="false" layoutX="541.0" layoutY="132.0" promptText="AutoID" />
+      <TextField fx:id="markeField" editable="false" layoutX="541.0" layoutY="172.0" promptText="Marke" />
+      <TextField fx:id="farbeField" editable="false" layoutX="541.0" layoutY="209.0" promptText="Farbe" />
+      <TextField fx:id="getriebeartField" editable="false" layoutX="541.0" layoutY="243.0" promptText="Getriebeart" />
+      <TextField fx:id="treibstoffartField" editable="false" layoutX="541.0" layoutY="281.0" promptText="Treibstoffart" />
+      <TextField fx:id="tagesSatzField" editable="false" layoutX="541.0" layoutY="316.0" promptText="Tagessatz" />
    </children>
 </AnchorPane>
