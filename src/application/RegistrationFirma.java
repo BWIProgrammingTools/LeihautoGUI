@@ -12,6 +12,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.print.DocFlavor.INPUT_STREAM;
+import javax.swing.JOptionPane;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -81,10 +82,18 @@ public class RegistrationFirma {
 	// 5. exportiert die neue ArrayList wieder als Kundenliste
 	@FXML
 	public void handleRegistrationAbschliessenFirmenkundenButton() {
-		Kunde varfirmenkunde = new Firmenkunde(strasseUndNummer.getText(), ort.getText(), Integer.parseInt(plz.getText()),
-				land.getText(), Integer.parseInt(alter.getText()), telefonNummer.getText(), email.getText(),
-				username.getText(), passwort.getText(), kkInhaber.getText(), Long.parseLong(kkNummer.getText()),
-				kkAblaufdatum.getText(), Integer.parseInt(kkPruefnummer.getText()), firmenname.getText());
+		if (strasseUndNummer.getText().isEmpty() || ort.getText().isEmpty() || plz.getText().isEmpty()
+				|| land.getText().isEmpty() || alter.getText().isEmpty() || telefonNummer.getText().isEmpty()
+				|| email.getText().isEmpty() || username.getText().isEmpty() || passwort.getText().isEmpty()
+				|| kkInhaber.getText().isEmpty() || kkNummer.getText().isEmpty() || kkAblaufdatum.getText().isEmpty()
+				|| kkPruefnummer.getText().isEmpty() || firmenname.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Es müssen alle Felder ausgefüllt werden");
+		}
+		Kunde varfirmenkunde = new Firmenkunde(strasseUndNummer.getText(), ort.getText(),
+				Integer.parseInt(plz.getText()), land.getText(), Integer.parseInt(alter.getText()),
+				telefonNummer.getText(), email.getText(), username.getText(), passwort.getText(), kkInhaber.getText(),
+				Long.parseLong(kkNummer.getText()), kkAblaufdatum.getText(), Integer.parseInt(kkPruefnummer.getText()),
+				firmenname.getText());
 		varfirmenkunde.registration(varfirmenkunde);
 	}
 

@@ -1,8 +1,10 @@
 package application;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -10,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -54,7 +57,7 @@ public class Login {
 	private Button forgot;
 
 	private MainKunde parent;
-	
+
 	private Stage outputStage;
 
 	public Login() {
@@ -93,6 +96,27 @@ public class Login {
 			if (emptyKundenListe.get(i).getUsername().compareTo(username.getText()) == 0
 					&& emptyKundenListe.get(i).getPassword().compareTo(password.getText()) == 0
 					&& emptyKundenListe.get(i).isGesperrt() == false) {
+
+				// hier wird die ID des aktuell eingeloggten Users (mittels lokaler Variable) in
+				// ein File geschrieben (muss Liste sein, da die weiterverwendung mittels
+				// einfachem Integer nicht zu funktionieren scheint
+				List<Integer> eingeloggterUserIDList = new ArrayList<Integer>();
+				eingeloggterUserIDList.add(emptyKundenListe.get(i).getKundenNummer());
+
+				// hier wird das von Datum in eine Liste geschrieben
+				try {
+					FileOutputStream fos = new FileOutputStream("EingeloggterUserList.ser");
+					ObjectOutputStream oos = new ObjectOutputStream(fos);
+					// write object to file
+					oos.writeObject(eingeloggterUserIDList);
+					// closing resources
+					oos.close();
+					fos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				// hier wird das neue Fenster Kundenportal geöffnet
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("KundenPortal.fxml"));
 				Parent root = fxmlLoader.load();
 				Stage stage = new Stage();
@@ -102,8 +126,7 @@ public class Login {
 				stage.setScene(new Scene(root, 700, 700));
 				stage.showAndWait();
 				return true;
-				// wenn username und passwort zwar stimmen aber der Kunde blockiert ist, kommt
-				// hier eine Fehlermeldung
+
 			}
 
 			// die folgenden 3 else ifs funktionieren nicht - berger fragen
@@ -144,7 +167,7 @@ public class Login {
 	}
 
 	@FXML
-	
+
 	public void handleRegistrationButtonFirma() throws SQLException, IOException {
 
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RegistrationFirma.fxml"));

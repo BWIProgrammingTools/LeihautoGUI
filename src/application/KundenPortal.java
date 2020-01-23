@@ -7,9 +7,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +28,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Auto;
+import model.Einzelkunde;
+import model.Kunde;
 import model.Reservation;
 
 public class KundenPortal implements Serializable {
@@ -41,7 +46,33 @@ public class KundenPortal implements Serializable {
 	private Button autoReservieren;
 
 	@FXML
-	private TextField testfeld;
+	private TextField strasseUndNummer;
+	@FXML
+	private TextField ort;
+	@FXML
+	private TextField plz;
+	@FXML
+	private TextField land;
+	@FXML
+	private TextField alter;
+	@FXML
+	private TextField telefonNummer;
+	@FXML
+	private TextField email;
+	@FXML
+	private TextField username;
+	@FXML
+	private TextField passwort;
+	@FXML
+	private TextField kkNummer;
+	@FXML
+	private TextField kkInhaber;
+	@FXML
+	private TextField kkAblaufdatum;
+	@FXML
+	private TextField kkPruefnummer;
+	@FXML
+	private Button kundendatenAendern;
 
 	// Integer arrayList für reservierte AutoIDs
 	List<Integer> reservierteIDs = new ArrayList<Integer>();
@@ -49,6 +80,8 @@ public class KundenPortal implements Serializable {
 	// Integer arrayList für alle AutoIDs
 	List<Integer> alleAutoIDs = new ArrayList<Integer>();
 
+	// funktioniert nicht als lokale Variable, deshalb hier
+	public int eingeloggterUserID;
 
 	private MainAdmin parent;
 
@@ -56,14 +89,87 @@ public class KundenPortal implements Serializable {
 
 	}
 
+	public void initialize() {
+		// hier findet die berechnung der Fahrerfelder statt
+		// zuerst wird die LoginID hereingeladen (muss über die ArrayListe geschehen,
+		// Integer alleine scheint nicht zu funktionieren
+		List<Integer> eingeloggterUserIDList = new ArrayList<Integer>();
+		List<Integer> neueEingeloggterUserIDList = new ArrayList<Integer>();
+		try {
+			FileInputStream fis = new FileInputStream("EingeloggterUserList.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			// write object to file
+			eingeloggterUserIDList = (ArrayList) ois.readObject();
+			// closing resources
+			ois.close();
+			fis.close();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		for (Integer varInt : eingeloggterUserIDList) {
+			neueEingeloggterUserIDList.add(varInt);
+		}
+		for (int i = 0; i < neueEingeloggterUserIDList.size(); i++) {
+			eingeloggterUserID = neueEingeloggterUserIDList.get(i);
+		}
+
+		// hier wird die Kundenliste reingeladen
+		// hier wird eine leere ArrayList erstellt
+		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
+
+		// hier startet der Import der bestehenden Kundenliste
+		List<Kunde> importKundenListe = new ArrayList<Kunde>();
+		try {
+			FileInputStream fis = new FileInputStream("Kundenliste.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			// write object to file
+			importKundenListe = (ArrayList) ois.readObject();
+			// closing resources
+			ois.close();
+			fis.close();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
+		// der leeren Kundenliste angefügt
+		for (Kunde existingKunde : importKundenListe) {
+			emptyKundenListe.add(existingKunde);
+		}
+
+		// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
+		for (int i = 0; i < emptyKundenListe.size(); i++) {
+			// hier werden die aktuellen Kundendaten in die entsprechenden Textfelder
+			// übertragen
+			if (emptyKundenListe.get(i).getKundenNummer() == eingeloggterUserID) {
+				strasseUndNummer.setText(emptyKundenListe.get(i).getStrasseUndNummer());
+				ort.setText(emptyKundenListe.get(i).getOrt());
+				plz.setText(String.valueOf(emptyKundenListe.get(i).getPlz()));
+				land.setText(emptyKundenListe.get(i).getLand());
+				alter.setText(String.valueOf(emptyKundenListe.get(i).getAlter()));
+				telefonNummer.setText(emptyKundenListe.get(i).getTelefonNummer());
+				email.setText(emptyKundenListe.get(i).getEmail());
+				username.setText(emptyKundenListe.get(i).getUsername());
+				passwort.setText(emptyKundenListe.get(i).getPassword());
+				kkNummer.setText(String.valueOf(emptyKundenListe.get(i).getKkNummer()));
+				kkInhaber.setText(emptyKundenListe.get(i).getKkInhaber());
+				kkPruefnummer.setText(String.valueOf(emptyKundenListe.get(i).getKkPruefnummer()));
+				kkAblaufdatum.setText(emptyKundenListe.get(i).getKkAblaufdatum());
+			}
+		}
+	}
+
 	public void handleFreieAutosButton() throws IOException {
+		// zuerst werden die ArrayListen gecleared, damit bei doppelter Ausführung die
+		// Liste nicht mit doppelten Elementen befüllt wird
+		reservierteIDs.clear();
+		alleAutoIDs.clear();
 
 		// lokale Variable für DatePickerVon
 		int yearVon = reservierenVon.getValue().getYear();
-		int monthVon = reservierenVon.getValue().getMonthValue();
+		int monthVon = (reservierenVon.getValue().getMonthValue()) - 1;
 		int dayVon = reservierenVon.getValue().getDayOfMonth();
 		GregorianCalendar kalenderVon = new GregorianCalendar(yearVon, monthVon, dayVon);
-		//hier wird das von Datum in eine Liste geschrieben
+		// hier wird das von Datum in eine Liste geschrieben
 		try {
 			FileOutputStream fos = new FileOutputStream("KalenderVon.ser");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -78,12 +184,12 @@ public class KundenPortal implements Serializable {
 
 		// lokale Variable für DatePickerBis
 		int yearBis = reservierenBis.getValue().getYear();
-		int monthBis = reservierenBis.getValue().getMonthValue();
+		int monthBis = (reservierenBis.getValue().getMonthValue()) - 1;
 		int dayBis = reservierenBis.getValue().getDayOfMonth();
 		GregorianCalendar kalenderBis = new GregorianCalendar(yearBis, monthBis, dayBis);
 		System.out.println(kalenderVon.getTime());
 		System.out.println(kalenderBis.getTime());
-		//hier wird das bis Datum in eine Liste geschrieben
+		// hier wird das bis Datum in eine Liste geschrieben
 		try {
 			FileOutputStream fos = new FileOutputStream("KalenderBis.ser");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -95,17 +201,119 @@ public class KundenPortal implements Serializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		if (kalenderVon.before(kalenderBis)) {
+			// hier wird eine leere ArrayList erstellt
+			List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
 
+			// hier startet der Import der bestehenden Kundenliste
+			List<Reservation> importReservationsListe = new ArrayList<Reservation>();
+			try {
+				FileInputStream fis = new FileInputStream("Reservationsliste.ser");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				// write object to file
+				importReservationsListe = (ArrayList) ois.readObject();
+				// closing resources
+				ois.close();
+				fis.close();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
+			// der leeren Reservationsliste angefügt
+			for (Reservation existingReservation : importReservationsListe) {
+				emptyReservationsListe.add(existingReservation);
+			}
+
+			// hier werden diejenigen Autos herausgesucht, welche zum angegebenen Zeitpunkt
+			// NICHT verfügbar sind
+			for (int i = 0; i < emptyReservationsListe.size(); i++) {
+
+				// dieser Vergleich sollte die belegten Autos der Liste im angegebenen Zeitaum
+				// ausgeben
+				if (kalenderVon.before(emptyReservationsListe.get(i).getReservationBis())
+						&& kalenderBis.after(emptyReservationsListe.get(i).getReservationVon())) {
+
+					// hier wird die entsprechende AutoID, welche reserviert ist der ArrayListe
+					// reservierteID geadded
+					reservierteIDs.add(emptyReservationsListe.get(i).getAutoID());
+
+				}
+			}
+
+			// hier wird eine leere ArrayList erstellt
+			List<Auto> emptyAutoListe = new ArrayList<Auto>();
+
+			// hier startet der Import der bestehenden Autoliste
+			List<Auto> importAutoListe = new ArrayList<Auto>();
+			try {
+				FileInputStream fis = new FileInputStream("Autoliste.ser");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				// write object to file
+				importAutoListe = (ArrayList) ois.readObject();
+				// closing resources
+				ois.close();
+				fis.close();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
+			// der leeren Autoliste angefügt
+			for (Auto existingAuto : importAutoListe) {
+				emptyAutoListe.add(existingAuto);
+			}
+
+			// hier werden alle AutoIDs in die alleAutoIDs Arrayliste geladen
+			for (int ii = 0; ii < emptyAutoListe.size(); ii++) {
+				// if, damit deaktivierte und in reparatur autos nicht angezeigt werden
+				if (emptyAutoListe.get(ii).isDeaktiviert() == false || emptyAutoListe.get(ii).isBlockiert() == false) {
+					alleAutoIDs.add(emptyAutoListe.get(ii).getId());
+				}
+			}
+
+			// hier ziehen wir die IDs der reservierten Autos von allen IDs ab
+			alleAutoIDs.removeAll(reservierteIDs);
+			System.out.println(alleAutoIDs);
+
+			// hier wird die Liste mit den freien Autos herausgeschrieben
+			try {
+				FileOutputStream fos = new FileOutputStream("FreieAutosListe.ser");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				// write object to file
+				oos.writeObject(alleAutoIDs);
+				// closing resources
+				oos.close();
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			// hier wird der neue Dialog für die eigentliche Reservation geöffnet
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AutoReservieren.fxml"));
+			Parent root = fxmlLoader.load();
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setOpacity(1);
+			stage.setTitle("Auto reservieren");
+			stage.setScene(new Scene(root, 900, 700));
+			stage.showAndWait();
+
+		} else {
+			JOptionPane.showMessageDialog(null, "Das Von-Datum liegt nach dem Bis-Datum");
+		}
+	}
+
+	public void handleKundendatenAendernButton() {
 		// hier wird eine leere ArrayList erstellt
-		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
+		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
 
 		// hier startet der Import der bestehenden Kundenliste
-		List<Reservation> importReservationsListe = new ArrayList<Reservation>();
+		List<Kunde> importKundenListe = new ArrayList<Kunde>();
 		try {
-			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
+			FileInputStream fis = new FileInputStream("Kundenliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importReservationsListe = (ArrayList) ois.readObject();
+			importKundenListe = (ArrayList) ois.readObject();
+			System.out.println("Import Done");
 			// closing resources
 			ois.close();
 			fis.close();
@@ -113,81 +321,51 @@ public class KundenPortal implements Serializable {
 			e.printStackTrace();
 		}
 		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
-		// der leeren Reservationsliste angefügt
-		for (Reservation existingReservation : importReservationsListe) {
-			emptyReservationsListe.add(existingReservation);
+		// der leeren Kundenliste angefügt
+		for (Kunde existingKunde : importKundenListe) {
+			emptyKundenListe.add(existingKunde);
 		}
 
-		// hier werden diejenigen Autos herausgesucht, welche zum angegebenen Zeitpunkt
-		// NICHT verfügbar sind
-		for (int i = 0; i < emptyReservationsListe.size(); i++) {
-
-			// dieser Vergleich sollte die belegten Autos der Liste im angegebenen Zeitaum
-			// ausgeben
-			if (kalenderVon.before(emptyReservationsListe.get(i).getReservationBis())
-					&& kalenderBis.after(emptyReservationsListe.get(i).getReservationVon())) {
-
-				// hier wird die entsprechende AutoID, welche reserviert ist der ArrayListe
-				// reservierteID geadded
-				reservierteIDs.add(emptyReservationsListe.get(i).getAutoID());
-
+		// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
+		for (int i = 0; i < emptyKundenListe.size(); i++) {
+			// hier werden die aktuellen Kundendaten in die entsprechenden Textfelder
+			// übertragen
+			if (emptyKundenListe.get(i).getKundenNummer() == eingeloggterUserID) {
+				// hier werden die Werte wieder unter dem entsprechenden Kunden gespeichert
+				if (Integer.parseInt(alter.getText()) > 17 && emptyKundenListe.get(i) instanceof Einzelkunde) {
+					emptyKundenListe.get(i).setAlter(Integer.parseInt(alter.getText()));
+					emptyKundenListe.get(i).setStrasseUndNummer(strasseUndNummer.getText());
+					emptyKundenListe.get(i).setPlz(Integer.parseInt(plz.getText()));
+					emptyKundenListe.get(i).setOrt(ort.getText());
+					emptyKundenListe.get(i).setLand(land.getText());
+					emptyKundenListe.get(i).setTelefonNummer(telefonNummer.getText());
+					emptyKundenListe.get(i).setEmail(email.getText());
+					emptyKundenListe.get(i).setUsername(username.getText());
+					emptyKundenListe.get(i).setPassword(passwort.getText());
+					emptyKundenListe.get(i).setKkNummer(Long.parseLong(kkNummer.getText()));
+					emptyKundenListe.get(i).setKkInhaber(kkInhaber.getText());
+					emptyKundenListe.get(i).setKkAblaufdatum(kkAblaufdatum.getText());
+					emptyKundenListe.get(i).setKkPruefnummer(Integer.parseInt(kkPruefnummer.getText()));
+				} else {
+					JOptionPane.showMessageDialog(null, "Sie müssen mindestens 18 Jahre alt sein");
+				}
 			}
+			System.out.println(emptyKundenListe.get(i));
 		}
 
-		// hier wird eine leere ArrayList erstellt
-		List<Auto> emptyAutoListe = new ArrayList<Auto>();
-
-		// hier startet der Import der bestehenden Autoliste
-		List<Auto> importAutoListe = new ArrayList<Auto>();
+		// hier wird die aktualisierte kundenliste wieder herausgeschrieben
 		try {
-			FileInputStream fis = new FileInputStream("Autoliste.ser");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			// write object to file
-			importAutoListe = (ArrayList) ois.readObject();
-			// closing resources
-			ois.close();
-			fis.close();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
-		// der leeren Autoliste angefügt
-		for (Auto existingAuto : importAutoListe) {
-			emptyAutoListe.add(existingAuto);
-		}
-
-		// hier werden alle AutoIDs in die alleAutoIDs Arrayliste geladen
-		for (int ii = 0; ii < emptyAutoListe.size(); ii++) {
-			alleAutoIDs.add(emptyAutoListe.get(ii).getId());
-		}
-
-		// hier ziehen wir die IDs der reservierten Autos von allen IDs ab
-		alleAutoIDs.removeAll(reservierteIDs);
-		System.out.println(alleAutoIDs);
-		
-		// hier wird die Liste mit den freien Autos herausgeschrieben
-		try {
-			FileOutputStream fos = new FileOutputStream("FreieAutosListe.ser");
+			FileOutputStream fos = new FileOutputStream("Kundenliste.ser");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			// write object to file
-			oos.writeObject(alleAutoIDs);
+			oos.writeObject(emptyKundenListe);
+			System.out.println("Export Done");
 			// closing resources
 			oos.close();
 			fos.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		//hier wird der neue Dialog für die eigentliche Reservation geöffnet
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AutoReservieren.fxml"));
-		Parent root = fxmlLoader.load();
-		Stage stage = new Stage();
-		stage.initModality(Modality.APPLICATION_MODAL);
-		stage.setOpacity(1);
-		stage.setTitle("Auto reservieren");
-		stage.setScene(new Scene(root, 700, 700));
-		stage.showAndWait();
-		
 	}
-	
+
 }

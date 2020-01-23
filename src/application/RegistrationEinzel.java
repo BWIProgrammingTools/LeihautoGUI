@@ -12,6 +12,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.print.DocFlavor.INPUT_STREAM;
+import javax.swing.JOptionPane;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -20,6 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -87,11 +89,25 @@ public class RegistrationEinzel {
 	// 5. exportiert die neue ArrayList wieder als Kundenliste
 	@FXML
 	public void handleRegistrationAbschliessenButton() {
-		Kunde vareinzelkunde = new Einzelkunde(strasseUndNummer.getText(), ort.getText(), Integer.parseInt(plz.getText()),
-				land.getText(), Integer.parseInt(alter.getText()), telefonNummer.getText(), email.getText(),
-				username.getText(), passwort.getText(), kkInhaber.getText(), Long.parseLong(kkNummer.getText()),
-				kkAblaufdatum.getText(), Integer.parseInt(kkPruefnummer.getText()), vorname.getText(), nachname.getText(), Integer.parseInt(fuehrerausweisNummer.getText()));
-		vareinzelkunde.registration(vareinzelkunde);
+		if (strasseUndNummer.getText().isEmpty() || ort.getText().isEmpty() || plz.getText().isEmpty()
+				|| land.getText().isEmpty() || alter.getText().isEmpty() || telefonNummer.getText().isEmpty()
+				|| email.getText().isEmpty() || username.getText().isEmpty() || passwort.getText().isEmpty()
+				|| kkInhaber.getText().isEmpty() || kkNummer.getText().isEmpty() || kkAblaufdatum.getText().isEmpty()
+				|| kkPruefnummer.getText().isEmpty() || vorname.getText().isEmpty() || nachname.getText().isEmpty()
+				|| fuehrerausweisNummer.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Es müssen alle Felder ausgefüllt werden");
+		}
+		if (Integer.parseInt(alter.getText()) > 17) {
+			Kunde vareinzelkunde = new Einzelkunde(strasseUndNummer.getText(), ort.getText(),
+					Integer.parseInt(plz.getText()), land.getText(), Integer.parseInt(alter.getText()),
+					telefonNummer.getText(), email.getText(), username.getText(), passwort.getText(),
+					kkInhaber.getText(), Long.parseLong(kkNummer.getText()), kkAblaufdatum.getText(),
+					Integer.parseInt(kkPruefnummer.getText()), vorname.getText(), nachname.getText(),
+					Long.parseLong(fuehrerausweisNummer.getText()));
+			vareinzelkunde.registration(vareinzelkunde);
+		} else {
+			JOptionPane.showMessageDialog(null, "Sie müssen mindestens 18 Jahre alt sein");
+		}
 	}
 
 }

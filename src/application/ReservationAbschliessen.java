@@ -43,6 +43,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Auto;
 import model.Einzelkunde;
+import model.Firmenkunde;
 import model.Kunde;
 import model.Reservation;
 import javafx.fxml.FXML;
@@ -65,8 +66,60 @@ public class ReservationAbschliessen implements Serializable {
 
 	@FXML
 	private Button reservationabschliessen;
-	
 
+	@FXML
+	private TextField reserviertVon;
+
+	@FXML
+	private TextField reserviertBis;
+
+	@FXML
+	private TextField gesamtKosten;
+
+	@FXML
+	private TextField marke;
+
+	@FXML
+	private TextField farbe;
+
+	@FXML
+	private TextField getriebeart;
+
+	@FXML
+	private TextField treibstoffart;
+	
+	@FXML
+	private TextField tagesSatz;
+
+	@FXML
+	private TextField kundenID;
+
+	@FXML
+	private TextField nameOderFirmenname;
+
+	@FXML
+	private TextField vorname;
+
+	@FXML
+	private TextField ort;
+
+	@FXML
+	private TextField vornameFahrer;
+
+	@FXML
+	private TextField nachnameFahrer;
+
+	@FXML
+	private TextField fuehrerausweisFahrer;
+
+	@FXML
+	private TextField repKosten;
+
+	@FXML
+	private TextField verzugsTage;
+
+	@FXML
+	private TextField sonstigeKosten;
 
 	// initialize für combobox
 	public void initialize() {
@@ -76,6 +129,50 @@ public class ReservationAbschliessen implements Serializable {
 		// Liste für Dropdown
 		List<String> strings = new ArrayList<>();
 
+		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
+
+		// hier startet der Import der bestehenden Reservationsliste
+		List<Reservation> importReservationsListe = new ArrayList<Reservation>();
+		try {
+			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			// write object to file
+			importReservationsListe = (ArrayList) ois.readObject();
+			// closing resources
+			ois.close();
+			fis.close();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		// hier werden die reservationen der bestehenden Liste als Objekte herausgefiltert und
+		// der leeren reservationsliste angefügt
+		for (Reservation existingReservation : importReservationsListe) {
+			emptyReservationsListe.add(existingReservation);
+		}
+
+		// hier wird mit einer for Schlaufe durch die importierte Reservationsliste
+		// iteriert
+		for (int i = 0; i < emptyReservationsListe.size(); i++) {
+			// hier werden die IDs der ComboBox hinzugefügt, wo der Boolean inReparatur
+			// false ist
+			if (emptyReservationsListe.get(i).isIstGereinigt() == false) {
+				strings.add(Integer.toString(emptyReservationsListe.get(i).getReservationsID()));
+
+			}
+		}
+
+		reservationsIDBox.setItems(FXCollections.observableArrayList(strings));
+	}
+
+	private MainAdmin parent;
+
+	public ReservationAbschliessen() {
+
+	}
+
+	@FXML
+	public void zeigeReservationsAngaben() {
+		// hier wird eine leere ArrayList erstellt
 		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
 
 		// hier startet der Import der bestehenden Kundenliste
@@ -100,21 +197,106 @@ public class ReservationAbschliessen implements Serializable {
 		// hier wird mit einer for Schlaufe durch die importierte Reservationsliste
 		// iteriert
 		for (int i = 0; i < emptyReservationsListe.size(); i++) {
-			// hier werden die IDs der ComboBox hinzugefügt, wo der Boolean inReparatur
-			// false ist
-			if (emptyReservationsListe.get(i).isIstGereinigt() == false) {
-				strings.add(Integer.toString(emptyReservationsListe.get(i).getReservationsID()));
+			// hier wird die entsprechende Reservation gemäss Dropdown ausgewählt
+			if (emptyReservationsListe.get(i).getReservationsID() == Integer.parseInt(reservationsIDBox.getValue())) {
+				// hier werden die ersten Textfelder beschrieben
+				reserviertVon.setText(String.valueOf(emptyReservationsListe.get(i).getReservationVon().getTime()));
+				reserviertBis.setText(String.valueOf(emptyReservationsListe.get(i).getReservationBis().getTime()));
+				gesamtKosten.setText(String.valueOf(emptyReservationsListe.get(i).getReservationsKosten()));
+				nachnameFahrer.setText(emptyReservationsListe.get(i).getFahrerNachname());
+				vornameFahrer.setText(emptyReservationsListe.get(i).getFahrerVorname());
+				fuehrerausweisFahrer.setText(String.valueOf(emptyReservationsListe.get(i).getFuehrerausweisNummer()));
 
+				// hier wird eine lokal Variable für die entsprechende AutoID der Reservation
+				// vergeben
+				int autoID = emptyReservationsListe.get(i).getAutoID();
+
+				// hier wird wieder die komplette Autoliste reingeladen
+
+				// hier wird eine leere ArrayList erstellt
+				List<Auto> emptyAutoListe = new ArrayList<Auto>();
+
+				// hier startet der Import der bestehenden Autoliste
+				List<Auto> importAutoListe = new ArrayList<Auto>();
+				try {
+					FileInputStream fis = new FileInputStream("Autoliste.ser");
+					ObjectInputStream ois = new ObjectInputStream(fis);
+					// write object to file
+					importAutoListe = (ArrayList) ois.readObject();
+					// closing resources
+					ois.close();
+					fis.close();
+				} catch (IOException | ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
+				// der leeren Autoliste angefügt
+				for (Auto existingAuto : importAutoListe) {
+					emptyAutoListe.add(existingAuto);
+
+				}
+				// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
+				for (int ii = 0; ii < emptyAutoListe.size(); ii++) {
+					// hier werden die entsprechenden Felder beschrieben
+					if (emptyAutoListe.get(ii).getId() == autoID) {
+						marke.setText(emptyAutoListe.get(ii).getMarke());
+						farbe.setText(emptyAutoListe.get(ii).getFarbe());
+						getriebeart.setText(emptyAutoListe.get(ii).getGetriebe());
+						treibstoffart.setText(emptyAutoListe.get(ii).getTreibstoff());
+						tagesSatz.setText(String.valueOf(emptyAutoListe.get(ii).getKostenProTag()));
+
+					}
+				}
+
+				// hier wird eine lokal Variable für die entsprechende AutoID der Reservation
+				// vergeben
+				int tempKundenID = emptyReservationsListe.get(i).getKundenNummer();
+
+				// hier wird wieder die komplette Autoliste reingeladen
+
+				// hier wird eine leere ArrayList erstellt
+				List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
+
+				// hier startet der Import der bestehenden Kundenliste
+				List<Kunde> importKundenListe = new ArrayList<Kunde>();
+				try {
+					FileInputStream fis = new FileInputStream("Kundenliste.ser");
+					ObjectInputStream ois = new ObjectInputStream(fis);
+					// write object to file
+					importKundenListe = (ArrayList) ois.readObject();
+					// closing resources
+					ois.close();
+					fis.close();
+				} catch (IOException | ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+
+				// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
+				// der leeren Kundenliste angefügt
+				for (Kunde existingKunde : importKundenListe) {
+					emptyKundenListe.add(existingKunde);
+				}
+
+				// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
+				for (int iii = 0; iii < emptyKundenListe.size(); iii++) {
+					// hier wird der entsprechende Kunde gemäss ID gesperrt
+					if (emptyKundenListe.get(iii).getKundenNummer() == tempKundenID
+							&& emptyKundenListe.get(iii) instanceof Einzelkunde) {
+						kundenID.setText(String.valueOf(emptyKundenListe.get(iii).getKundenNummer()));
+						nameOderFirmenname.setText(((Einzelkunde) emptyKundenListe.get(iii)).getNachname());
+						vorname.setText(((Einzelkunde) emptyKundenListe.get(iii)).getVorname());
+						ort.setText(emptyKundenListe.get(iii).getOrt());
+
+					} else if (emptyKundenListe.get(iii).getKundenNummer() == tempKundenID
+							&& emptyKundenListe.get(iii) instanceof Firmenkunde) {
+						kundenID.setText(String.valueOf(emptyKundenListe.get(iii).getKundenNummer()));
+						nameOderFirmenname.setText(((Firmenkunde) emptyKundenListe.get(iii)).getFirmenname());
+						vorname.setText("");
+						ort.setText(emptyKundenListe.get(iii).getOrt());
+					}
+				}
 			}
 		}
-
-		reservationsIDBox.setItems(FXCollections.observableArrayList(strings));
-	}
-
-	private MainAdmin parent;
-
-	public ReservationAbschliessen() {
-
 	}
 
 	@FXML
@@ -151,27 +333,19 @@ public class ReservationAbschliessen implements Serializable {
 
 				// hier wird der boolean needsReparatur in der Klasse Reservation nach der
 				// Reparatur wieder auf false geändert
-				emptyReservationsListe.get(i).setInReparatus(false);
-				System.out.println("Das Auto der " + emptyReservationsListe.get(i) + " ist aus der Reparatur zurück");
+				if (emptyReservationsListe.get(i).isInReparatus() == true) {
+					emptyReservationsListe.get(i).setInReparatus(false);
+					System.out
+							.println("Das Auto der " + emptyReservationsListe.get(i) + " ist aus der Reparatur zurück");
+					// hier werden die entsprechenden Reparaturkosten dem Attribut hinzugefügt und
+					// die Kostenberechung für die Reparatur findet statt
+					emptyReservationsListe.get(i).setReparaturKosten(Double.parseDouble(reparaturkosten.getText()));
+				}
 
 				// hier wird der Status der Reinigung wieder auf true gesetzt
 				emptyReservationsListe.get(i).setIstGereinigt(true);
 				System.out.println("Das Auto der " + emptyReservationsListe.get(i)
 						+ " ist gereinigt und zur Weitervermietung bereit");
-
-				// hier werden die entsprechenden Reparaturkosten dem Attribut hinzugefügt und
-				// die Kostenberechung für die Reparatur findet statt
-				emptyReservationsListe.get(i).setReparaturKosten(Double.parseDouble(reparaturkosten.getText()));
-
-				// hier wird eine lokale Variable für die Reparaturkosten bestimmt
-				double restKosten = emptyReservationsListe.get(i).getSicherheitsLeistung()
-						- emptyReservationsListe.get(i).getReparaturKosten();
-				if (restKosten >= 0) {
-					System.out.println("Dem Kunden muss CHF " + restKosten + " zurückbezahlt werden.");
-				} else {
-					System.out
-							.println("Dem Kunden muss eine Rechnung über CHF " + restKosten * -1 + " gestellt werden");
-				}
 
 				// hier wird eine lokal Variable für die entsprechende AutoID der Reservation
 				// vergeben
@@ -211,6 +385,26 @@ public class ReservationAbschliessen implements Serializable {
 					if (emptyAutoListe.get(ii).getId() == autoID) {
 						emptyAutoListe.get(ii).setBlockiert(false);
 						System.out.println("Das Auto :" + emptyAutoListe.get(ii) + " ist wieder frei");
+
+						// hier wird eine lokale Variable für die berechnung der verzugskosten erstellt
+						double verzugsKosten = (emptyAutoListe.get(ii).getKostenProTag()
+								* Integer.parseInt(verzugsTage.getText()))
+								+ (100 * Integer.parseInt(verzugsTage.getText()));
+						emptyReservationsListe.get(i).setVerzugskosten(verzugsKosten);
+
+						// hier wird eine lokale Variable für die Restkosten (Reparatur+sonstige Kosten
+						// + Verzugskosten
+						// bestimmt
+						double restKosten = emptyReservationsListe.get(i).getSicherheitsLeistung()
+								- emptyReservationsListe.get(i).getReparaturKosten()
+								- Integer.parseInt(sonstigeKosten.getText()) - verzugsKosten;
+						if (restKosten >= 0) {
+							System.out.println("Dem Kunden muss CHF " + restKosten + " zurückbezahlt werden.");
+						} else {
+							System.out.println(
+									"Dem Kunden muss eine Rechnung über CHF " + restKosten * -1 + " gestellt werden");
+						}
+						emptyReservationsListe.get(i).setEndkosten(restKosten);
 					}
 				}
 
@@ -226,6 +420,7 @@ public class ReservationAbschliessen implements Serializable {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+
 			}
 
 		}

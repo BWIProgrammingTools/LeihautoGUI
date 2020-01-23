@@ -5,12 +5,13 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="684.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AdminPortal">
    <children>
-      <Button fx:id="autoErfassen" layoutX="211.0" layoutY="28.0" mnemonicParsing="false" onAction="#handleAutoErfassen" prefHeight="70.0" prefWidth="178.0" text="Auto erfassen" />
-      <Button fx:id="reparaturAnmelden" layoutX="210.0" layoutY="288.0" mnemonicParsing="false" onAction="#handleReparaturAnmelden" prefHeight="70.0" prefWidth="178.0" text="Reparatur anmelden" />
-      <Button fx:id="reservationAbschliessen" layoutX="210.0" layoutY="375.0" mnemonicParsing="false" onAction="#handleReservationAbschliessen" prefHeight="70.0" prefWidth="178.0" text="Reservation abschliessen" />
-      <Button fx:id="autoDeaktivieren" layoutX="211.0" layoutY="114.0" mnemonicParsing="false" onAction="#handleAutoDeaktivieren" prefHeight="70.0" prefWidth="178.0" text="Auto deaktivieren" />
-      <Button fx:id="kundeSperren" layoutX="211.0" layoutY="459.0" mnemonicParsing="false" onAction="#handleKundeSperren" prefHeight="70.0" prefWidth="178.0" text="Kunde sperren" />
-      <Button fx:id="kundeEntsperren" layoutX="211.0" layoutY="549.0" mnemonicParsing="false" onAction="#handleKundeEntsperren" prefHeight="70.0" prefWidth="178.0" text="Kunde entsperren" />
-      <Button fx:id="autoAktivieren" layoutX="211.0" layoutY="203.0" mnemonicParsing="false" onAction="#handleAutoAktivieren" prefHeight="70.0" prefWidth="178.0" text="Auto aktivieren" />
+      <Button fx:id="autoErfassen" layoutX="211.0" layoutY="41.0" mnemonicParsing="false" onAction="#handleAutoErfassen" prefHeight="50.0" prefWidth="178.0" text="Auto erfassen" />
+      <Button fx:id="reparaturAnmelden" layoutX="211.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleReparaturAnmelden" prefHeight="50.0" prefWidth="178.0" text="Reparatur anmelden" />
+      <Button fx:id="reservationAbschliessen" layoutX="211.0" layoutY="390.0" mnemonicParsing="false" onAction="#handleReservationAbschliessen" prefHeight="50.0" prefWidth="178.0" text="Reservation abschliessen" />
+      <Button fx:id="autoDeaktivieren" layoutX="211.0" layoutY="107.0" mnemonicParsing="false" onAction="#handleAutoDeaktivieren" prefHeight="50.0" prefWidth="178.0" text="Auto deaktivieren" />
+      <Button fx:id="kundeSperren" layoutX="211.0" layoutY="463.0" mnemonicParsing="false" onAction="#handleKundeSperren" prefHeight="50.0" prefWidth="178.0" text="Kunde sperren" />
+      <Button fx:id="kundeEntsperren" layoutX="211.0" layoutY="535.0" mnemonicParsing="false" onAction="#handleKundeEntsperren" prefHeight="50.0" prefWidth="178.0" text="Kunde entsperren" />
+      <Button fx:id="autoAktivieren" layoutX="211.0" layoutY="177.0" mnemonicParsing="false" onAction="#handleAutoAktivieren" prefHeight="50.0" prefWidth="178.0" text="Auto aktivieren" />
+      <Button fx:id="autoNeuzuweisen" layoutX="211.0" layoutY="247.0" mnemonicParsing="false" onAction="#handleAutoNeuzuweisen" prefHeight="50.0" prefWidth="178.0" text="Auto neu zuweisen" />
    </children>
 </AnchorPane>

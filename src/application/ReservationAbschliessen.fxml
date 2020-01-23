@@ -3,12 +3,131 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ReservationAbschliessen">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="917.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ReservationAbschliessen">
    <children>
-      <TextField fx:id="reparaturkosten" layoutX="215.0" layoutY="135.0" promptText="Reparaturkosten" />
-      <Button fx:id="reservationabschliessen" layoutX="191.0" layoutY="282.0" mnemonicParsing="false" onAction="#handleReservationAbschliessenButton" prefHeight="43.0" prefWidth="196.0" text="Reservation abschliessen" />
-      <ComboBox fx:id="reservationsIDBox" layoutX="214.0" layoutY="85.0" prefWidth="150.0" promptText="ReservationsID" />
+      <Button fx:id="reservationabschliessen" layoutX="43.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleReservationAbschliessenButton" prefHeight="43.0" prefWidth="196.0" text="Reservation abschliessen" />
+      <ComboBox fx:id="reservationsIDBox" layoutX="43.0" layoutY="91.0" onAction="#zeigeReservationsAngaben" prefWidth="150.0" promptText="ReservationsID" />
+      <TitledPane animated="false" layoutX="460.0" layoutY="142.0" prefHeight="180.0" prefWidth="402.0" text="Auto">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="167.0" prefWidth="401.0">
+               <children>
+                  <TextField fx:id="marke" editable="false" layoutX="192.0" layoutY="2.0" prefHeight="23.0" prefWidth="205.0" promptText="Marke">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="farbe" editable="false" layoutX="192.0" layoutY="32.0" prefHeight="23.0" prefWidth="205.0" promptText="Farbe">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="getriebeart" editable="false" layoutX="192.0" layoutY="62.0" prefHeight="23.0" prefWidth="205.0" promptText="Getriebeart">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="treibstoffart" editable="false" layoutX="192.0" layoutY="92.0" prefHeight="23.0" prefWidth="205.0" promptText="Treibstoffart">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="tagesSatz" editable="false" layoutX="192.0" layoutY="121.0" prefHeight="23.0" prefWidth="205.0" promptText="Tagessatz">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <TitledPane animated="false" layoutX="460.0" layoutY="332.0" prefHeight="150.0" prefWidth="402.0" text="Kunde">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="126.0" prefWidth="457.0">
+               <children>
+                  <TextField fx:id="kundenID" editable="false" layoutX="192.0" layoutY="3.0" prefHeight="23.0" prefWidth="205.0" promptText="ID">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="nameOderFirmenname" editable="false" layoutX="192.0" layoutY="32.0" prefHeight="23.0" prefWidth="205.0" promptText="Nachame oder Firmenname">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="ort" editable="false" layoutX="192.0" layoutY="92.0" prefHeight="23.0" prefWidth="205.0" promptText="Ort">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="vorname" editable="false" layoutX="192.0" layoutY="62.0" prefHeight="23.0" prefWidth="205.0" promptText="Vorname">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <TitledPane animated="false" layoutX="460.0" layoutY="495.0" prefHeight="118.0" prefWidth="402.0" text="Fahrer">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="vornameFahrer" editable="false" layoutX="192.0" layoutY="2.0" prefHeight="23.0" prefWidth="205.0" promptText="Vorname">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="nachnameFahrer" editable="false" layoutX="192.0" layoutY="32.0" prefHeight="23.0" prefWidth="205.0" promptText="Nachname">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="fuehrerausweisFahrer" editable="false" layoutX="192.0" layoutY="62.0" prefHeight="23.0" prefWidth="205.0" promptText="Führerausweis">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <TitledPane animated="false" layoutX="460.0" layoutY="13.0" prefHeight="117.0" prefWidth="402.0" text="Reservationsdaten">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="reserviertVon" editable="false" layoutX="192.0" layoutY="2.0" prefHeight="23.0" prefWidth="205.0" promptText="Von">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="reserviertBis" editable="false" layoutX="192.0" layoutY="32.0" prefHeight="23.0" prefWidth="205.0" promptText="Bis">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="gesamtKosten" editable="false" layoutX="192.0" layoutY="62.0" prefHeight="23.0" prefWidth="205.0" promptText="GesamtKosten">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <TitledPane animated="false" layoutX="43.0" layoutY="142.0" prefHeight="150.0" prefWidth="402.0" text="weitere Kosten">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="142.0" prefWidth="401.0">
+               <children>
+                  <TextField fx:id="reparaturkosten" layoutX="260.0" layoutY="2.0" prefHeight="30.0" prefWidth="138.0" promptText="Reparaturkosten" />
+                  <TextField fx:id="verzugsTage" layoutX="260.0" layoutY="40.0" prefHeight="30.0" prefWidth="138.0" promptText="Tage im Verzug" />
+                  <TextField fx:id="sonstigeKosten" layoutX="260.0" layoutY="79.0" prefHeight="30.0" prefWidth="138.0" promptText="Kosten für sonstige Aufwände" />
+               </children>
+            </AnchorPane>
+         </content>
+      </TitledPane>
    </children>
 </AnchorPane>

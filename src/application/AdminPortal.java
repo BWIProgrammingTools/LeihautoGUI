@@ -43,13 +43,22 @@ public class AdminPortal {
 	@FXML
 	private Button autoErfassen;
 	@FXML
+	private Button autoDeaktivieren;
+	@FXML
+	private Button autoAktivieren;
+	@FXML
+	private Button autoNeuzuweisen;
+	@FXML
 	private Button reparaturAnmelden;
 	@FXML
-	private Button reservationBeenden;
+	private Button reservationAbschliessen;
 	@FXML
-	private Button autoLoeschen;
+	private Button kundeSperren;
+	@FXML
+	private Button kundeEntsperren;
 
 	private MainAdmin parent;
+
 	private Stage outputStage;
 
 	public AdminPortal() {
@@ -85,7 +94,7 @@ public class AdminPortal {
 		stage.showAndWait();
 
 	}
-	
+
 	// neues Fenster (Auto aktivieren) öffnen
 	@FXML
 	public void handleAutoAktivieren() throws SQLException, IOException {
@@ -96,6 +105,21 @@ public class AdminPortal {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setOpacity(1);
 		stage.setTitle("Auto aktivieren");
+		stage.setScene(new Scene(root, 700, 700));
+		stage.showAndWait();
+
+	}
+
+	// neues Fenster (Auto neu zuweisen) öffnen
+	@FXML
+	public void handleAutoNeuzuweisen() throws SQLException, IOException {
+
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AutoNeuzuweisung.fxml"));
+		Parent root = fxmlLoader.load();
+		Stage stage = new Stage();
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.setOpacity(1);
+		stage.setTitle("Auto neu zuweisen");
 		stage.setScene(new Scene(root, 700, 700));
 		stage.showAndWait();
 
@@ -126,7 +150,7 @@ public class AdminPortal {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setOpacity(1);
 		stage.setTitle("Reservation abschliessen");
-		stage.setScene(new Scene(root, 700, 700));
+		stage.setScene(new Scene(root, 950, 700));
 		stage.showAndWait();
 
 	}

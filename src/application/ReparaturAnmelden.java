@@ -155,7 +155,7 @@ public class ReparaturAnmelden implements Serializable {
 		// hier wird eine leere ArrayList erstellt
 		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
 
-		// hier startet der Import der bestehenden Kundenliste
+		// hier startet der Import der bestehenden reservationsliste
 		List<Reservation> importReservationsListe = new ArrayList<Reservation>();
 		try {
 			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
@@ -169,7 +169,7 @@ public class ReparaturAnmelden implements Serializable {
 			e.printStackTrace();
 		}
 		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
-		// der leeren Kundenliste angefügt
+		// der leeren Reservationsliste angefügt
 		for (Reservation existingReservation : importReservationsListe) {
 			emptyReservationsListe.add(existingReservation);
 		}

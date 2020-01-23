@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="702.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RegistrationEinzel">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="702.0" prefWidth="633.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RegistrationEinzel">
    <children>
       <TextField fx:id="strasseUndNummer" layoutX="278.0" layoutY="181.0" prefHeight="26.0" prefWidth="180.0" promptText="Strasse und Nummer" />
       <TextField fx:id="nachname" layoutX="279.0" layoutY="98.0" prefHeight="25.0" prefWidth="180.0" promptText="Nachname" />
@@ -15,7 +15,7 @@
       <TextField fx:id="ort" layoutX="278.0" layoutY="214.0" prefWidth="180.0" promptText="Ort" />
       <TextField fx:id="plz" layoutX="278.0" layoutY="246.0" prefWidth="180.0" promptText="PLZ" />
       <TextField fx:id="land" layoutX="278.0" layoutY="280.0" prefWidth="180.0" promptText="Land" />
-      <TextField fx:id="alter" layoutX="278.0" layoutY="313.0" prefWidth="180.0" promptText="Geburtsjahr" />
+      <TextField fx:id="alter" layoutX="278.0" layoutY="313.0" prefWidth="180.0" promptText="Alter" />
       <TextField fx:id="telefonNummer" layoutX="278.0" layoutY="346.0" prefWidth="180.0" promptText="Telefonnummer" />
       <TextField fx:id="email" layoutX="278.0" layoutY="381.0" prefWidth="180.0" promptText="EMail" />
       <TextField fx:id="username" layoutX="278.0" layoutY="413.0" prefWidth="180.0" promptText="Username" />
@@ -32,7 +32,7 @@
       <Label alignment="CENTER_RIGHT" layoutX="90.0" layoutY="218.0" prefHeight="17.0" prefWidth="180.0" text="Ort:" textAlignment="RIGHT" />
       <Label alignment="CENTER_RIGHT" layoutX="90.0" layoutY="250.0" prefHeight="17.0" prefWidth="180.0" text="Postleitzahl:" textAlignment="RIGHT" />
       <Label alignment="CENTER_RIGHT" layoutX="90.0" layoutY="284.0" prefHeight="17.0" prefWidth="180.0" text="Land:" textAlignment="RIGHT" />
-      <Label alignment="CENTER_RIGHT" layoutX="90.0" layoutY="317.0" prefHeight="17.0" prefWidth="180.0" text="Geburtsjahrgang:" textAlignment="RIGHT" />
+      <Label alignment="CENTER_RIGHT" layoutX="90.0" layoutY="317.0" prefHeight="17.0" prefWidth="180.0" text="Alter:" textAlignment="RIGHT" />
       <Label alignment="CENTER_RIGHT" layoutX="90.0" layoutY="350.0" prefHeight="17.0" prefWidth="180.0" text="Mobile- oder Festnetznummer:" textAlignment="RIGHT" />
       <Label alignment="CENTER_RIGHT" layoutX="93.0" layoutY="384.0" prefHeight="17.0" prefWidth="180.0" text="E-Mailadresse:" textAlignment="RIGHT" />
       <Label alignment="CENTER_RIGHT" layoutX="93.0" layoutY="417.0" prefHeight="17.0" prefWidth="180.0" text="Username:" textAlignment="RIGHT" />
