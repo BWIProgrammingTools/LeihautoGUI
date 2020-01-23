@@ -1,29 +1,17 @@
 package application;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.ResourceBundle;
-
-import javax.swing.JOptionPane;
-
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Auto;
@@ -35,6 +23,7 @@ public class AutoReservieren implements Serializable {
 
 	private static final long serialVersionUID = -299482035708790407L;
 
+	// Felder im GUI
 	@FXML
 	private ComboBox<String> autoIDBox;
 
@@ -71,7 +60,7 @@ public class AutoReservieren implements Serializable {
 	@FXML
 	private Button handleAutoReservierenButton;
 
-	//funktioniert nicht als lokale Variable, deshalb hier
+	// funktioniert nicht als lokale Variable, deshalb hier
 	public int eingeloggterUserID;
 
 	// initialize des Fensters
@@ -80,7 +69,6 @@ public class AutoReservieren implements Serializable {
 
 		// Liste für Dropdown
 		List<String> strings = new ArrayList<>();
-		// String markenString = new String();
 
 		// hier wird eine leere ArrayList erstellt
 		List<Integer> emptyFreieAutoListe = new ArrayList<Integer>();
@@ -98,26 +86,31 @@ public class AutoReservieren implements Serializable {
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		// hier werden die freien Autos der bestehenden Liste als Objekte
-		// herausgefiltert und
-		// der leeren freie Autoliste angefügt
+		/*
+		 * hier werden die freien Autos der bestehenden Liste als Objekte
+		 * herausgefiltert und der leeren freie Autoliste angefügt
+		 */
 		for (Integer freiesAuto : importFreieAutoListe) {
 			emptyFreieAutoListe.add(freiesAuto);
 
 		}
-		// hier wird mit einer for Schlaufe durch die importierte FreiesAutoliste
-		// iteriert
+		/*
+		 * hier wird mit einer for Schlaufe durch die importierte FreiesAutoliste
+		 * iteriert
+		 */
 		for (int i = 0; i < emptyFreieAutoListe.size(); i++) {
 			// hier werden die entsprechenden AutoIds für den Combobox String übergeben
 			strings.add(Integer.toString(emptyFreieAutoListe.get(i)));
 
 		}
-
+		// hier werden die IDs der Liste hinzugefügt
 		autoIDBox.setItems(FXCollections.observableArrayList(strings));
 
-		// hier findet die berechnung der Fahrerfelder statt
-		// zuerst wird die LoginID hereingeladen (muss über die ArrayListe geschehen,
-		// Integer alleine scheint nicht zu funktionieren
+		/*
+		 * hier findet die berechnung der Fahrerfelder statt zuerst wird die LoginID
+		 * hereingeladen (muss über die ArrayListe geschehen, Integer alleine scheint
+		 * nicht zu funktionieren)
+		 */
 		List<Integer> eingeloggterUserIDList = new ArrayList<Integer>();
 		List<Integer> neueEingeloggterUserIDList = new ArrayList<Integer>();
 		try {
@@ -154,16 +147,20 @@ public class AutoReservieren implements Serializable {
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
-		// der leeren Kundenliste angefügt
+		/*
+		 * hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
+		 * der leeren Kundenliste angefügt
+		 */
 		for (Kunde existingKunde : importKundenListe) {
 			emptyKundenListe.add(existingKunde);
 		}
 
 		// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
 		for (int i = 0; i < emptyKundenListe.size(); i++) {
-			// wenn username und passwort zusammen auf der Liste und der Kunde nicht
-			// blockiert ist, geht es hier weiter
+			/*
+			 * wenn username und passwort zusammen auf der Liste und der Kunde nicht
+			 * blockiert ist, geht es hier weiter
+			 */
 			if (emptyKundenListe.get(i).getKundenNummer() == eingeloggterUserID
 					&& emptyKundenListe.get(i) instanceof Einzelkunde) {
 				fahrerVornameField.setText(((Einzelkunde) emptyKundenListe.get(i)).getVorname());
@@ -174,8 +171,9 @@ public class AutoReservieren implements Serializable {
 
 		}
 
-		// Abschnitt für Reservationsdaten
-		// hier startet der Import des von Datums statt
+		/*
+		 * Abschnitt für Reservationsdaten hier startet der Import des von Datums statt
+		 */
 		GregorianCalendar kalenderVon = new GregorianCalendar();
 		try {
 			FileInputStream fis = new FileInputStream("KalenderVon.ser");
@@ -209,12 +207,12 @@ public class AutoReservieren implements Serializable {
 
 	}
 
-	private MainAdmin parent;
-
+	// Konstruktor
 	public AutoReservieren() {
 
 	}
 
+	// Methode für Anzeige der Autos
 	@FXML
 	public void zeigeAuto() {
 
@@ -234,15 +232,17 @@ public class AutoReservieren implements Serializable {
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
-		// der leeren Autoliste angefügt
+		/*
+		 * hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
+		 * der leeren Autoliste angefügt
+		 */
 		for (Auto existingAuto : importAutoListe) {
 			emptyAutoListe.add(existingAuto);
 		}
 
 		// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
 		for (int i = 0; i < emptyAutoListe.size(); i++) {
-			// hier werden die entsprechenden Felder beschrieben
+			// hier werden diverse Werte berechnet, gemäss des gewählten Autos
 			if (emptyAutoListe.get(i).getId() == Integer.parseInt(autoIDBox.getValue())) {
 				// lokale Variablen für Anzeige der Reservationskosten
 				double autoKostenProTag;
@@ -325,13 +325,13 @@ public class AutoReservieren implements Serializable {
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
+		// hier wird die Reservation instanziert und als Objekt weitergegeben
 		Reservation varReservation = new Reservation(Integer.parseInt(autoIDBox.getValue()), this.eingeloggterUserID,
 				fahrerVornameField.getText(), fahrerNachnameField.getText(),
 				Long.parseLong(fuehrerscheinField.getText()), kalenderVon, kalenderBis,
 				Double.parseDouble(reservationsKosten.getText()));
 		varReservation.ReservationErfassen(varReservation);
-
+		// event, dass fenster geschlossen wird
 		((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
 	}
 }

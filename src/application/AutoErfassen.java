@@ -49,6 +49,7 @@ public class AutoErfassen {
 		treibstoffBox.setItems(treibstoffList);
 	}
 
+	
 	// Konstruktor
 	public AutoErfassen() {
 

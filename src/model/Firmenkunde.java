@@ -2,10 +2,14 @@ package model;
 
 import java.io.Serializable;
 
-public class Firmenkunde extends Kunde implements Serializable {
+public class Firmenkunde extends Kunde implements Serializable{
 
-	private static final long serialVersionUID = -299482035708790407L;
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8537661403428787514L;
+	
 	private String firmenname;
 
 	// Erweiterter Konstruktor für Firmenkunden

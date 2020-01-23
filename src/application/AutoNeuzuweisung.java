@@ -88,7 +88,6 @@ public class AutoNeuzuweisung implements Serializable {
 
 	// initialize des Fensters
 	public void initialize() throws IOException {
-		// hier wird eine leere ArrayList erstellt
 
 		// hier findet die berechnung der Strings für die Combobox statt
 

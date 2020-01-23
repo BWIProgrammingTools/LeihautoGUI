@@ -6,35 +6,22 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.ResourceBundle;
-
-import javax.swing.JOptionPane;
-
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Auto;
-import model.Einzelkunde;
-import model.Kunde;
 import model.Reservation;
 
 public class AutoZuweisungAuswaehlen implements Serializable {
 
 	private static final long serialVersionUID = -299482035708790407L;
-
+	// Felder im GUI
 	@FXML
 	private ComboBox<String> autoIDBox;
 
@@ -58,7 +45,6 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 
 	// initialize des Fensters
 	public void initialize() {
-		// hier findet die berechnung der Strings für die Combobox statt
 
 		// Liste für Dropdown
 		List<String> strings = new ArrayList<>();
@@ -80,21 +66,24 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		// hier werden die freien Autos der bestehenden Liste als Objekte
-		// herausgefiltert und
-		// der leeren freie Autoliste angefügt
+		/*
+		 * hier werden die freien Autos der bestehenden Liste als Objekte
+		 * herausgefiltert und der leeren freie Autoliste angefügt
+		 */
 		for (Integer freiesAuto : importFreieAutoListe) {
 			emptyFreieAutoListe.add(freiesAuto);
 
 		}
-		// hier wird mit einer for Schlaufe durch die importierte FreiesAutoliste
-		// iteriert
+		/*
+		 * hier wird mit einer for Schlaufe durch die importierte FreiesAutoliste
+		 * iteriert
+		 */
 		for (int i = 0; i < emptyFreieAutoListe.size(); i++) {
 			// hier werden die entsprechenden AutoIds für den Combobox String übergeben
 			strings.add(Integer.toString(emptyFreieAutoListe.get(i)));
 
 		}
-
+		// hier wird die Liste der Combobox übergeben
 		autoIDBox.setItems(FXCollections.observableArrayList(strings));
 
 	}
