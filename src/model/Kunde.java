@@ -1,7 +1,5 @@
 package model;
 
-import javax.swing.JOptionPane;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,7 +19,7 @@ public class Kunde implements Serializable {
 	private int plz;
 	private String land;
 	private int alter;
-	private String telefonNummer; // string? <- falsch in klassendiagramm? oder wegen abstÃ¤nden?
+	private String telefonNummer;
 	private String email;
 	private String username;
 	private String password;
@@ -30,24 +28,10 @@ public class Kunde implements Serializable {
 	private long kkNummer;
 	private String kkAblaufdatum; // nicht string
 	private int kkPruefnummer;
-//neu dazugefÃ¼gt
 	private String lockReason;
+	
 
-	// Konstruktor für Tests
-	public Kunde() {
-		setUsername("test");
-		setPassword("1234");
-		setEmail("test@test.test");
-		setAlter(99);
-	}
-
-	// Konstruktor für Tests
-	public Kunde(String username, String password) {
-		setUsername(username);
-		setPassword(password);
-	}
-
-	// Konstruktor für Registration
+	// Konstruktor für Kunde
 	public Kunde(String sUN, String ort, int plz, String land, int alter, String telefonNummer, String email,
 			String username, String password, String kkInhaber, long kkNummer, String kkAblaufdatum,
 			int kkPruefnummer) {
@@ -76,64 +60,6 @@ public class Kunde implements Serializable {
 		setGesperrt(false);
 	}
 
-	// wird momentan nicht benötigt, kann allenfalls gelöscht werden
-	public String passwordAendern(String oldPassword, String password) { // kontrolle bzw login
-
-		if (password == oldPassword) {
-			this.password = password;
-			return "";
-		} else {
-			System.err.println("falsches password");
-			return "falsches password";
-		}
-	}
-
-	// wird momentan nicht benötigt, kann allenfalls gelöscht werden
-	public void passwordVergessen(String username, String email, int alter) {
-		if (this.email.equals(email) && this.alter == alter) {
-
-			Kunde.infoBox(getPassword());
-		} else {
-			System.err.println("user nicht gefunden");
-			Kunde.infoBox();
-			return;
-		}
-
-	}
-
-	public static void infoBox(String password) {
-		JOptionPane.showMessageDialog(null, password);
-	}
-
-	public static void infoBox() {
-		JOptionPane.showMessageDialog(null, "no password for you, idiot!");
-	}
-
-	// wird momentan nicht benötigt, kann allenfalls gelöscht werden
-// || oder ((ab == ab && ab == 1) || 1==1)
-	public void passwordZurueckSetzen(int kundenNummer, String email, int alter) {
-		if (this.email == email && this.alter == alter) {
-			setPassword("1234");
-			System.out.println("Wir haben Ihr Password auf 1234 gesetzt");
-
-		} else {
-			System.err.println("user nicht gefunden");
-		}
-	}
-
-	// wird momentan nicht benötigt, kann allenfalls gelöscht werden
-	public Boolean login(String password) {
-
-		if (this.password.equals(password)) {
-			System.out.println("eingeloggt"); // brauchen wir ein logged in status?
-			return true;
-		}
-		return false;
-	}
-
-	public void addKunde() {
-
-	}
 
 	// Methode für Kundenregistration
 	public void registration(Kunde varKunde) {
@@ -154,16 +80,17 @@ public class Kunde implements Serializable {
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
-		// der leeren Kundenliste angefügt
+		/* hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
+		 * der leeren Kundenliste angefügt und die ID hochgezählt*/
 		for (Kunde existingKunde : importKundenListe) {
 			emptyKundenListe.add(existingKunde);
 			System.out.println(existingKunde);
 			++this.kundenNummer;
 		}
 
-		// hier wird der neue Kunde der ursprünglich leeren aber mittlerweile befüllten
-		// liste angefügt
+		/* hier wird der neue Kunde der ursprünglich leeren aber mittlerweile befüllten
+		 * liste angefügt
+		 */
 		emptyKundenListe.add(varKunde);
 		System.out.println(varKunde);
 
@@ -184,10 +111,11 @@ public class Kunde implements Serializable {
 
 	// String to String Methode für Objektanzeige
 	public String toString() {
-		return "Kunde:: Nummer=" + this.kundenNummer + " Username= " + this.username + " Passwort= " + this.password
-				+ " Email=" + this.email;
+		return "Kundennummer:" + this.kundenNummer + " Username: " + this.username + " Passwort: " + this.password
+				+ " Email:" + this.email;
 	}
 
+	//getters und setters
 	public int getKundenNummer() {
 		return kundenNummer;
 	}
@@ -261,7 +189,6 @@ public class Kunde implements Serializable {
 	}
 
 	public String getPassword() {
-//		System.out.println(password);
 		return password;
 	}
 

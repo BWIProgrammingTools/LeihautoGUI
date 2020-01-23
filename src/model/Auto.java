@@ -33,14 +33,15 @@ public class Auto implements Serializable {
 
 	// String to String Methode für Objektausgabe
 	public String toString() {
-		return "Auto:: ID= " + this.getId() + ", marke= " + this.getMarke() + ", Farbe= " + this.getFarbe()
-				+ ", Getriebe: " + this.getGetriebe() + ", Treibstoffart: " + this.getTreibstoff() + ", Tagespreis= "+ this.getKostenProTag() + ", Blockiert= "
-				+ this.isBlockiert() + ", Deaktiviert= " + this.isDeaktiviert();
+		return "Auto ID: " + this.getId() + ", Marke: " + this.getMarke() + ", Farbe: " + this.getFarbe()
+				+ ", Getriebe: " + this.getGetriebe() + ", Treibstoffart: " + this.getTreibstoff() + ", Tagespreis: "
+				+ this.getKostenProTag() + ", Blockiert: " + this.isBlockiert() + ", Deaktiviert: "
+				+ this.isDeaktiviert();
 	}
 
 	// Methode für Autoregistration
 	public void autoErfassen(Auto varAuto) {
-		// hier wird eine leere ArrayList erstellt
+		// hier wird eine leere Autoliste erstellt
 		List<Auto> emptyAutoListe = new ArrayList<Auto>();
 
 		// hier startet der Import der bestehenden Autoliste
@@ -50,23 +51,26 @@ public class Auto implements Serializable {
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
 			importAutoListe = (ArrayList) ois.readObject();
-			System.out.println("Import Done");
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
-		// der leeren Autoliste angefügt
+		/*
+		 * hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
+		 * der leeren Autoliste angefügt und die ID hochgezählt
+		 */
 		for (Auto existingAuto : importAutoListe) {
 			emptyAutoListe.add(existingAuto);
 			System.out.println(existingAuto);
 			++this.id;
 		}
 
-		// hier wird das neue Auto der ursprünglich leeren aber mittlerweile befüllten
-		// liste angefügt
+		/*
+		 * hier wird das neue Auto der ursprünglich leeren aber mittlerweile befüllten
+		 * Liste angefügt
+		 */
 		emptyAutoListe.add(varAuto);
 		System.out.println(varAuto);
 
@@ -85,20 +89,13 @@ public class Auto implements Serializable {
 		}
 	}
 
+	// Getters und Setters
 	public String getGetriebe() {
 		return getriebe;
 	}
 
 	public void setGetriebe(String getriebe) {
 		this.getriebe = getriebe;
-	}
-
-	public void lock() {
-		blockiert = true;
-	}
-
-	public void unlock() {
-		blockiert = false;
 	}
 
 	public int getId() {

@@ -7,8 +7,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -16,10 +14,9 @@ public class Reservation implements Serializable {
 
 	private static final long serialVersionUID = -299482035708790407L;
 
-	private int reservationsID = 1; // wird momentan manuell gefüllt bis reservationsliste über kundenUI befüllt
-									// wird
-	private int autoID; // readonly
-	private int KundenNummer; // readonly
+	private int reservationsID = 1;
+	private int autoID;
+	private int KundenNummer;
 	private String fahrerVorname;
 	private String fahrerNachname;
 	private long fuehrerausweisNummer;
@@ -48,24 +45,7 @@ public class Reservation implements Serializable {
 		setIstGereinigt(false);
 	}
 
-	// Methode für Reservation erfassen
-
-	public boolean checkDate() { // datumVon, datumBis : date
-		return inReparatur; // noch inkorrekt
-	}
-
-	public void addReservation() {
-
-	}
-
-	public void deleteReservation() {
-
-	}
-
-	public void auftragsBestaetigung() { // wirklich void?
-
-	}
-
+	// getters und setters
 	public int getReservationsID() {
 		return reservationsID;
 	}
@@ -175,7 +155,7 @@ public class Reservation implements Serializable {
 	}
 
 	public void setEndkosten(double endkosten) {
-		endkosten = endkosten;
+		this.endkosten = endkosten;
 	}
 
 	public double getVerzugskosten() {
@@ -188,13 +168,14 @@ public class Reservation implements Serializable {
 
 	// StringtoString für Anzeige einer Reservation
 	public String toString() {
-		return "Reservation:: ReservationsNummer=" + this.getReservationsID() + " AutoID= " + this.getAutoID()
-				+ " Kundennummer= " + this.getKundenNummer() + " needsReparatur= " + this.isInReparatus()
-				+ " ist Gereinigt= " + this.isIstGereinigt() + " Reservationskosten= " + this.getReservationsKosten()
-				+ " Verzugskosten= " + this.verzugskosten + " Endkosten= " + this.endkosten + " Von= "
-				+ this.reservationVon.getTime() + " Bis= " + this.reservationBis.getTime();
+		return "ReservationsNummer: " + this.getReservationsID() + ", AutoID: " + this.getAutoID() + ", Kundennummer: "
+				+ this.getKundenNummer() + ", Reservationskosten: " + this.getReservationsKosten() + ", Verzugskosten: "
+				+ this.verzugskosten + ", Endkosten: " + this.endkosten + ", needsReparatur: " + this.isInReparatus()
+				+ ", ist Gereinigt: " + this.isIstGereinigt() + ", Von= " + this.reservationVon.getTime() + ", Bis= "
+				+ this.reservationBis.getTime();
 	}
 
+	// Methode für das erfassen der Reservationen
 	public void ReservationErfassen(Reservation varReservation) {
 		// hier wird eine leere ArrayList erstellt
 		List<Reservation> emptyReservationListe = new ArrayList<Reservation>();
@@ -206,25 +187,27 @@ public class Reservation implements Serializable {
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
 			importReservationListe = (ArrayList) ois.readObject();
-			System.out.println("Import Done");
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		// hier werden die Reservationen der bestehenden Liste als Objekte
-		// herausgefiltert und
-		// der leeren Reservationsliste angefügt
+		/*
+		 * hier werden die Reservationen der bestehenden Liste als Objekte
+		 * herausgefiltert und der leeren Reservationsliste angefügt und die ID nach
+		 * oben gezählt
+		 */
 		for (Reservation existingReservation : importReservationListe) {
 			emptyReservationListe.add(existingReservation);
 			System.out.println(existingReservation);
 			++this.reservationsID;
 		}
 
-		// hier wird die neue Reservation der ursprünglich leeren aber mittlerweile
-		// befüllten
-		// liste angefügt
+		/*
+		 * hier wird die neue Reservation der ursprünglich leeren aber mittlerweile
+		 * befüllten liste angefügt
+		 */
 		emptyReservationListe.add(varReservation);
 		System.out.println(varReservation);
 
@@ -234,7 +217,6 @@ public class Reservation implements Serializable {
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			// write object to file
 			oos.writeObject(emptyReservationListe);
-			System.out.println("Export Done");
 			// closing resources
 			oos.close();
 			fos.close();

@@ -1,41 +1,36 @@
 package model;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class Firmenkunde extends Kunde {
+public class Firmenkunde extends Kunde implements Serializable {
+
+	private static final long serialVersionUID = -299482035708790407L;
 
 	private String firmenname;
-	private int personalNummer; // nicht string
 
-	// Erweiterter Konstruktor für Registration
-	
+	// Erweiterter Konstruktor für Firmenkunden
 	public Firmenkunde(String sUN, String ort, int plz, String land, int alter, String telefonNummer, String email,
 			String username, String password, String kkInhaber, long kkNummer, String kkAblaufdatum, int kkPruefnummer,
 			String firmenname) {
-		super(sUN, ort, plz, land, alter, telefonNummer, email, username, password, kkInhaber, kkNummer, kkAblaufdatum, kkPruefnummer);
+		super(sUN, ort, plz, land, alter, telefonNummer, email, username, password, kkInhaber, kkNummer, kkAblaufdatum,
+				kkPruefnummer);
 		setFirmenname(firmenname);
 	}
 
-	//Strint to String für Objektanzeige
+	// Strint to String für Objektanzeige
 	public String toString() {
-		return "Firmenkunde:: Kundennummer= " + this.getKundenNummer() + ", gesperrt= " + this.isGesperrt() + ", Email= " + this.getEmail() + ", Firmenname= "
-				+ this.firmenname + ", Username= " + this.getUsername() + ", Passwort= " + this.getPassword();
+		return "FirmenkundenID: " + this.getKundenNummer() + ", Firmenname: " + this.getFirmenname() + ", Email: "
+				+ this.getEmail() + ", Username: " + this.getUsername() + ", Passwort: " + this.getPassword()
+				+ ", Gesperrt?: " + this.isGesperrt();
 	}
-	
+
+	//getters und setters
 	public String getFirmenname() {
 		return firmenname;
 	}
 
 	public void setFirmenname(String firmenname) {
 		this.firmenname = firmenname;
-	}
-
-	public int getPersonalNummer() {
-		return personalNummer;
-	}
-
-	public void setPersonalNummer(int personalNummer) {
-		this.personalNummer = personalNummer;
 	}
 
 }
