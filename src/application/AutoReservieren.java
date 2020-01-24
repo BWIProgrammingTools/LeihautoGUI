@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -296,42 +299,48 @@ public class AutoReservieren implements Serializable {
 
 	}
 
-	// Methode für den AutoReservierenButton
+	/** Methode für den AutoReservierenButton */
 	public void handleAutoReservierenButton(ActionEvent event) {
-		// hier startet der Import des von Datums für die Berechnung der Anzahl Tage
-		GregorianCalendar kalenderVon = new GregorianCalendar();
-		try {
-			FileInputStream fis = new FileInputStream("KalenderVon.ser");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			// write object to file
-			kalenderVon = (GregorianCalendar) ois.readObject();
-			// closing resources
-			ois.close();
-			fis.close();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
+		if (fahrerVornameField.getText().isEmpty() || fahrerNachnameField.getText().isEmpty()
+				|| fuehrerscheinField.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Es müssen alle Fahrerangaben hinterlegt werden");
+		} else {
+			// hier startet der Import des von Datums für die Berechnung der Anzahl Tage
+			GregorianCalendar kalenderVon = new GregorianCalendar();
+			try {
+				FileInputStream fis = new FileInputStream("KalenderVon.ser");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				// write object to file
+				kalenderVon = (GregorianCalendar) ois.readObject();
+				// closing resources
+				ois.close();
+				fis.close();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+
+			// hier startet der Import des bis Datums für die Berechnung der Anzahl Tage
+			GregorianCalendar kalenderBis = new GregorianCalendar();
+			try {
+				FileInputStream fis = new FileInputStream("KalenderBis.ser");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				// write object to file
+				kalenderBis = (GregorianCalendar) ois.readObject();
+				// closing resources
+				ois.close();
+				fis.close();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			// hier wird die Reservation instanziert und als Objekt weitergegeben
+			Reservation varReservation = new Reservation(Integer.parseInt(autoIDBox.getValue()),
+					this.eingeloggterUserID, fahrerVornameField.getText(), fahrerNachnameField.getText(),
+					Long.parseLong(fuehrerscheinField.getText()), kalenderVon, kalenderBis,
+					Double.parseDouble(reservationsKosten.getText()));
+			varReservation.ReservationErfassen(varReservation);
+			// event, dass fenster geschlossen wird
+			((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
 		}
 
-		// hier startet der Import des bis Datums für die Berechnung der Anzahl Tage
-		GregorianCalendar kalenderBis = new GregorianCalendar();
-		try {
-			FileInputStream fis = new FileInputStream("KalenderBis.ser");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			// write object to file
-			kalenderBis = (GregorianCalendar) ois.readObject();
-			// closing resources
-			ois.close();
-			fis.close();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		// hier wird die Reservation instanziert und als Objekt weitergegeben
-		Reservation varReservation = new Reservation(Integer.parseInt(autoIDBox.getValue()), this.eingeloggterUserID,
-				fahrerVornameField.getText(), fahrerNachnameField.getText(),
-				Long.parseLong(fuehrerscheinField.getText()), kalenderVon, kalenderBis,
-				Double.parseDouble(reservationsKosten.getText()));
-		varReservation.ReservationErfassen(varReservation);
-		// event, dass fenster geschlossen wird
-		((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
 	}
 }

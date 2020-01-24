@@ -129,26 +129,18 @@ public class Login {
 
 			}
 
-			// die folgenden 3 else ifs funktionieren nicht - berger fragen
+			// Fehleingaben abfangen
 			if (emptyKundenListe.get(i).getUsername().compareTo(username.getText()) == 0
 					&& emptyKundenListe.get(i).getPassword().compareTo(password.getText()) == 0
-					&& emptyKundenListe.get(i).isGesperrt() == true) {
-				JOptionPane.showMessageDialog(null, "Dein Account ist gesperrt, wende dich an die Hotlike 8008135!");
-				return false;
-			} else if (emptyKundenListe.get(i).getUsername().compareTo(username.getText()) == 0
-					&& emptyKundenListe.get(i).getPassword().compareTo(password.getText()) != 0
-					&& emptyKundenListe.get(i).isGesperrt() == true) {
-				JOptionPane.showMessageDialog(null, "Falsches Passwort!");
-				return false;
-			} else if (emptyKundenListe.get(i).getUsername().compareTo(username.getText()) != 0
-					&& emptyKundenListe.get(i).getPassword().compareTo(password.getText()) == 0
-					&& emptyKundenListe.get(i).isGesperrt() == true) {
-				JOptionPane.showMessageDialog(null, "Benutzername nicht gefunden!");
+					&& emptyKundenListe.get(i).isGesperrt()) {
+				JOptionPane.showMessageDialog(null,
+						"Dein Account wurde gesperrt, wende dich an die Hotline 8008135! \nDer Grund lautet: "
+								+ emptyKundenListe.get(i).getLockReason());
 				return false;
 			}
 		}
 		// wenn username und passwort nicht auffindbar sind, kommt hier ein fehler
-		JOptionPane.showMessageDialog(null, "wrong password, biatch!");
+		JOptionPane.showMessageDialog(null, "Benutzer nicht gefunden");
 		return false;
 	}
 

@@ -79,21 +79,23 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 		 * iteriert
 		 */
 		for (int i = 0; i < emptyFreieAutoListe.size(); i++) {
-			// hier werden die entsprechenden AutoIds für den Combobox String übergeben
+			/*
+			 * hier werden die IDs der ComboBox hinzugefügt
+			 */
 			strings.add(Integer.toString(emptyFreieAutoListe.get(i)));
 
 		}
-		// hier wird die Liste der Combobox übergeben
+		// hier wird die IDs der Liste übergeben
 		autoIDBox.setItems(FXCollections.observableArrayList(strings));
 
 	}
 
-	private MainAdmin parent;
-
+	// Konsturktor
 	public AutoZuweisungAuswaehlen() {
 
 	}
 
+	// Methode für das Beschreiben der Felder
 	@FXML
 	public void zeigeAuto() {
 
@@ -113,8 +115,10 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
-		// der leeren Autoliste angefügt
+		/*
+		 * hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
+		 * der leeren Autoliste angefügt
+		 */
 		for (Auto existingAuto : importAutoListe) {
 			emptyAutoListe.add(existingAuto);
 		}
@@ -135,8 +139,11 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 	// Methode für den AutoReservierenButton
 	public void handleAutoZuweisungAuswaehlenButton(ActionEvent event) {
 		// hier findet die berechnung der Fahrerfelder statt
-		// zuerst wird die LoginID hereingeladen (muss über die ArrayListe geschehen,
-		// Integer alleine scheint nicht zu funktionieren
+
+		/*
+		 * zuerst wird die LoginID hereingeladen (muss über die ArrayListe
+		 * geschehen,Integer alleine scheint nicht zu funktionieren)
+		 */
 		List<Integer> aktuelleReservationsIDList = new ArrayList<Integer>();
 		List<Integer> neueAktuelleReservationsIDList = new ArrayList<Integer>();
 		try {
@@ -153,11 +160,13 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 		for (Integer varInt : aktuelleReservationsIDList) {
 			neueAktuelleReservationsIDList.add(varInt);
 		}
+		// hier wird die ID gesetzt
 		for (int i = 0; i < neueAktuelleReservationsIDList.size(); i++) {
 			aktuelleReservationsID = neueAktuelleReservationsIDList.get(i);
 		}
 
 		// hier startet der Import des von Datums für die Berechnung der Anzahl Tage
+
 		// hier wird eine leere ArrayList erstellt
 		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
 
@@ -174,14 +183,18 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
-		// der leeren Reservationsliste angefügt
+		/*
+		 * hier werden die Reservationen der bestehenden Liste als Objekte
+		 * herausgefiltert und der leeren Reservationsliste angefügt
+		 */
 		for (Reservation existingReservation : importReservationsListe) {
 			emptyReservationsListe.add(existingReservation);
 		}
 
-		// hier wird mit einer for Schlaufe durch die importierte Reservationsliste
-		// iteriert
+		/*
+		 * hier wird mit einer for Schlaufe durch die importierte Reservationsliste
+		 * iteriert
+		 */
 		for (int i = 0; i < emptyReservationsListe.size(); i++) {
 			if (emptyReservationsListe.get(i).getReservationsID() == aktuelleReservationsID) {
 				emptyReservationsListe.get(i).setAutoID(Integer.parseInt(autoIDBox.getValue()));
@@ -201,7 +214,7 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 				e.printStackTrace();
 			}
 		}
-
+		// event dass Fenster geschlossen wird
 		((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
 	}
 }

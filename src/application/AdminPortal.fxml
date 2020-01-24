@@ -1,17 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="684.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AdminPortal">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="541.0" prefWidth="814.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AdminPortal">
    <children>
-      <Button fx:id="autoErfassen" layoutX="211.0" layoutY="41.0" mnemonicParsing="false" onAction="#handleAutoErfassen" prefHeight="50.0" prefWidth="178.0" text="Auto erfassen" />
-      <Button fx:id="reparaturAnmelden" layoutX="211.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleReparaturAnmelden" prefHeight="50.0" prefWidth="178.0" text="Reparatur anmelden" />
-      <Button fx:id="reservationAbschliessen" layoutX="211.0" layoutY="390.0" mnemonicParsing="false" onAction="#handleReservationAbschliessen" prefHeight="50.0" prefWidth="178.0" text="Reservation abschliessen" />
-      <Button fx:id="autoDeaktivieren" layoutX="211.0" layoutY="107.0" mnemonicParsing="false" onAction="#handleAutoDeaktivieren" prefHeight="50.0" prefWidth="178.0" text="Auto deaktivieren" />
-      <Button fx:id="kundeSperren" layoutX="211.0" layoutY="463.0" mnemonicParsing="false" onAction="#handleKundeSperren" prefHeight="50.0" prefWidth="178.0" text="Kunde sperren" />
-      <Button fx:id="kundeEntsperren" layoutX="211.0" layoutY="535.0" mnemonicParsing="false" onAction="#handleKundeEntsperren" prefHeight="50.0" prefWidth="178.0" text="Kunde entsperren" />
-      <Button fx:id="autoAktivieren" layoutX="211.0" layoutY="177.0" mnemonicParsing="false" onAction="#handleAutoAktivieren" prefHeight="50.0" prefWidth="178.0" text="Auto aktivieren" />
-      <Button fx:id="autoNeuzuweisen" layoutX="211.0" layoutY="247.0" mnemonicParsing="false" onAction="#handleAutoNeuzuweisen" prefHeight="50.0" prefWidth="178.0" text="Auto neu zuweisen" />
+      <GridPane layoutX="67.0" layoutY="142.0" prefHeight="238.0" prefWidth="178.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="autoErfassen" mnemonicParsing="false" onAction="#handleAutoErfassen" prefHeight="50.0" prefWidth="178.0" text="Auto erfassen">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="autoDeaktivieren" mnemonicParsing="false" onAction="#handleAutoDeaktivieren" prefHeight="50.0" prefWidth="178.0" text="Auto deaktivieren" GridPane.rowIndex="1">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="autoAktivieren" mnemonicParsing="false" onAction="#handleAutoAktivieren" prefHeight="50.0" prefWidth="178.0" text="Auto aktivieren" GridPane.rowIndex="2">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="autoNeuzuweisen" mnemonicParsing="false" onAction="#handleAutoNeuzuweisen" prefHeight="50.0" prefWidth="178.0" text="Auto neu zuweisen" GridPane.rowIndex="3">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </GridPane>
+      <GridPane layoutX="333.0" layoutY="142.0" prefHeight="238.0" prefWidth="178.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Button fx:id="kundeSperren" mnemonicParsing="false" onAction="#handleKundeSperren" prefHeight="50.0" prefWidth="178.0" text="Kunde sperren">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="kundeEntsperren" mnemonicParsing="false" onAction="#handleKundeEntsperren" prefHeight="50.0" prefWidth="194.0" text="Kunde entsperren" GridPane.rowIndex="1">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </GridPane>
+      <GridPane layoutX="581.0" layoutY="142.0" prefHeight="238.0" prefWidth="178.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Button fx:id="kundeSperren" mnemonicParsing="false" onAction="#handleKundeSperren" prefHeight="50.0" prefWidth="178.0" text="Kunde sperren" />
+            <Button fx:id="kundeEntsperren" mnemonicParsing="false" onAction="#handleKundeEntsperren" prefHeight="50.0" prefWidth="194.0" text="Kunde entsperren" GridPane.rowIndex="1" />
+            <Button fx:id="reparaturAnmelden" mnemonicParsing="false" onAction="#handleReparaturAnmelden" prefHeight="50.0" prefWidth="178.0" text="Reparatur anmelden">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="reservationAbschliessen" mnemonicParsing="false" onAction="#handleReservationAbschliessen" prefHeight="50.0" prefWidth="178.0" text="Reservation&#10;abschliessen" GridPane.rowIndex="1">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </GridPane>
+      <Line endX="-5.5" endY="277.0" layoutX="297.0" layoutY="93.0" startX="-5.5" startY="41.0" strokeMiterLimit="1.0" />
+      <Label alignment="CENTER" layoutX="67.0" layoutY="104.0" prefHeight="38.0" prefWidth="178.0" text="Auto" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Line endX="-5.5" endY="277.0" layoutX="556.0" layoutY="91.0" startX="-5.5" startY="41.0" strokeMiterLimit="1.0" />
+      <Label alignment="CENTER" layoutX="333.0" layoutY="104.0" prefHeight="38.0" prefWidth="178.0" text="Kunde" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="581.0" layoutY="104.0" prefHeight="38.0" prefWidth="178.0" text="Reparatur" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

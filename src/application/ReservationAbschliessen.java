@@ -87,7 +87,7 @@ public class ReservationAbschliessen implements Serializable {
 
 	@FXML
 	private TextField treibstoffart;
-	
+
 	@FXML
 	private TextField tagesSatz;
 
@@ -144,7 +144,8 @@ public class ReservationAbschliessen implements Serializable {
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		// hier werden die reservationen der bestehenden Liste als Objekte herausgefiltert und
+		// hier werden die reservationen der bestehenden Liste als Objekte
+		// herausgefiltert und
 		// der leeren reservationsliste angefügt
 		for (Reservation existingReservation : importReservationsListe) {
 			emptyReservationsListe.add(existingReservation);
@@ -153,8 +154,10 @@ public class ReservationAbschliessen implements Serializable {
 		// hier wird mit einer for Schlaufe durch die importierte Reservationsliste
 		// iteriert
 		for (int i = 0; i < emptyReservationsListe.size(); i++) {
-			// hier werden die IDs der ComboBox hinzugefügt, wo der Boolean inReparatur
-			// false ist
+			/*
+			 * hier werden die IDs der ComboBox hinzugefügt, wo der Boolean istGereinigt
+			 * false ist
+			 */
 			if (emptyReservationsListe.get(i).isIstGereinigt() == false) {
 				strings.add(Integer.toString(emptyReservationsListe.get(i).getReservationsID()));
 
@@ -439,4 +442,5 @@ public class ReservationAbschliessen implements Serializable {
 		}
 		((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
 	}
+
 }

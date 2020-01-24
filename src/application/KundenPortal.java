@@ -245,84 +245,82 @@ public class KundenPortal implements Serializable {
 
 				}
 			}
-		} else
 
-		{
+			// hier wird eine leere ArrayList erstellt
+			List<Auto> emptyAutoListe = new ArrayList<Auto>();
+
+			// hier startet der Import der bestehenden Autoliste
+			List<Auto> importAutoListe = new ArrayList<Auto>();
+			try {
+				FileInputStream fis = new FileInputStream("Autoliste.ser");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				// write object to file
+				importAutoListe = (ArrayList) ois.readObject();
+				// closing resources
+				ois.close();
+				fis.close();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
+			// der leeren Autoliste angefügt
+			for (Auto existingAuto : importAutoListe) {
+				emptyAutoListe.add(existingAuto);
+			}
+
+			// hier werden alle AutoIDs der alleAutoIDs Arrayliste hinzugefüt
+			for (int ii = 0; ii < emptyAutoListe.size(); ii++) {
+				alleAutoIDs.add(emptyAutoListe.get(ii).getId());
+			}
+
+			// hier werden alle deaktivierten AutoIDs in die deaktivierteAutoIDs Arrayliste
+			// geladen
+			for (int iii = 0; iii < emptyAutoListe.size(); iii++) {
+				// if, damit deaktivierte und in reparatur autos nicht angezeigt werden
+				if (emptyAutoListe.get(iii).isDeaktiviert() == true) {
+					alleDeaktiviertenAutoIDs.add(emptyAutoListe.get(iii).getId());
+				}
+			}
+			// hier werden alle blockierten AutoIDs in die blockiertealleAutoIDs Arrayliste
+			// geladen
+			for (int iii = 0; iii < emptyAutoListe.size(); iii++) {
+				// if, damit deaktivierte und in reparatur autos nicht angezeigt werden
+				if (emptyAutoListe.get(iii).isBlockiert() == true) {
+					alleBlockiertenAutoIDs.add(emptyAutoListe.get(iii).getId());
+				}
+			}
+
+			// hier ziehen wir die IDs der reservierten,deaktiverten und blockierten Autos
+			// von allen IDs ab
+			alleAutoIDs.removeAll(reservierteIDs);
+			alleAutoIDs.removeAll(alleDeaktiviertenAutoIDs);
+			alleAutoIDs.removeAll(alleBlockiertenAutoIDs);
+
+			// hier wird die Liste mit den freien Autos herausgeschrieben
+			try {
+				FileOutputStream fos = new FileOutputStream("FreieAutosListe.ser");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				// write object to file
+				oos.writeObject(alleAutoIDs);
+				// closing resources
+				oos.close();
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			// hier wird der neue Dialog für die eigentliche Reservation geöffnet
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AutoReservieren.fxml"));
+			Parent root = fxmlLoader.load();
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setOpacity(1);
+			stage.setTitle("Auto reservieren");
+			stage.setScene(new Scene(root, 900, 700));
+			stage.showAndWait();
+		} else {
 			JOptionPane.showMessageDialog(null, "Das Von-Datum liegt nach dem Bis-Datum");
 		}
-
-		// hier wird eine leere ArrayList erstellt
-		List<Auto> emptyAutoListe = new ArrayList<Auto>();
-
-		// hier startet der Import der bestehenden Autoliste
-		List<Auto> importAutoListe = new ArrayList<Auto>();
-		try {
-			FileInputStream fis = new FileInputStream("Autoliste.ser");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			// write object to file
-			importAutoListe = (ArrayList) ois.readObject();
-			// closing resources
-			ois.close();
-			fis.close();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
-		// der leeren Autoliste angefügt
-		for (Auto existingAuto : importAutoListe) {
-			emptyAutoListe.add(existingAuto);
-		}
-
-		// hier werden alle AutoIDs der alleAutoIDs Arrayliste hinzugefüt
-		for (int ii = 0; ii < emptyAutoListe.size(); ii++) {
-			alleAutoIDs.add(emptyAutoListe.get(ii).getId());
-		}
-
-		// hier werden alle deaktivierten AutoIDs in die deaktivierteAutoIDs Arrayliste
-		// geladen
-		for (int iii = 0; iii < emptyAutoListe.size(); iii++) {
-			// if, damit deaktivierte und in reparatur autos nicht angezeigt werden
-			if (emptyAutoListe.get(iii).isDeaktiviert() == true) {
-				alleDeaktiviertenAutoIDs.add(emptyAutoListe.get(iii).getId());
-			}
-		}
-		// hier werden alle blockierten AutoIDs in die blockiertealleAutoIDs Arrayliste
-		// geladen
-		for (int iii = 0; iii < emptyAutoListe.size(); iii++) {
-			// if, damit deaktivierte und in reparatur autos nicht angezeigt werden
-			if (emptyAutoListe.get(iii).isBlockiert() == true) {
-				alleBlockiertenAutoIDs.add(emptyAutoListe.get(iii).getId());
-			}
-		}
-
-		// hier ziehen wir die IDs der reservierten,deaktiverten und blockierten Autos
-		// von allen IDs ab
-		alleAutoIDs.removeAll(reservierteIDs);
-		alleAutoIDs.removeAll(alleDeaktiviertenAutoIDs);
-		alleAutoIDs.removeAll(alleBlockiertenAutoIDs);
-
-		// hier wird die Liste mit den freien Autos herausgeschrieben
-		try {
-			FileOutputStream fos = new FileOutputStream("FreieAutosListe.ser");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			// write object to file
-			oos.writeObject(alleAutoIDs);
-			// closing resources
-			oos.close();
-			fos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		// hier wird der neue Dialog für die eigentliche Reservation geöffnet
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AutoReservieren.fxml"));
-		Parent root = fxmlLoader.load();
-		Stage stage = new Stage();
-		stage.initModality(Modality.APPLICATION_MODAL);
-		stage.setOpacity(1);
-		stage.setTitle("Auto reservieren");
-		stage.setScene(new Scene(root, 900, 700));
-		stage.showAndWait();
 
 	}
 

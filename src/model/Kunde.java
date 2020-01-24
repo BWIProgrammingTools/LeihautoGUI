@@ -29,7 +29,6 @@ public class Kunde implements Serializable {
 	private String kkAblaufdatum; // nicht string
 	private int kkPruefnummer;
 	private String lockReason;
-	
 
 	// Konstruktor für Kunde
 	public Kunde(String sUN, String ort, int plz, String land, int alter, String telefonNummer, String email,
@@ -59,7 +58,6 @@ public class Kunde implements Serializable {
 		setLockReason("");
 		setGesperrt(false);
 	}
-
 
 	// Methode für Kundenregistration
 	public void registration(Kunde varKunde) {
@@ -94,6 +92,7 @@ public class Kunde implements Serializable {
 		emptyKundenListe.add(varKunde);
 		System.out.println(varKunde);
 
+
 		// hier wird die aktualisierte kundenliste wieder herausgeschrieben
 		try {
 			FileOutputStream fos = new FileOutputStream("Kundenliste.ser");
@@ -115,7 +114,7 @@ public class Kunde implements Serializable {
 				+ " Email:" + this.email;
 	}
 
-	//getters und setters
+	// getters und setters
 	public int getKundenNummer() {
 		return kundenNummer;
 	}
