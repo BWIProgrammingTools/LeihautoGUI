@@ -7,6 +7,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import java.io.Serializable;
 
 public class Kunde implements Serializable {
@@ -106,6 +109,7 @@ public class Kunde implements Serializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		JOptionPane.showMessageDialog(null, "Sie haben sich erfolgreich registriert.\nIhre Kundennummer lautet: " + varKunde.getKundenNummer());
 	}
 
 	// String to String Methode für Objektanzeige

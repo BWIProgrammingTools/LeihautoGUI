@@ -7,9 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import model.Einzelkunde;
 import model.Kunde;
 
@@ -66,7 +69,7 @@ public class RegistrationEinzel {
 	// 4. added das Objekt ebenfalls der ArrayList
 	// 5. exportiert die neue ArrayList wieder als Kundenliste
 	@FXML
-	public void handleRegistrationAbschliessenButton() {
+	public void handleRegistrationAbschliessenButton(ActionEvent event) {
 		/*
 		 * username zuerst auf false setzen, sofern nach dem Drücken auf den Button auf
 		 * true gesetzt wurde
@@ -126,6 +129,7 @@ public class RegistrationEinzel {
 						Integer.parseInt(kkPruefnummer.getText()), vorname.getText(), nachname.getText(),
 						Long.parseLong(fuehrerausweisNummer.getText()));
 				vareinzelkunde.registration(vareinzelkunde);
+				((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
 			} else {
 				JOptionPane.showMessageDialog(null, "Sie müssen mindestens 18 Jahre alt sein");
 			}

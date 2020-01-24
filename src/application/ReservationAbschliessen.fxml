@@ -122,7 +122,7 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="142.0" prefWidth="401.0">
                <children>
-                  <TextField fx:id="reparaturkosten" layoutX="260.0" layoutY="2.0" prefHeight="30.0" prefWidth="138.0" promptText="Reparaturkosten" />
+                  <TextField fx:id="reparaturKosten" layoutX="260.0" layoutY="2.0" prefHeight="30.0" prefWidth="138.0" promptText="Reparaturkosten" />
                   <TextField fx:id="verzugsTage" layoutX="260.0" layoutY="40.0" prefHeight="30.0" prefWidth="138.0" promptText="Tage im Verzug" />
                   <TextField fx:id="sonstigeKosten" layoutX="260.0" layoutY="79.0" prefHeight="30.0" prefWidth="138.0" promptText="Kosten für sonstige Aufwände" />
                </children>

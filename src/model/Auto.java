@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 public class Auto implements Serializable {
 
 	private static final long serialVersionUID = -299482035708790407L;
@@ -23,10 +25,10 @@ public class Auto implements Serializable {
 	private boolean deaktiviert = false;
 
 	// Konstruktor für Autos
-	public Auto(String marke, String treibstoff, String getriebe, String farbe, double kostenProTag) {
+	public Auto(String marke, String getriebe, String treibstoff, String farbe, double kostenProTag) {
 		setMarke(marke);
-		setTreibstoff(treibstoff);
 		setGetriebe(getriebe);
+		setTreibstoff(treibstoff);
 		setFarbe(farbe);
 		setKostenProTag(kostenProTag);
 	}
@@ -87,6 +89,7 @@ public class Auto implements Serializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		JOptionPane.showMessageDialog(null, "Das Auto wurde unter der ID " + varAuto.getId() + " registriert");
 	}
 
 	// Getters und Setters

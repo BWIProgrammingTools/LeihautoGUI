@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 public class Reservation implements Serializable {
 
 	private static final long serialVersionUID = -299482035708790407L;
@@ -29,6 +31,8 @@ public class Reservation implements Serializable {
 	private double verzugskosten = 0;
 	private double sicherheitsLeistung = 1000.00; // doppelt bei reparaturen und hier
 	private double reparaturKosten = 0;
+	private double sonstigeKosten = 0;
+	private int anzahlVerzugsTage = 0;
 
 	// Konstruktor für Reservation
 	public Reservation(int autoID, int kundenNummer, String fahrerVorname, String fahrerNachname,
@@ -166,13 +170,31 @@ public class Reservation implements Serializable {
 		this.verzugskosten = verzugskosten;
 	}
 
+	public int getAnzahlVerzugsTage() {
+		return anzahlVerzugsTage;
+	}
+
+	public void setAnzahlVerzugsTage(int anzahlVerzugsTage) {
+		this.anzahlVerzugsTage = anzahlVerzugsTage;
+	}
+
+	public double getSonstigeKosten() {
+		return sonstigeKosten;
+	}
+
+	public void setSonstigeKosten(double sonstigeKosten) {
+		this.sonstigeKosten = sonstigeKosten;
+	}
+
 	// StringtoString für Anzeige einer Reservation
 	public String toString() {
 		return "ReservationsNummer: " + this.getReservationsID() + ", AutoID: " + this.getAutoID() + ", Kundennummer: "
-				+ this.getKundenNummer() + ", Reservationskosten: " + this.getReservationsKosten() + ", Verzugskosten: "
-				+ this.verzugskosten + ", Endkosten: " + this.endkosten + ", needsReparatur: " + this.isInReparatus()
-				+ ", ist Gereinigt: " + this.isIstGereinigt() + ", Von= " + this.reservationVon.getTime() + ", Bis= "
-				+ this.reservationBis.getTime();
+				+ this.getKundenNummer() + ", Reservationskosten: " + this.getReservationsKosten()
+				+ ", Reparaturkosten: " + this.getReparaturKosten() + ", Anzahl Verzugstage: "
+				+ this.getAnzahlVerzugsTage() + ", Verzugskosten: " + this.getVerzugskosten() + ", sonstige Kosten: "
+				+ this.getSonstigeKosten() + ", Endkosten: " + this.endkosten + ", needsReparatur: "
+				+ this.isInReparatus() + ", ist Gereinigt: " + this.isIstGereinigt() + ", Von= "
+				+ this.reservationVon.getTime() + ", Bis= " + this.reservationBis.getTime();
 	}
 
 	// Methode für das erfassen der Reservationen
@@ -200,7 +222,6 @@ public class Reservation implements Serializable {
 		 */
 		for (Reservation existingReservation : importReservationListe) {
 			emptyReservationListe.add(existingReservation);
-			System.out.println(existingReservation);
 			++this.reservationsID;
 		}
 
@@ -209,7 +230,6 @@ public class Reservation implements Serializable {
 		 * befüllten liste angefügt
 		 */
 		emptyReservationListe.add(varReservation);
-		System.out.println(varReservation);
 
 		// hier wird die aktualisierte Reservationsliste wieder herausgeschrieben
 		try {
@@ -223,7 +243,6 @@ public class Reservation implements Serializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }

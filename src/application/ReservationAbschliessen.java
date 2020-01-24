@@ -1,55 +1,34 @@
 package application;
 
 import java.io.FileInputStream;
+
+import org.apache.poi.xwpf.usermodel.Borders;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-import javax.print.DocFlavor.INPUT_STREAM;
 import javax.swing.JOptionPane;
-
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import model.Auto;
 import model.Einzelkunde;
 import model.Firmenkunde;
 import model.Kunde;
 import model.Reservation;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 
 public class ReservationAbschliessen implements Serializable {
 
@@ -60,9 +39,6 @@ public class ReservationAbschliessen implements Serializable {
 
 	@FXML
 	private ComboBox<String> reservationsIDBox;
-
-	@FXML
-	private TextField reparaturkosten;
 
 	@FXML
 	private Button reservationabschliessen;
@@ -113,7 +89,7 @@ public class ReservationAbschliessen implements Serializable {
 	private TextField fuehrerausweisFahrer;
 
 	@FXML
-	private TextField repKosten;
+	private TextField reparaturKosten;
 
 	@FXML
 	private TextField verzugsTage;
@@ -122,6 +98,7 @@ public class ReservationAbschliessen implements Serializable {
 	private TextField sonstigeKosten;
 
 	// initialize für combobox
+	@SuppressWarnings("unchecked")
 	public void initialize() {
 		// hier wird eine leere ArrayList erstellt
 		// hier findet die berechnung der Strings für die Combobox statt
@@ -137,7 +114,7 @@ public class ReservationAbschliessen implements Serializable {
 			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importReservationsListe = (ArrayList) ois.readObject();
+			importReservationsListe = (ArrayList<Reservation>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -167,12 +144,11 @@ public class ReservationAbschliessen implements Serializable {
 		reservationsIDBox.setItems(FXCollections.observableArrayList(strings));
 	}
 
-	private MainAdmin parent;
-
 	public ReservationAbschliessen() {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeReservationsAngaben() {
 		// hier wird eine leere ArrayList erstellt
@@ -184,7 +160,7 @@ public class ReservationAbschliessen implements Serializable {
 			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importReservationsListe = (ArrayList) ois.readObject();
+			importReservationsListe = (ArrayList<Reservation>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -225,7 +201,7 @@ public class ReservationAbschliessen implements Serializable {
 					FileInputStream fis = new FileInputStream("Autoliste.ser");
 					ObjectInputStream ois = new ObjectInputStream(fis);
 					// write object to file
-					importAutoListe = (ArrayList) ois.readObject();
+					importAutoListe = (ArrayList<Auto>) ois.readObject();
 					// closing resources
 					ois.close();
 					fis.close();
@@ -266,7 +242,7 @@ public class ReservationAbschliessen implements Serializable {
 					FileInputStream fis = new FileInputStream("Kundenliste.ser");
 					ObjectInputStream ois = new ObjectInputStream(fis);
 					// write object to file
-					importKundenListe = (ArrayList) ois.readObject();
+					importKundenListe = (ArrayList<Kunde>) ois.readObject();
 					// closing resources
 					ois.close();
 					fis.close();
@@ -302,145 +278,270 @@ public class ReservationAbschliessen implements Serializable {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@FXML
 	public void handleReservationAbschliessenButton(ActionEvent event) {
+		if (reparaturKosten.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null,
+					"Der Betrag für die Reparaturkosten muss erfasst oder auf 0 gesetzt werden");
+		} else if (verzugsTage.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Die Anzahl Verzugstage muss eingegeben oder auf 0 gesetzt werden");
+		} else if (sonstigeKosten.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null,
+					"Der Betrag für die sonstigen Kosten muss erfasst oder auf 0 gesetzt werden");
+		} else {
 
-		// hier wird eine leere ArrayList erstellt
-		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
+			// hier wird eine leere ArrayList erstellt
+			List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
 
-		// hier startet der Import der bestehenden Kundenliste
-		List<Reservation> importReservationsListe = new ArrayList<Reservation>();
-		try {
-			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			// write object to file
-			importReservationsListe = (ArrayList) ois.readObject();
-			// closing resources
-			ois.close();
-			fis.close();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
-		// der leeren Kundenliste angefügt
-		for (Reservation existingReservation : importReservationsListe) {
-			emptyReservationsListe.add(existingReservation);
-		}
+			// hier startet der Import der bestehenden Kundenliste
+			List<Reservation> importReservationsListe = new ArrayList<Reservation>();
+			try {
+				FileInputStream fis = new FileInputStream("Reservationsliste.ser");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				// write object to file
+				importReservationsListe = (ArrayList<Reservation>) ois.readObject();
+				// closing resources
+				ois.close();
+				fis.close();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
+			// der leeren Kundenliste angefügt
+			for (Reservation existingReservation : importReservationsListe) {
+				emptyReservationsListe.add(existingReservation);
+			}
 
-		// hier wird mit einer for Schlaufe durch die importierte Reservationsliste
-		// iteriert
-		for (int i = 0; i < emptyReservationsListe.size(); i++) {
+			// hier wird mit einer for Schlaufe durch die importierte Reservationsliste
+			// iteriert
+			for (int i = 0; i < emptyReservationsListe.size(); i++) {
 
-			// wenn username, email und alter korrekt sind, wird das pw ausgegeben
-			if (emptyReservationsListe.get(i).getReservationsID() == Integer.parseInt(reservationsIDBox.getValue())) {
+				// wenn username, email und alter korrekt sind, wird das pw ausgegeben
+				if (emptyReservationsListe.get(i).getReservationsID() == Integer
+						.parseInt(reservationsIDBox.getValue())) {
 
-				// hier wird der boolean needsReparatur in der Klasse Reservation nach der
-				// Reparatur wieder auf false geändert
-				if (emptyReservationsListe.get(i).isInReparatus() == true) {
-					emptyReservationsListe.get(i).setInReparatus(false);
-					System.out
-							.println("Das Auto der " + emptyReservationsListe.get(i) + " ist aus der Reparatur zurück");
-					// hier werden die entsprechenden Reparaturkosten dem Attribut hinzugefügt und
-					// die Kostenberechung für die Reparatur findet statt
-					emptyReservationsListe.get(i).setReparaturKosten(Double.parseDouble(reparaturkosten.getText()));
-				}
-
-				// hier wird der Status der Reinigung wieder auf true gesetzt
-				emptyReservationsListe.get(i).setIstGereinigt(true);
-				System.out.println("Das Auto der " + emptyReservationsListe.get(i)
-						+ " ist gereinigt und zur Weitervermietung bereit");
-
-				// hier wird eine lokal Variable für die entsprechende AutoID der Reservation
-				// vergeben
-				int autoID = emptyReservationsListe.get(i).getAutoID();
-
-				// hier wird wieder die komplette Autoliste reingeladen, um den boolean
-				// blockiert auf dem Auto mit der entsprechenden ID zu setzen
-
-				// hier wird eine leere ArrayList erstellt
-				List<Auto> emptyAutoListe = new ArrayList<Auto>();
-
-				// hier startet der Import der bestehenden Autoliste
-				List<Auto> importAutoListe = new ArrayList<Auto>();
-				try {
-					FileInputStream fis = new FileInputStream("Autoliste.ser");
-					ObjectInputStream ois = new ObjectInputStream(fis);
-					// write object to file
-					importAutoListe = (ArrayList) ois.readObject();
-					// closing resources
-					ois.close();
-					fis.close();
-				} catch (IOException | ClassNotFoundException e) {
-					e.printStackTrace();
-				}
-				// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
-				// der leeren Autoliste angefügt
-				for (Auto existingAuto : importAutoListe) {
-					emptyAutoListe.add(existingAuto);
-
-				}
-				// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
-				for (int ii = 0; ii < emptyAutoListe.size(); ii++) {
-					// hier wird der boolean blockiert in der Klasse Auto nach der Reparatur wieder
-					// auf false gesetzt
-					// wenn die Reparatur abgeschlossen ist, muss man das wieder ändern (Reservation
-					// beendet Button)
-					if (emptyAutoListe.get(ii).getId() == autoID) {
-						emptyAutoListe.get(ii).setBlockiert(false);
-						System.out.println("Das Auto :" + emptyAutoListe.get(ii) + " ist wieder frei");
-
-						// hier wird eine lokale Variable für die berechnung der verzugskosten erstellt
-						double verzugsKosten = (emptyAutoListe.get(ii).getKostenProTag()
-								* Integer.parseInt(verzugsTage.getText()))
-								+ (100 * Integer.parseInt(verzugsTage.getText()));
-						emptyReservationsListe.get(i).setVerzugskosten(verzugsKosten);
-
-						// hier wird eine lokale Variable für die Restkosten (Reparatur+sonstige Kosten
-						// + Verzugskosten
-						// bestimmt
-						double restKosten = emptyReservationsListe.get(i).getSicherheitsLeistung()
-								- emptyReservationsListe.get(i).getReparaturKosten()
-								- Integer.parseInt(sonstigeKosten.getText()) - verzugsKosten;
-						if (restKosten >= 0) {
-							System.out.println("Dem Kunden muss CHF " + restKosten + " zurückbezahlt werden.");
-						} else {
-							System.out.println(
-									"Dem Kunden muss eine Rechnung über CHF " + restKosten * -1 + " gestellt werden");
-						}
-						emptyReservationsListe.get(i).setEndkosten(restKosten);
+					// hier wird der boolean needsReparatur in der Klasse Reservation nach der
+					// Reparatur wieder auf false geändert
+					if (emptyReservationsListe.get(i).isInReparatus() == true) {
+						emptyReservationsListe.get(i).setInReparatus(false);
+						System.out.println(
+								"Das Auto der " + emptyReservationsListe.get(i) + " ist aus der Reparatur zurück");
+						// hier werden die entsprechenden Reparaturkosten dem Attribut hinzugefügt und
+						// die Kostenberechung für die Reparatur findet statt
+						emptyReservationsListe.get(i).setReparaturKosten(Double.parseDouble(reparaturKosten.getText()));
 					}
-				}
 
-				// hier wird die aktualisierte Autoliste wieder herausgeschrieben
-				try {
-					FileOutputStream fos = new FileOutputStream("Autoliste.ser");
-					ObjectOutputStream oos = new ObjectOutputStream(fos);
-					// write object to file
-					oos.writeObject(emptyAutoListe);
-					// closing resources
-					oos.close();
-					fos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+					// hier wird der Status der Reinigung wieder auf true gesetzt
+					emptyReservationsListe.get(i).setIstGereinigt(true);
+
+					/*
+					 * hier wird eine lokal Variable für die entsprechende AutoID und die KundenID
+					 * der Reservation vergeben
+					 */
+					int autoID = emptyReservationsListe.get(i).getAutoID();
+
+					// hier wird wieder die komplette Autoliste reingeladen, um den boolean
+					// blockiert auf dem Auto mit der entsprechenden ID zu setzen
+
+					// hier wird eine leere ArrayList erstellt
+					List<Auto> emptyAutoListe = new ArrayList<Auto>();
+
+					// hier startet der Import der bestehenden Autoliste
+					List<Auto> importAutoListe = new ArrayList<Auto>();
+					try {
+						FileInputStream fis = new FileInputStream("Autoliste.ser");
+						ObjectInputStream ois = new ObjectInputStream(fis);
+						// write object to file
+						importAutoListe = (ArrayList<Auto>) ois.readObject();
+						// closing resources
+						ois.close();
+						fis.close();
+					} catch (IOException | ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+					// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
+					// der leeren Autoliste angefügt
+					for (Auto existingAuto : importAutoListe) {
+						emptyAutoListe.add(existingAuto);
+
+					}
+					// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
+					for (int ii = 0; ii < emptyAutoListe.size(); ii++) {
+						// hier wird der boolean blockiert in der Klasse Auto nach der Reparatur wieder
+						// auf false gesetzt
+						// wenn die Reparatur abgeschlossen ist, muss man das wieder ändern (Reservation
+						// beendet Button)
+						if (emptyAutoListe.get(ii).getId() == autoID) {
+							emptyAutoListe.get(ii).setBlockiert(false);
+							System.out.println("Das Auto :" + emptyAutoListe.get(ii) + " ist wieder frei");
+
+							// hier wird eine lokale Variable für die berechnung der verzugskosten erstellt
+							double verzugsKosten = (emptyAutoListe.get(ii).getKostenProTag()
+									* Integer.parseInt(verzugsTage.getText()))
+									+ (100 * Integer.parseInt(verzugsTage.getText()));
+							emptyReservationsListe.get(i).setVerzugskosten(verzugsKosten);
+							emptyReservationsListe.get(i).setAnzahlVerzugsTage(Integer.parseInt(verzugsTage.getText()));
+							emptyReservationsListe.get(i).setSonstigeKosten(Integer.parseInt(sonstigeKosten.getText()));
+
+							// hier wird eine lokale Variable für die Restkosten (Reparatur+sonstige Kosten
+							// + Verzugskosten
+							// bestimmt
+							double restKosten = emptyReservationsListe.get(i).getSicherheitsLeistung()
+									- emptyReservationsListe.get(i).getReparaturKosten()
+									- emptyReservationsListe.get(i).getSonstigeKosten()
+									- emptyReservationsListe.get(i).getVerzugskosten();
+							if (restKosten >= 0) {
+								System.out.println("Dem Kunden muss CHF " + restKosten + " zurückbezahlt werden.");
+							} else {
+								System.out.println("Dem Kunden muss eine Rechnung über CHF " + restKosten * -1
+										+ " gestellt werden");
+							}
+							emptyReservationsListe.get(i).setEndkosten(restKosten);
+
+							// .docx Dokument erzeugen
+							@SuppressWarnings("resource")
+							XWPFDocument document = new XWPFDocument();
+
+							XWPFParagraph paragraph1 = document.createParagraph();
+							XWPFRun run1 = paragraph1.createRun();
+							run1.setText("Abschlussbestätigung der Reservation ID: "
+									+ emptyReservationsListe.get(i).getReservationsID());
+							run1.setFontSize(14);
+							run1.setBold(true);
+							paragraph1.setBorderTop(Borders.BASIC_THIN_LINES);
+							paragraph1.setBorderBottom(Borders.BASIC_THIN_LINES);
+							paragraph1.setAlignment(ParagraphAlignment.CENTER);
+
+							XWPFParagraph paragraph2 = document.createParagraph();
+							XWPFRun run2 = paragraph2.createRun();
+							run2.addBreak();
+							run2.addBreak();
+							run2.addBreak();
+							run2.setText(
+									"Die Reservation ist abgeschlossen und die Kosten belaufen sich auf nachfolgende Beträge.");
+
+							XWPFParagraph paragraph3 = document.createParagraph();
+							XWPFRun run3 = paragraph3.createRun();
+							run3.setText("Reservationskosten: CHF " + gesamtKosten.getText());
+							run3.addBreak();
+							run3.setText("Dieser Betrag wurde bereits beglichen.");
+							paragraph3.setNumID(BigInteger.ONE);
+
+							XWPFParagraph paragraph4 = document.createParagraph();
+							XWPFRun run4 = paragraph4.createRun();
+							run4.setText("Sicherheitsleistung: CHF "
+									+ emptyReservationsListe.get(i).getSicherheitsLeistung());
+							run4.addBreak();
+							run4.setText(
+									"Dieser Betrag wurde als Anzahlung für möglich anfallende weitere Kosten hinterlegt.");
+							paragraph4.setNumID(BigInteger.ONE);
+
+							if (emptyReservationsListe.get(i).getReparaturKosten() != 0) {
+								XWPFParagraph paragraph5 = document.createParagraph();
+								XWPFRun run5 = paragraph5.createRun();
+								run5.setText(
+										"Reparaturkosten: CHF " + emptyReservationsListe.get(i).getReparaturKosten());
+								paragraph5.setNumID(BigInteger.ONE);
+							}
+
+							if (emptyReservationsListe.get(i).getVerzugskosten() != 0) {
+								XWPFParagraph paragraph6 = document.createParagraph();
+								XWPFRun run6 = paragraph6.createRun();
+								run6.addBreak();
+								run6.setText("Verzugskosten: CHF " + emptyReservationsListe.get(i).getVerzugskosten());
+								run6.addBreak();
+								run6.setText(
+										"Dieser Betrag berechnet sich anhand des Tagespreises + Aufschlag von CHF 100.00 x Verzugstage");
+								paragraph6.setNumID(BigInteger.ONE);
+							}
+
+							if (emptyReservationsListe.get(i).getSonstigeKosten() != 0) {
+								XWPFParagraph paragraph7 = document.createParagraph();
+								XWPFRun run7 = paragraph7.createRun();
+								run7.setText(
+										"Weitere Kosten: CHF " + emptyReservationsListe.get(i).getSonstigeKosten());
+								run7.addBreak();
+								run7.setText("Diese Kosten sind durch die Verletzung der AGBs entstanden");
+								run7.addBreak();
+								paragraph7.setNumID(BigInteger.ONE);
+							}
+
+							XWPFParagraph paragraph8 = document.createParagraph();
+							XWPFRun run8 = paragraph8.createRun();
+							if (restKosten < 0) {
+								run8.setText("Ihre Schulden betragen CHF " + restKosten * -1);
+								run8.addBreak();
+								run8.addBreak();
+								run8.setText(
+										"Bitte überweisen Sie den ausstehenden Betrag innert 30 Tagen gemäss beiliegendem Einzahlungsschein.");
+							} else {
+								run8.addBreak();
+								run8.setText("Ihr Guthaben beträgt CHF " + restKosten);
+								run8.addBreak();
+								run8.addBreak();
+								run8.setText("Wir werden Ihnen das Guthaben schnellstmöglich zurückerstatten.");
+							}
+							run8.addBreak();
+							run8.addBreak();
+							run8.setText("Besten Dank für Ihre Reservation.");
+							run8.addBreak();
+							run8.addBreak();
+							run8.addBreak();
+							run8.setText("Leihauto Team");
+
+							try {
+								FileOutputStream output = new FileOutputStream(
+										"C:\\Users\\ninos\\OneDrive\\Desktop\\Leihautodocs\\Abschlussdocs\\"
+												+ emptyReservationsListe.get(i).getReservationsID()
+												+ "_Abschlussdokument.docx");
+								document.write(output);
+								output.close();
+
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					}
+
+					// hier wird die aktualisierte Autoliste wieder herausgeschrieben
+					try {
+						FileOutputStream fos = new FileOutputStream("Autoliste.ser");
+						ObjectOutputStream oos = new ObjectOutputStream(fos);
+						// write object to file
+						oos.writeObject(emptyAutoListe);
+						// closing resources
+						oos.close();
+						fos.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					System.out.println("Das Auto der " + emptyReservationsListe.get(i)
+							+ " ist gereinigt und zur Weitervermietung bereit");
+
+					// Close Kommentar
+					JOptionPane.showMessageDialog(null, "Die Reservation mit der Nummer "
+							+ emptyReservationsListe.get(i).getReservationsID()
+							+ " wurde abgeschlossen\nDas Abschlussdokument wurde abgespeichert und steht zum Ausdruck bereit.");
 				}
 
 			}
 
-		}
+			// hier wird die aktualisierte Reservationsliste wieder herausgeschrieben
+			try {
+				FileOutputStream fos = new FileOutputStream("Reservationsliste.ser");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				// write object to file
+				oos.writeObject(emptyReservationsListe);
+				// closing resources
+				oos.close();
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
-		// hier wird die aktualisierte Reservationsliste wieder herausgeschrieben
-		try {
-			FileOutputStream fos = new FileOutputStream("Reservationsliste.ser");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			// write object to file
-			oos.writeObject(emptyReservationsListe);
-			// closing resources
-			oos.close();
-			fos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+			// Fenster schliessen
+			((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
 		}
-		((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
 	}
-
 }

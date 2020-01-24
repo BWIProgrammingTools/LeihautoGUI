@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -85,7 +86,7 @@ public class RegistrationFirma {
 	// 4. added das Objekt ebenfalls der ArrayList
 	// 5. exportiert die neue ArrayList wieder als Kundenliste
 	@FXML
-	public void handleRegistrationAbschliessenFirmenkundenButton() {
+	public void handleRegistrationAbschliessenFirmenkundenButton(ActionEvent event) {
 		/*
 		 * username zuerst auf false setzen, sofern nach dem Drücken auf den Button auf
 		 * true gesetzt wurde
@@ -135,13 +136,16 @@ public class RegistrationFirma {
 					|| kkAblaufdatum.getText().isEmpty() || kkPruefnummer.getText().isEmpty()
 					|| firmenname.getText().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Es müssen alle Felder ausgefüllt werden");
-			} else {
+			} else if (Integer.parseInt(alter.getText()) > 1700) {
 				Kunde varfirmenkunde = new Firmenkunde(strasseUndNummer.getText(), ort.getText(),
 						Integer.parseInt(plz.getText()), land.getText(), Integer.parseInt(alter.getText()),
 						telefonNummer.getText(), email.getText(), username.getText(), passwort.getText(),
 						kkInhaber.getText(), Long.parseLong(kkNummer.getText()), kkAblaufdatum.getText(),
 						Integer.parseInt(kkPruefnummer.getText()), firmenname.getText());
 				varfirmenkunde.registration(varfirmenkunde);
+				((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
+			} else {
+				JOptionPane.showMessageDialog(null, "Das Gründungsjahr muss korrekt angegeben werden");
 			}
 		}
 	}

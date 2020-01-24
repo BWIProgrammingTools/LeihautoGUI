@@ -60,8 +60,6 @@ public class KundenPortal implements Serializable {
 	@FXML
 	private TextField email;
 	@FXML
-	private TextField username;
-	@FXML
 	private TextField passwort;
 	@FXML
 	private TextField kkNummer;
@@ -154,7 +152,6 @@ public class KundenPortal implements Serializable {
 				alter.setText(String.valueOf(emptyKundenListe.get(i).getAlter()));
 				telefonNummer.setText(emptyKundenListe.get(i).getTelefonNummer());
 				email.setText(emptyKundenListe.get(i).getEmail());
-				username.setText(emptyKundenListe.get(i).getUsername());
 				passwort.setText(emptyKundenListe.get(i).getPassword());
 				kkNummer.setText(String.valueOf(emptyKundenListe.get(i).getKkNummer()));
 				kkInhaber.setText(emptyKundenListe.get(i).getKkInhaber());
@@ -193,8 +190,7 @@ public class KundenPortal implements Serializable {
 		int monthBis = (reservierenBis.getValue().getMonthValue()) - 1;
 		int dayBis = reservierenBis.getValue().getDayOfMonth();
 		GregorianCalendar kalenderBis = new GregorianCalendar(yearBis, monthBis, dayBis);
-		System.out.println(kalenderVon.getTime());
-		System.out.println(kalenderBis.getTime());
+
 		// hier wird das bis Datum in eine Liste geschrieben
 		try {
 			FileOutputStream fos = new FileOutputStream("KalenderBis.ser");
@@ -237,7 +233,8 @@ public class KundenPortal implements Serializable {
 				// dieser Vergleich sollte die belegten Autos der Liste im angegebenen Zeitaum
 				// ausgeben
 				if (kalenderVon.before(emptyReservationsListe.get(i).getReservationBis())
-						&& kalenderBis.after(emptyReservationsListe.get(i).getReservationVon())) {
+						&& kalenderBis.after(emptyReservationsListe.get(i).getReservationVon())
+						&& emptyReservationsListe.get(i).isIstGereinigt() == false) {
 
 					// hier wird die entsprechende AutoID, welche reserviert ist der ArrayListe
 					// reservierteID geadded
@@ -335,7 +332,6 @@ public class KundenPortal implements Serializable {
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
 			importKundenListe = (ArrayList) ois.readObject();
-			System.out.println("Import Done");
 			// closing resources
 			ois.close();
 			fis.close();
@@ -353,6 +349,13 @@ public class KundenPortal implements Serializable {
 			// hier werden die aktuellen Kundendaten in die entsprechenden Textfelder
 			// übertragen
 			if (emptyKundenListe.get(i).getKundenNummer() == eingeloggterUserID) {
+				if (strasseUndNummer.getText().isEmpty() || ort.getText().isEmpty() || plz.getText().isEmpty()
+						|| land.getText().isEmpty() || alter.getText().isEmpty() || telefonNummer.getText().isEmpty()
+						|| email.getText().isEmpty() || passwort.getText().isEmpty() || kkInhaber.getText().isEmpty()
+						|| kkNummer.getText().isEmpty() || kkAblaufdatum.getText().isEmpty()
+						|| kkPruefnummer.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Es müssen alle Felder ausgefüllt werden");
+				} else
 				// hier werden die Werte wieder unter dem entsprechenden Kunden gespeichert
 				if (Integer.parseInt(alter.getText()) > 17 && emptyKundenListe.get(i) instanceof Einzelkunde) {
 					emptyKundenListe.get(i).setAlter(Integer.parseInt(alter.getText()));
@@ -362,17 +365,16 @@ public class KundenPortal implements Serializable {
 					emptyKundenListe.get(i).setLand(land.getText());
 					emptyKundenListe.get(i).setTelefonNummer(telefonNummer.getText());
 					emptyKundenListe.get(i).setEmail(email.getText());
-					emptyKundenListe.get(i).setUsername(username.getText());
 					emptyKundenListe.get(i).setPassword(passwort.getText());
 					emptyKundenListe.get(i).setKkNummer(Long.parseLong(kkNummer.getText()));
 					emptyKundenListe.get(i).setKkInhaber(kkInhaber.getText());
 					emptyKundenListe.get(i).setKkAblaufdatum(kkAblaufdatum.getText());
 					emptyKundenListe.get(i).setKkPruefnummer(Integer.parseInt(kkPruefnummer.getText()));
+					JOptionPane.showMessageDialog(null, "Die Kundendaten wurden erfolgreich geändert");
 				} else {
 					JOptionPane.showMessageDialog(null, "Sie müssen mindestens 18 Jahre alt sein");
 				}
 			}
-			System.out.println(emptyKundenListe.get(i));
 		}
 
 		// hier wird die aktualisierte kundenliste wieder herausgeschrieben
@@ -381,7 +383,6 @@ public class KundenPortal implements Serializable {
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			// write object to file
 			oos.writeObject(emptyKundenListe);
-			System.out.println("Export Done");
 			// closing resources
 			oos.close();
 			fos.close();

@@ -1,6 +1,7 @@
 package application;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -9,6 +10,12 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+
+import org.apache.poi.xwpf.usermodel.Borders;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -338,6 +345,76 @@ public class AutoReservieren implements Serializable {
 					Long.parseLong(fuehrerscheinField.getText()), kalenderVon, kalenderBis,
 					Double.parseDouble(reservationsKosten.getText()));
 			varReservation.ReservationErfassen(varReservation);
+
+			// .docx Dokument erzeugen
+			@SuppressWarnings("resource")
+			XWPFDocument document = new XWPFDocument();
+
+			XWPFParagraph paragraph1 = document.createParagraph();
+			XWPFRun run1 = paragraph1.createRun();
+			run1.setText("Reservationsbestätigung");
+			run1.setFontSize(14);
+			run1.setBold(true);
+			paragraph1.setBorderTop(Borders.BASIC_THIN_LINES);
+			paragraph1.setBorderBottom(Borders.BASIC_THIN_LINES);
+			paragraph1.setAlignment(ParagraphAlignment.CENTER);
+			
+
+			XWPFParagraph paragraph2 = document.createParagraph();
+			XWPFRun run2 = paragraph2.createRun();
+			run2.addBreak();
+			run2.addBreak();
+			run2.addBreak();
+			run2.setText("Gerne bestätigen wir Ihnen die Reservation mit folgenden Angaben.");
+			run2.addBreak();
+			run2.addBreak();
+			run2.setText("Ihre Reservationsnummer lautet: " + varReservation.getReservationsID());
+			run2.addBreak();
+			run2.addBreak();
+			run2.setText("Sie haben sich für das Auto der Marke " + autoMarkeField.getText() + " mit der Farbe "
+					+ autoFarbeField.getText() + " entschieden.");
+			run2.addBreak();
+			if (autoTreibstoffField.getText().compareTo("Hybrid") == 0) {
+				run2.setText("Das Getriebe ist ein " + autoGetriebeField.getText()
+						+ " und es handelt sich um ein hybrides Fahrzeug.");
+			} else {
+				run2.setText("Beim Getriebe handelt es sich um ein " + autoGetriebeField.getText()
+						+ " und der Treibstoff ist " + autoTreibstoffField.getText() + ".");
+			}
+			run2.addBreak();
+			run2.addBreak();
+			run2.setText(
+					"Das Auto ist vom " + kalenderVon.getTime() + " bis zum " + kalenderBis.getTime() + " reserviert.");
+			run2.addBreak();
+			run2.setText("Die Reservationskosten betragen CHF " + varReservation.getReservationsKosten()
+					+ ". Zusätzlich wird Ihnen eine Sicherheitsleistung von CHF "
+					+ varReservation.getSicherheitsLeistung() + " belastet.");
+			run2.addBreak();
+			run2.addBreak();
+			run2.setText(
+					"Für einen allfälligen Rückgabeverzug berechnen wir eine Verzugspauschale von CHF 100.00 plus der üblichen Reservationskosten pro Tag.");
+			run2.addBreak();
+			run2.addBreak();
+			run2.setText("Für die Nichteinhaltung unserer AGBs können weitere Kosten anfallen.");
+			run2.addBreak();
+			run2.addBreak();
+			run2.setText("Besten Dank für Ihre Reservation.");
+			run2.addBreak();
+			run2.addBreak();
+			run2.addBreak();
+			run2.setText("Leihauto Team");
+
+			try {
+				FileOutputStream output = new FileOutputStream(
+						"C:\\Users\\ninos\\OneDrive\\Desktop\\Leihautodocs\\Reservationsdocs\\"
+								+ varReservation.getReservationsID() + "_Reservationsdokument.docx");
+				document.write(output);
+				output.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 			// event, dass fenster geschlossen wird
 			((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
 		}
