@@ -6,50 +6,22 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
-import javax.print.DocFlavor.INPUT_STREAM;
 import javax.swing.JOptionPane;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import model.Auto;
 import model.Einzelkunde;
 import model.Firmenkunde;
 import model.Kunde;
-import model.Reservation;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
 public class KundeSperren implements Serializable {
@@ -87,6 +59,7 @@ public class KundeSperren implements Serializable {
 	private Button kundesperren;
 
 	// initialize für combobox
+	@SuppressWarnings("unchecked")
 	public void initialize() {
 		// hier findet die berechnung der Strings für die Combobox statt
 		// Liste für Dropdown
@@ -101,7 +74,7 @@ public class KundeSperren implements Serializable {
 			FileInputStream fis = new FileInputStream("Kundenliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importKundenListe = (ArrayList) ois.readObject();
+			importKundenListe = (ArrayList<Kunde>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -126,12 +99,11 @@ public class KundeSperren implements Serializable {
 		kundenIDBox.setItems(FXCollections.observableArrayList(strings));
 	}
 
-	private MainAdmin parent;
-
 	public KundeSperren() {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeKunde() {
 		// hier wird eine leere ArrayList erstellt
@@ -143,7 +115,7 @@ public class KundeSperren implements Serializable {
 			FileInputStream fis = new FileInputStream("Kundenliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importKundenListe = (ArrayList) ois.readObject();
+			importKundenListe = (ArrayList<Kunde>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -170,10 +142,10 @@ public class KundeSperren implements Serializable {
 				kundenOrtField.setText(emptyKundenListe.get(i).getOrt());
 
 			} else if (emptyKundenListe.get(i).getKundenNummer() == Integer.parseInt(kundenIDBox.getValue())
-					&& emptyKundenListe.get(i) instanceof Firmenkunde){
+					&& emptyKundenListe.get(i) instanceof Firmenkunde) {
 				kundenNameField.setText("");
 				kundenVornameField.setText("");
-				firmenNameField.setText(((Firmenkunde)emptyKundenListe.get(i)).getFirmenname());
+				firmenNameField.setText(((Firmenkunde) emptyKundenListe.get(i)).getFirmenname());
 				kundenStrasseField.setText(emptyKundenListe.get(i).getStrasseUndNummer());
 				kundenPLZField.setText(String.valueOf(emptyKundenListe.get(i).getPlz()));
 				kundenOrtField.setText(emptyKundenListe.get(i).getOrt());
@@ -182,6 +154,7 @@ public class KundeSperren implements Serializable {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@FXML
 	public void handleKundeSperrenButton(ActionEvent event) {
 		// hier wird eine leere ArrayList erstellt
@@ -193,7 +166,7 @@ public class KundeSperren implements Serializable {
 			FileInputStream fis = new FileInputStream("Kundenliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importKundenListe = (ArrayList) ois.readObject();
+			importKundenListe = (ArrayList<Kunde>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -212,9 +185,10 @@ public class KundeSperren implements Serializable {
 			// hier wird der entsprechende Kunde gemäss ID gesperrt
 			if (emptyKundenListe.get(i).getKundenNummer() == Integer.parseInt(kundenIDBox.getValue())) {
 				emptyKundenListe.get(i).lockKunde(sperrgrund.getText().toString());
-				System.out.println(
-						"Der Kunde :" + emptyKundenListe.get(i) + " wurde mit folgender Begründung deaktiviert:");
-				System.out.println(emptyKundenListe.get(i).getLockReason());
+
+				// Messagebox vor dem Schliessen
+				JOptionPane.showMessageDialog(null, "Der Kunde mit der ID " + emptyKundenListe.get(i).getKundenNummer()
+						+ " wurde blockiert.\nGrund dafür ist: " + emptyKundenListe.get(i).getLockReason());
 			}
 		}
 
@@ -230,6 +204,8 @@ public class KundeSperren implements Serializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		// hier wird das Fenster geschlossen
 		((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
 	}
 }

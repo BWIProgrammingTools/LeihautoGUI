@@ -71,9 +71,11 @@ public class AutoReservieren implements Serializable {
 	private Button handleAutoReservierenButton;
 
 	// funktioniert nicht als lokale Variable, deshalb hier
-	public int eingeloggterUserID;
+	private int eingeloggterUserID;
+	private String mail;
 
 	// initialize des Fensters
+	@SuppressWarnings("unchecked")
 	public void initialize() {
 		// hier findet die berechnung der Strings für die Combobox statt
 
@@ -89,7 +91,7 @@ public class AutoReservieren implements Serializable {
 			FileInputStream fis = new FileInputStream("FreieAutosListe.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importFreieAutoListe = (ArrayList) ois.readObject();
+			importFreieAutoListe = (ArrayList<Integer>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -127,7 +129,7 @@ public class AutoReservieren implements Serializable {
 			FileInputStream fis = new FileInputStream("EingeloggterUserList.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			eingeloggterUserIDList = (ArrayList) ois.readObject();
+			eingeloggterUserIDList = (ArrayList<Integer>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -150,7 +152,7 @@ public class AutoReservieren implements Serializable {
 			FileInputStream fis = new FileInputStream("Kundenliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importKundenListe = (ArrayList) ois.readObject();
+			importKundenListe = (ArrayList<Kunde>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -223,6 +225,7 @@ public class AutoReservieren implements Serializable {
 	}
 
 	// Methode für Anzeige der Autos
+	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeAuto() {
 
@@ -235,7 +238,7 @@ public class AutoReservieren implements Serializable {
 			FileInputStream fis = new FileInputStream("Autoliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importAutoListe = (ArrayList) ois.readObject();
+			importAutoListe = (ArrayList<Auto>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -307,6 +310,7 @@ public class AutoReservieren implements Serializable {
 	}
 
 	/** Methode für den AutoReservierenButton */
+	@SuppressWarnings("unchecked")
 	public void handleAutoReservierenButton(ActionEvent event) {
 		if (fahrerVornameField.getText().isEmpty() || fahrerNachnameField.getText().isEmpty()
 				|| fuehrerscheinField.getText().isEmpty()) {
@@ -358,7 +362,6 @@ public class AutoReservieren implements Serializable {
 			paragraph1.setBorderTop(Borders.BASIC_THIN_LINES);
 			paragraph1.setBorderBottom(Borders.BASIC_THIN_LINES);
 			paragraph1.setAlignment(ParagraphAlignment.CENTER);
-			
 
 			XWPFParagraph paragraph2 = document.createParagraph();
 			XWPFRun run2 = paragraph2.createRun();
@@ -414,6 +417,45 @@ public class AutoReservieren implements Serializable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
+			/*
+			 * hier wird das entsprechende Mail verschickt (zuerst muss die Kundenliste
+			 * reingeladen werden)
+			 */
+			// hier wird eine leere ArrayList erstellt
+			List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
+
+			// hier startet der Import der bestehenden Kundenliste
+			List<Kunde> importKundenListe = new ArrayList<Kunde>();
+			try {
+				FileInputStream fis = new FileInputStream("Kundenliste.ser");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				// write object to file
+				importKundenListe = (ArrayList<Kunde>) ois.readObject();
+				// closing resources
+				ois.close();
+				fis.close();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+
+			// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
+			// der leeren Kundenliste angefügt
+			for (Kunde existingKunde : importKundenListe) {
+				emptyKundenListe.add(existingKunde);
+			}
+
+			// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
+			for (int i = 0; i < emptyKundenListe.size(); i++) {
+				// hier wird der entsprechende Kunde gemäss ID gesperrt
+				if (emptyKundenListe.get(i).getKundenNummer() == varReservation.getKundenNummer()) {
+					mail = emptyKundenListe.get(i).getEmail();
+				}
+			}
+			//Message vor dem Schliessen des Fensters
+			JOptionPane.showMessageDialog(null, "Das Auto wurde reserviert.\nSie erhalten in Kürze eine Reservationsbestätigung.");
+			//hier wird das Mail versandt
+			JavaMail.sendReservationsbestaetigung(mail, varReservation.getReservationsID());
 
 			// event, dass fenster geschlossen wird
 			((Stage) (((Button) event.getSource()).getScene().getWindow())).close();

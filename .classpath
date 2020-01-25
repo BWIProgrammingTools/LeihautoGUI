@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="C:/Users/ninos/OneDrive/Desktop/poi-4.1.1/ooxml-lib/xmlbeans-3.1.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/ninos/OneDrive/Desktop/poi-4.1.1/lib/commons-collections4-4.4.jar"/>
 	<classpathentry kind="lib" path="C:/Users/ninos/OneDrive/Desktop/poi-4.1.1/lib/commons-compress-1.19.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ninos/OneDrive/Desktop/javax.mail.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

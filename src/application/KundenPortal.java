@@ -7,28 +7,23 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Auto;
 import model.Einzelkunde;
+import model.Firmenkunde;
 import model.Kunde;
 import model.Reservation;
 
@@ -87,12 +82,11 @@ public class KundenPortal implements Serializable {
 	// funktioniert nicht als lokale Variable, deshalb hier
 	public int eingeloggterUserID;
 
-	private MainAdmin parent;
-
 	public KundenPortal() {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public void initialize() {
 		// hier findet die berechnung der Fahrerfelder statt
 		// zuerst wird die LoginID hereingeladen (muss über die ArrayListe geschehen,
@@ -103,7 +97,7 @@ public class KundenPortal implements Serializable {
 			FileInputStream fis = new FileInputStream("EingeloggterUserList.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			eingeloggterUserIDList = (ArrayList) ois.readObject();
+			eingeloggterUserIDList = (ArrayList<Integer>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -127,7 +121,7 @@ public class KundenPortal implements Serializable {
 			FileInputStream fis = new FileInputStream("Kundenliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importKundenListe = (ArrayList) ois.readObject();
+			importKundenListe = (ArrayList<Kunde>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -161,6 +155,7 @@ public class KundenPortal implements Serializable {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void handleFreieAutosButton() throws IOException {
 		// zuerst werden die ArrayListen gecleared, damit bei doppelter Ausführung die
 		// Liste nicht mit doppelten Elementen befüllt wird
@@ -213,7 +208,7 @@ public class KundenPortal implements Serializable {
 				FileInputStream fis = new FileInputStream("Reservationsliste.ser");
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				// write object to file
-				importReservationsListe = (ArrayList) ois.readObject();
+				importReservationsListe = (ArrayList<Reservation>) ois.readObject();
 				// closing resources
 				ois.close();
 				fis.close();
@@ -252,7 +247,7 @@ public class KundenPortal implements Serializable {
 				FileInputStream fis = new FileInputStream("Autoliste.ser");
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				// write object to file
-				importAutoListe = (ArrayList) ois.readObject();
+				importAutoListe = (ArrayList<Auto>) ois.readObject();
 				// closing resources
 				ois.close();
 				fis.close();
@@ -321,6 +316,7 @@ public class KundenPortal implements Serializable {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public void handleKundendatenAendernButton() {
 		// hier wird eine leere ArrayList erstellt
 		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
@@ -331,7 +327,7 @@ public class KundenPortal implements Serializable {
 			FileInputStream fis = new FileInputStream("Kundenliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importKundenListe = (ArrayList) ois.readObject();
+			importKundenListe = (ArrayList<Kunde>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -371,8 +367,25 @@ public class KundenPortal implements Serializable {
 					emptyKundenListe.get(i).setKkAblaufdatum(kkAblaufdatum.getText());
 					emptyKundenListe.get(i).setKkPruefnummer(Integer.parseInt(kkPruefnummer.getText()));
 					JOptionPane.showMessageDialog(null, "Die Kundendaten wurden erfolgreich geändert");
-				} else {
+				} else if (Integer.parseInt(alter.getText()) > 1700 && emptyKundenListe.get(i) instanceof Firmenkunde) {
+					emptyKundenListe.get(i).setAlter(Integer.parseInt(alter.getText()));
+					emptyKundenListe.get(i).setStrasseUndNummer(strasseUndNummer.getText());
+					emptyKundenListe.get(i).setPlz(Integer.parseInt(plz.getText()));
+					emptyKundenListe.get(i).setOrt(ort.getText());
+					emptyKundenListe.get(i).setLand(land.getText());
+					emptyKundenListe.get(i).setTelefonNummer(telefonNummer.getText());
+					emptyKundenListe.get(i).setEmail(email.getText());
+					emptyKundenListe.get(i).setPassword(passwort.getText());
+					emptyKundenListe.get(i).setKkNummer(Long.parseLong(kkNummer.getText()));
+					emptyKundenListe.get(i).setKkInhaber(kkInhaber.getText());
+					emptyKundenListe.get(i).setKkAblaufdatum(kkAblaufdatum.getText());
+					emptyKundenListe.get(i).setKkPruefnummer(Integer.parseInt(kkPruefnummer.getText()));
+					JOptionPane.showMessageDialog(null, "Die Kundendaten wurden erfolgreich geändert");
+				} else if (emptyKundenListe.get(i) instanceof Einzelkunde) {
+
 					JOptionPane.showMessageDialog(null, "Sie müssen mindestens 18 Jahre alt sein");
+				} else {
+					JOptionPane.showMessageDialog(null, "Das Gründungsjahr muss korrekt angegeben werden");
 				}
 			}
 		}

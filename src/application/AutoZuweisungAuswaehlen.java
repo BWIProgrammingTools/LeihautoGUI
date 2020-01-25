@@ -8,6 +8,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,6 +47,7 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 	public int aktuelleReservationsID;
 
 	// initialize des Fensters
+	@SuppressWarnings("unchecked")
 	public void initialize() {
 
 		// Liste für Dropdown
@@ -59,7 +63,7 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 			FileInputStream fis = new FileInputStream("FreieAutosListe.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importFreieAutoListe = (ArrayList) ois.readObject();
+			importFreieAutoListe = (ArrayList<Integer>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -96,6 +100,7 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 	}
 
 	// Methode für das Beschreiben der Felder
+	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeAuto() {
 
@@ -108,7 +113,7 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 			FileInputStream fis = new FileInputStream("Autoliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importAutoListe = (ArrayList) ois.readObject();
+			importAutoListe = (ArrayList<Auto>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -137,6 +142,7 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 	}
 
 	// Methode für den AutoReservierenButton
+	@SuppressWarnings("unchecked")
 	public void handleAutoZuweisungAuswaehlenButton(ActionEvent event) {
 		// hier findet die berechnung der Fahrerfelder statt
 
@@ -150,7 +156,7 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 			FileInputStream fis = new FileInputStream("aktuelleReservationsID.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			aktuelleReservationsIDList = (ArrayList) ois.readObject();
+			aktuelleReservationsIDList = (ArrayList<Integer>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -176,7 +182,7 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importReservationsListe = (ArrayList) ois.readObject();
+			importReservationsListe = (ArrayList<Reservation>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -199,8 +205,11 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 			if (emptyReservationsListe.get(i).getReservationsID() == aktuelleReservationsID) {
 				emptyReservationsListe.get(i).setAutoID(Integer.parseInt(autoIDBox.getValue()));
 
+				// Message vor dem Schliessen
+				JOptionPane.showMessageDialog(null, "Das Auto mit der ID " + autoIDBox.getValue()
+						+ " wurde der Reservation mit der ID " + aktuelleReservationsID + " neu zugewiesen");
 			}
-			System.out.println(emptyReservationsListe.get(i));
+
 			// hier wird die aktualisierte Reservationsliste wieder herausgeschrieben
 			try {
 				FileOutputStream fos = new FileOutputStream("Reservationsliste.ser");
@@ -214,6 +223,7 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 				e.printStackTrace();
 			}
 		}
+
 		// event dass Fenster geschlossen wird
 		((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
 	}

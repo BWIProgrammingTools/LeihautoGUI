@@ -63,6 +63,7 @@ public class Kunde implements Serializable {
 	}
 
 	// Methode für Kundenregistration
+	@SuppressWarnings("unchecked")
 	public void registration(Kunde varKunde) {
 		// hier wird eine leere ArrayList erstellt
 		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
@@ -73,28 +74,29 @@ public class Kunde implements Serializable {
 			FileInputStream fis = new FileInputStream("Kundenliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importKundenListe = (ArrayList) ois.readObject();
-			System.out.println("Import Done");
+			importKundenListe = (ArrayList<Kunde>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		/* hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
-		 * der leeren Kundenliste angefügt und die ID hochgezählt*/
+		/*
+		 * hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
+		 * der leeren Kundenliste angefügt und die ID hochgezählt
+		 */
 		for (Kunde existingKunde : importKundenListe) {
 			emptyKundenListe.add(existingKunde);
 			System.out.println(existingKunde);
 			++this.kundenNummer;
 		}
 
-		/* hier wird der neue Kunde der ursprünglich leeren aber mittlerweile befüllten
+		/*
+		 * hier wird der neue Kunde der ursprünglich leeren aber mittlerweile befüllten
 		 * liste angefügt
 		 */
 		emptyKundenListe.add(varKunde);
 		System.out.println(varKunde);
-
 
 		// hier wird die aktualisierte kundenliste wieder herausgeschrieben
 		try {
@@ -102,14 +104,14 @@ public class Kunde implements Serializable {
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			// write object to file
 			oos.writeObject(emptyKundenListe);
-			System.out.println("Export Done");
 			// closing resources
 			oos.close();
 			fos.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		JOptionPane.showMessageDialog(null, "Sie haben sich erfolgreich registriert.\nIhre Kundennummer lautet: " + varKunde.getKundenNummer());
+		JOptionPane.showMessageDialog(null,
+				"Sie haben sich erfolgreich registriert.\nIhre Kundennummer lautet: " + varKunde.getKundenNummer());
 	}
 
 	// String to String Methode für Objektanzeige

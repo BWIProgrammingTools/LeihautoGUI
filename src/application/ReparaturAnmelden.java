@@ -6,50 +6,24 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
-import javax.print.DocFlavor.INPUT_STREAM;
 import javax.swing.JOptionPane;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import model.Auto;
 import model.Einzelkunde;
 import model.Firmenkunde;
 import model.Kunde;
 import model.Reservation;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 
 public class ReparaturAnmelden implements Serializable {
 
@@ -101,6 +75,7 @@ public class ReparaturAnmelden implements Serializable {
 	private Button reparaturanmelden;
 
 	// initialize für combobox
+	@SuppressWarnings("unchecked")
 	public void initialize() {
 		// hier wird eine leere ArrayList erstellt
 		// hier findet die berechnung der Strings für die Combobox statt
@@ -116,7 +91,7 @@ public class ReparaturAnmelden implements Serializable {
 			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importReservationsListe = (ArrayList) ois.readObject();
+			importReservationsListe = (ArrayList<Reservation>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -144,12 +119,11 @@ public class ReparaturAnmelden implements Serializable {
 		reservationsIDBox.setItems(FXCollections.observableArrayList(strings));
 	}
 
-	private MainAdmin parent;
-
 	public ReparaturAnmelden() {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeReservationsAngaben() {
 		// hier wird eine leere ArrayList erstellt
@@ -161,7 +135,7 @@ public class ReparaturAnmelden implements Serializable {
 			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importReservationsListe = (ArrayList) ois.readObject();
+			importReservationsListe = (ArrayList<Reservation>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -195,7 +169,7 @@ public class ReparaturAnmelden implements Serializable {
 					FileInputStream fis = new FileInputStream("Autoliste.ser");
 					ObjectInputStream ois = new ObjectInputStream(fis);
 					// write object to file
-					importAutoListe = (ArrayList) ois.readObject();
+					importAutoListe = (ArrayList<Auto>) ois.readObject();
 					// closing resources
 					ois.close();
 					fis.close();
@@ -235,7 +209,7 @@ public class ReparaturAnmelden implements Serializable {
 					FileInputStream fis = new FileInputStream("Kundenliste.ser");
 					ObjectInputStream ois = new ObjectInputStream(fis);
 					// write object to file
-					importKundenListe = (ArrayList) ois.readObject();
+					importKundenListe = (ArrayList<Kunde>) ois.readObject();
 					// closing resources
 					ois.close();
 					fis.close();
@@ -253,8 +227,7 @@ public class ReparaturAnmelden implements Serializable {
 				for (int iii = 0; iii < emptyKundenListe.size(); iii++) {
 					// hier wird der entsprechende Kunde gemäss ID gesperrt
 					if (emptyKundenListe.get(iii).getKundenNummer() == kundenID
-							&& emptyKundenListe.get(iii) instanceof Einzelkunde
-							) {
+							&& emptyKundenListe.get(iii) instanceof Einzelkunde) {
 						kundenNameField.setText(((Einzelkunde) emptyKundenListe.get(iii)).getNachname());
 						kundenVornameField.setText(((Einzelkunde) emptyKundenListe.get(iii)).getVorname());
 						firmenNameField.setText("");
@@ -262,8 +235,7 @@ public class ReparaturAnmelden implements Serializable {
 						kundenPLZField.setText(String.valueOf(emptyKundenListe.get(iii).getPlz()));
 						kundenOrtField.setText(emptyKundenListe.get(iii).getOrt());
 
-					} 
-					else if (emptyKundenListe.get(iii).getKundenNummer() == kundenID
+					} else if (emptyKundenListe.get(iii).getKundenNummer() == kundenID
 							&& emptyKundenListe.get(iii) instanceof Firmenkunde) {
 						kundenNameField.setText("");
 						kundenVornameField.setText("");
@@ -280,6 +252,7 @@ public class ReparaturAnmelden implements Serializable {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@FXML
 	public void handleReparaturAnmeldenButton(ActionEvent event) {
 
@@ -292,7 +265,7 @@ public class ReparaturAnmelden implements Serializable {
 			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importReservationsListe = (ArrayList) ois.readObject();
+			importReservationsListe = (ArrayList<Reservation>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -314,7 +287,6 @@ public class ReparaturAnmelden implements Serializable {
 				// wenn die Reparatur abgeschlossen ist, muss man das wieder ändern (Reservation
 				// beendet Button)
 				emptyReservationsListe.get(i).setInReparatus(true);
-				System.out.println("Das Auto der " + emptyReservationsListe.get(i) + " muss in Reparatur");
 
 				// hier wird eine lokal Variable für die entsprechende AutoID der Reservation
 				// vergeben
@@ -332,7 +304,7 @@ public class ReparaturAnmelden implements Serializable {
 					FileInputStream fis = new FileInputStream("Autoliste.ser");
 					ObjectInputStream ois = new ObjectInputStream(fis);
 					// write object to file
-					importAutoListe = (ArrayList) ois.readObject();
+					importAutoListe = (ArrayList<Auto>) ois.readObject();
 					// closing resources
 					ois.close();
 					fis.close();
@@ -352,8 +324,12 @@ public class ReparaturAnmelden implements Serializable {
 					// beendet Button)
 					if (emptyAutoListe.get(ii).getId() == autoID) {
 						emptyAutoListe.get(ii).setBlockiert(true);
-						;
-						System.out.println("Das Auto :" + emptyAutoListe.get(ii) + " ist nun blockiert");
+
+						// Message vor dem Schliessen
+						// Messagebox vor dem Schliessen
+						JOptionPane.showMessageDialog(null, "Das Auto mit der ID " + emptyAutoListe.get(ii).getId()
+								+ " von der Reservation " + emptyReservationsListe.get(i).getReservationsID()
+								+ "wurde für die Reservation angemeldet.\nBitte die entsprechende Garage kontaktieren.");
 					}
 				}
 

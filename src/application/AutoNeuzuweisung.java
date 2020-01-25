@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -87,6 +88,7 @@ public class AutoNeuzuweisung implements Serializable {
 	List<Integer> alleBlockiertenAutoIDs = new ArrayList<Integer>();
 
 	// initialize des Fensters
+	@SuppressWarnings("unchecked")
 	public void initialize() throws IOException {
 
 		// hier findet die berechnung der Strings für die Combobox statt
@@ -102,7 +104,7 @@ public class AutoNeuzuweisung implements Serializable {
 			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importReservationsListe = (ArrayList) ois.readObject();
+			importReservationsListe = (ArrayList<Reservation>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -142,6 +144,7 @@ public class AutoNeuzuweisung implements Serializable {
 	}
 
 	// methode für den Button
+	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeReservationsAngaben() {
 		// hier wird eine leere ArrayList erstellt
@@ -153,7 +156,7 @@ public class AutoNeuzuweisung implements Serializable {
 			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importReservationsListe = (ArrayList) ois.readObject();
+			importReservationsListe = (ArrayList<Reservation>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -214,7 +217,7 @@ public class AutoNeuzuweisung implements Serializable {
 					FileInputStream fis = new FileInputStream("Kundenliste.ser");
 					ObjectInputStream ois = new ObjectInputStream(fis);
 					// write object to file
-					importKundenListe = (ArrayList) ois.readObject();
+					importKundenListe = (ArrayList<Kunde>) ois.readObject();
 					// closing resources
 					ois.close();
 					fis.close();
@@ -270,7 +273,7 @@ public class AutoNeuzuweisung implements Serializable {
 						FileInputStream fis = new FileInputStream("Autoliste.ser");
 						ObjectInputStream ois = new ObjectInputStream(fis);
 						// write object to file
-						importAutoListe = (ArrayList) ois.readObject();
+						importAutoListe = (ArrayList<Auto>) ois.readObject();
 						// closing resources
 						ois.close();
 						fis.close();
@@ -307,7 +310,8 @@ public class AutoNeuzuweisung implements Serializable {
 	}
 
 	// Methode für die AutoSelektierung
-	public void handleAutoSelektierenButton() throws IOException {
+	@SuppressWarnings("unchecked")
+	public void handleAutoSelektierenButton(ActionEvent event) throws IOException {
 		/*
 		 * zuerst werden die ArrayListen gecleared, damit bei doppelter Ausführung die
 		 * Liste nicht mit doppelten Elementen befüllt wird
@@ -326,7 +330,7 @@ public class AutoNeuzuweisung implements Serializable {
 			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importReservationsListe = (ArrayList) ois.readObject();
+			importReservationsListe = (ArrayList<Reservation>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -360,6 +364,8 @@ public class AutoNeuzuweisung implements Serializable {
 				 */
 				GregorianCalendar kalenderBis = emptyReservationsListe.get(i).getReservationBis();
 
+				//Die Reservationsliste für den Vergleich erneut komplett reingeladen werden
+				
 				// hier wird das bis Datum in eine Liste geschrieben
 				List<Reservation> emptyReservationsListe2 = new ArrayList<Reservation>();
 
@@ -369,7 +375,7 @@ public class AutoNeuzuweisung implements Serializable {
 					FileInputStream fis = new FileInputStream("Reservationsliste.ser");
 					ObjectInputStream ois = new ObjectInputStream(fis);
 					// write object to file
-					importReservationsListe2 = (ArrayList) ois.readObject();
+					importReservationsListe2 = (ArrayList<Reservation>) ois.readObject();
 					// closing resources
 					ois.close();
 					fis.close();
@@ -416,7 +422,7 @@ public class AutoNeuzuweisung implements Serializable {
 					FileInputStream fis = new FileInputStream("Autoliste.ser");
 					ObjectInputStream ois = new ObjectInputStream(fis);
 					// write object to file
-					importAutoListe = (ArrayList) ois.readObject();
+					importAutoListe = (ArrayList<Auto>) ois.readObject();
 					// closing resources
 					ois.close();
 					fis.close();
@@ -490,6 +496,8 @@ public class AutoNeuzuweisung implements Serializable {
 
 			}
 		}
+		// event dass Fenster geschlossen wird
+		((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
 	}
 
 }

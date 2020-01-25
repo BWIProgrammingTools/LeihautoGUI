@@ -8,6 +8,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -53,6 +56,7 @@ public class KundeEntsperren implements Serializable {
 	private Button kundeentsperren;
 
 	// initialize für das Fenster
+	@SuppressWarnings("unchecked")
 	public void initialize() {
 		// hier findet die berechnung der Strings für die Combobox statt
 		// Liste für Dropdown
@@ -67,7 +71,7 @@ public class KundeEntsperren implements Serializable {
 			FileInputStream fis = new FileInputStream("Kundenliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importKundenListe = (ArrayList) ois.readObject();
+			importKundenListe = (ArrayList<Kunde>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -92,12 +96,12 @@ public class KundeEntsperren implements Serializable {
 		kundenIDBox.setItems(FXCollections.observableArrayList(strings));
 	}
 
-	private MainAdmin parent;
 
 	public KundeEntsperren() {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeKunde() {
 		// hier wird eine leere ArrayList erstellt
@@ -109,7 +113,7 @@ public class KundeEntsperren implements Serializable {
 			FileInputStream fis = new FileInputStream("Kundenliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importKundenListe = (ArrayList) ois.readObject();
+			importKundenListe = (ArrayList<Kunde>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -148,6 +152,7 @@ public class KundeEntsperren implements Serializable {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@FXML
 	public void handleKundeEntsperrenButton(ActionEvent event) {
 		// hier wird eine leere ArrayList erstellt
@@ -159,8 +164,7 @@ public class KundeEntsperren implements Serializable {
 			FileInputStream fis = new FileInputStream("Kundenliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importKundenListe = (ArrayList) ois.readObject();
-			System.out.println("Import Done");
+			importKundenListe = (ArrayList<Kunde>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -179,7 +183,10 @@ public class KundeEntsperren implements Serializable {
 			// hier wird der entsprechende Kunde gemäss ID entsperrt
 			if (emptyKundenListe.get(i).getKundenNummer() == Integer.parseInt(kundenIDBox.getValue())) {
 				emptyKundenListe.get(i).unlockKunde();
-				System.out.println("Der Kunde :" + emptyKundenListe.get(i) + " wurde entsperrt");
+
+				// Messagebox vor dem Schliessen
+				JOptionPane.showMessageDialog(null, "Der Kunde mit der ID " + emptyKundenListe.get(i).getKundenNummer()
+						+ " wurde entsperrt.");
 			}
 		}
 
@@ -189,7 +196,6 @@ public class KundeEntsperren implements Serializable {
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			// write object to file
 			oos.writeObject(emptyKundenListe);
-			System.out.println("Export Done");
 			// closing resources
 			oos.close();
 			fos.close();

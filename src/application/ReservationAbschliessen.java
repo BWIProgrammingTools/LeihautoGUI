@@ -97,6 +97,9 @@ public class ReservationAbschliessen implements Serializable {
 	@FXML
 	private TextField sonstigeKosten;
 
+	// Variable, da mit lokaler nicht funktioniert
+	private String mail;
+
 	// initialize für combobox
 	@SuppressWarnings("unchecked")
 	public void initialize() {
@@ -325,8 +328,7 @@ public class ReservationAbschliessen implements Serializable {
 					// Reparatur wieder auf false geändert
 					if (emptyReservationsListe.get(i).isInReparatus() == true) {
 						emptyReservationsListe.get(i).setInReparatus(false);
-						System.out.println(
-								"Das Auto der " + emptyReservationsListe.get(i) + " ist aus der Reparatur zurück");
+
 						// hier werden die entsprechenden Reparaturkosten dem Attribut hinzugefügt und
 						// die Kostenberechung für die Reparatur findet statt
 						emptyReservationsListe.get(i).setReparaturKosten(Double.parseDouble(reparaturKosten.getText()));
@@ -374,7 +376,6 @@ public class ReservationAbschliessen implements Serializable {
 						// beendet Button)
 						if (emptyAutoListe.get(ii).getId() == autoID) {
 							emptyAutoListe.get(ii).setBlockiert(false);
-							System.out.println("Das Auto :" + emptyAutoListe.get(ii) + " ist wieder frei");
 
 							// hier wird eine lokale Variable für die berechnung der verzugskosten erstellt
 							double verzugsKosten = (emptyAutoListe.get(ii).getKostenProTag()
@@ -392,10 +393,17 @@ public class ReservationAbschliessen implements Serializable {
 									- emptyReservationsListe.get(i).getSonstigeKosten()
 									- emptyReservationsListe.get(i).getVerzugskosten();
 							if (restKosten >= 0) {
-								System.out.println("Dem Kunden muss CHF " + restKosten + " zurückbezahlt werden.");
+								// Close Kommentar
+								JOptionPane.showMessageDialog(null, "Die Reservation mit der Nummer "
+										+ emptyReservationsListe.get(i).getReservationsID()
+										+ " wurde abgeschlossen.\nDas Abschlussdokument wurde lokal abgespeichert und dem Kunden per Mail zugestellt.\nDem Kunden muss CHF "
+										+ restKosten + " rückvergütet werden.");
 							} else {
-								System.out.println("Dem Kunden muss eine Rechnung über CHF " + restKosten * -1
-										+ " gestellt werden");
+								// Close Kommentar
+								JOptionPane.showMessageDialog(null, "Die Reservation mit der Nummer "
+										+ emptyReservationsListe.get(i).getReservationsID()
+										+ " wurde abgeschlossen.\nDas Abschlussdokument wurde lokal abgespeichert und dem Kunden per Mail zugestellt.\nDem Kunden muss eine Rechnung über CHF "
+										+ (restKosten * -1) + " gesandt werden.");
 							}
 							emptyReservationsListe.get(i).setEndkosten(restKosten);
 
@@ -477,7 +485,7 @@ public class ReservationAbschliessen implements Serializable {
 										"Bitte überweisen Sie den ausstehenden Betrag innert 30 Tagen gemäss beiliegendem Einzahlungsschein.");
 							} else {
 								run8.addBreak();
-								run8.setText("Ihr Guthaben beträgt CHF " + restKosten);
+								run8.setText("Ihr Restguthaben beträgt CHF " + restKosten);
 								run8.addBreak();
 								run8.addBreak();
 								run8.setText("Wir werden Ihnen das Guthaben schnellstmöglich zurückerstatten.");
@@ -501,6 +509,45 @@ public class ReservationAbschliessen implements Serializable {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
+
+							/*
+							 * hier wird das entsprechende Mail verschickt (zuerst muss die Kundenliste
+							 * reingeladen werden)
+							 */
+							// hier wird eine leere ArrayList erstellt
+							List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
+
+							// hier startet der Import der bestehenden Kundenliste
+							List<Kunde> importKundenListe = new ArrayList<Kunde>();
+							try {
+								FileInputStream fis = new FileInputStream("Kundenliste.ser");
+								ObjectInputStream ois = new ObjectInputStream(fis);
+								// write object to file
+								importKundenListe = (ArrayList<Kunde>) ois.readObject();
+								// closing resources
+								ois.close();
+								fis.close();
+							} catch (IOException | ClassNotFoundException e) {
+								e.printStackTrace();
+							}
+
+							// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
+							// der leeren Kundenliste angefügt
+							for (Kunde existingKunde : importKundenListe) {
+								emptyKundenListe.add(existingKunde);
+							}
+
+							// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
+							for (int iii = 0; iii < emptyKundenListe.size(); iii++) {
+								// hier wird der entsprechende Kunde gemäss ID gesperrt
+								if (emptyKundenListe.get(iii).getKundenNummer() == emptyReservationsListe.get(i)
+										.getKundenNummer()) {
+									mail = emptyKundenListe.get(iii).getEmail();
+								}
+							}
+							// hier wird das Mail versandt
+							JavaMail.sendAbschlussbestaetigung(mail, emptyReservationsListe.get(i).getReservationsID());
+
 						}
 					}
 
@@ -516,13 +563,7 @@ public class ReservationAbschliessen implements Serializable {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					System.out.println("Das Auto der " + emptyReservationsListe.get(i)
-							+ " ist gereinigt und zur Weitervermietung bereit");
 
-					// Close Kommentar
-					JOptionPane.showMessageDialog(null, "Die Reservation mit der Nummer "
-							+ emptyReservationsListe.get(i).getReservationsID()
-							+ " wurde abgeschlossen\nDas Abschlussdokument wurde abgespeichert und steht zum Ausdruck bereit.");
 				}
 
 			}

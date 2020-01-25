@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="517.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AutoZuweisungAuswaehlen">
+   <children>
+      <ComboBox fx:id="autoIDBox" layoutX="164.0" layoutY="55.0" onAction="#zeigeAuto" prefWidth="150.0" promptText="AutoID" />
+      <Button fx:id="autoZuweisungAuswaehlenButton" layoutX="164.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleAutoZuweisungAuswaehlenButton" prefHeight="80.0" prefWidth="150.0" text="Auto zuweisen" />
+      <TextField fx:id="autoMarkeField" editable="false" layoutX="165.0" layoutY="107.0" promptText="Marke" />
+      <TextField fx:id="autoFarbeField" editable="false" layoutX="165.0" layoutY="148.0" promptText="Farbe" />
+      <TextField fx:id="autoGetriebeField" editable="false" layoutX="165.0" layoutY="186.0" promptText="Getriebe" />
+      <TextField fx:id="autoTreibstoffField" editable="false" layoutX="165.0" layoutY="226.0" promptText="Treibstoff" />
+   </children>
+</AnchorPane>

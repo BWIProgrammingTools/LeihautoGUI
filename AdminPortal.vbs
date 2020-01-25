@@ -1,0 +1,1 @@
+CreateObject("Wscript.Shell").Run "AdminPortal.bat", 0, True
