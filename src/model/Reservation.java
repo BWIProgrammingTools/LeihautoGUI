@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 public class Reservation implements Serializable {
 
 	private static final long serialVersionUID = -299482035708790407L;
@@ -29,7 +27,7 @@ public class Reservation implements Serializable {
 	private double reservationsKosten;
 	private double endkosten = 0;
 	private double verzugskosten = 0;
-	private double sicherheitsLeistung = 1000.00; // doppelt bei reparaturen und hier
+	private double sicherheitsLeistung = 1000.00;
 	private double reparaturKosten = 0;
 	private double sonstigeKosten = 0;
 	private int anzahlVerzugsTage = 0;
@@ -47,6 +45,62 @@ public class Reservation implements Serializable {
 		setReservationBis(reservationBis);
 		setReservationsKosten(reservationsKosten);
 		setIstGereinigt(false);
+	}
+
+	// StringtoString für Anzeige einer Reservation
+	public String toString() {
+		return "ReservationsNummer: " + this.getReservationsID() + ", AutoID: " + this.getAutoID() + ", Kundennummer: "
+				+ this.getKundenNummer() + ", Reservationskosten: " + this.getReservationsKosten()
+				+ ", Reparaturkosten: " + this.getReparaturKosten() + ", Anzahl Verzugstage: "
+				+ this.getAnzahlVerzugsTage() + ", Verzugskosten: " + this.getVerzugskosten() + ", sonstige Kosten: "
+				+ this.getSonstigeKosten() + ", Endkosten: " + this.endkosten + ", needsReparatur: "
+				+ this.isInReparatus() + ", ist Gereinigt: " + this.isIstGereinigt() + ", Von= "
+				+ this.reservationVon.getTime() + ", Bis= " + this.reservationBis.getTime();
+	}
+
+	// Methode für das erfassen der Reservationen
+	@SuppressWarnings({ "unchecked", "unused" })
+	public void ReservationErfassen(Reservation varReservation) {
+		// hier startet der Import der bestehenden Reservationsliste
+		List<Reservation> emptyReservationListe = new ArrayList<Reservation>();
+		try {
+			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			// write object to file
+			emptyReservationListe = (ArrayList<Reservation>) ois.readObject();
+			// closing resources
+			ois.close();
+			fis.close();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		/*
+		 * hier werden die Reservationen der bestehenden Liste als Objekte
+		 * herausgefiltert und der leeren Reservationsliste angefügt und die ID nach
+		 * oben gezählt
+		 */
+		for (Reservation existingReservation : emptyReservationListe) {
+			++this.reservationsID;
+		}
+
+		/*
+		 * hier wird die neue Reservation der ursprünglich leeren aber mittlerweile
+		 * befüllten liste angefügt
+		 */
+		emptyReservationListe.add(varReservation);
+
+		// hier wird die aktualisierte Reservationsliste wieder herausgeschrieben
+		try {
+			FileOutputStream fos = new FileOutputStream("Reservationsliste.ser");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			// write object to file
+			oos.writeObject(emptyReservationListe);
+			// closing resources
+			oos.close();
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	// getters und setters
@@ -184,65 +238,6 @@ public class Reservation implements Serializable {
 
 	public void setSonstigeKosten(double sonstigeKosten) {
 		this.sonstigeKosten = sonstigeKosten;
-	}
-
-	// StringtoString für Anzeige einer Reservation
-	public String toString() {
-		return "ReservationsNummer: " + this.getReservationsID() + ", AutoID: " + this.getAutoID() + ", Kundennummer: "
-				+ this.getKundenNummer() + ", Reservationskosten: " + this.getReservationsKosten()
-				+ ", Reparaturkosten: " + this.getReparaturKosten() + ", Anzahl Verzugstage: "
-				+ this.getAnzahlVerzugsTage() + ", Verzugskosten: " + this.getVerzugskosten() + ", sonstige Kosten: "
-				+ this.getSonstigeKosten() + ", Endkosten: " + this.endkosten + ", needsReparatur: "
-				+ this.isInReparatus() + ", ist Gereinigt: " + this.isIstGereinigt() + ", Von= "
-				+ this.reservationVon.getTime() + ", Bis= " + this.reservationBis.getTime();
-	}
-
-	// Methode für das erfassen der Reservationen
-	public void ReservationErfassen(Reservation varReservation) {
-		// hier wird eine leere ArrayList erstellt
-		List<Reservation> emptyReservationListe = new ArrayList<Reservation>();
-
-		// hier startet der Import der bestehenden Reservationsliste
-		List<Reservation> importReservationListe = new ArrayList<Reservation>();
-		try {
-			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			// write object to file
-			importReservationListe = (ArrayList) ois.readObject();
-			// closing resources
-			ois.close();
-			fis.close();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		/*
-		 * hier werden die Reservationen der bestehenden Liste als Objekte
-		 * herausgefiltert und der leeren Reservationsliste angefügt und die ID nach
-		 * oben gezählt
-		 */
-		for (Reservation existingReservation : importReservationListe) {
-			emptyReservationListe.add(existingReservation);
-			++this.reservationsID;
-		}
-
-		/*
-		 * hier wird die neue Reservation der ursprünglich leeren aber mittlerweile
-		 * befüllten liste angefügt
-		 */
-		emptyReservationListe.add(varReservation);
-
-		// hier wird die aktualisierte Reservationsliste wieder herausgeschrieben
-		try {
-			FileOutputStream fos = new FileOutputStream("Reservationsliste.ser");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			// write object to file
-			oos.writeObject(emptyReservationListe);
-			// closing resources
-			oos.close();
-			fos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 }

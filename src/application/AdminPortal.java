@@ -1,43 +1,15 @@
 package application;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.Auto;
-import model.Einzelkunde;
-import model.Kunde;
-import model.Reservation;
 import java.sql.SQLException;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 public class AdminPortal {
 
@@ -59,6 +31,7 @@ public class AdminPortal {
 	@FXML
 	private Button kundeEntsperren;
 
+	@SuppressWarnings("unused")
 	private MainAdmin parent;
 
 

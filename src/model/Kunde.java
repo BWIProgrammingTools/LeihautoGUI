@@ -65,16 +65,13 @@ public class Kunde implements Serializable {
 	// Methode für Kundenregistration
 	@SuppressWarnings("unchecked")
 	public void registration(Kunde varKunde) {
-		// hier wird eine leere ArrayList erstellt
-		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
-
 		// hier startet der Import der bestehenden Kundenliste
-		List<Kunde> importKundenListe = new ArrayList<Kunde>();
+		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
 		try {
 			FileInputStream fis = new FileInputStream("Kundenliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importKundenListe = (ArrayList<Kunde>) ois.readObject();
+			emptyKundenListe = (ArrayList<Kunde>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -85,8 +82,7 @@ public class Kunde implements Serializable {
 		 * hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
 		 * der leeren Kundenliste angefügt und die ID hochgezählt
 		 */
-		for (Kunde existingKunde : importKundenListe) {
-			emptyKundenListe.add(existingKunde);
+		for (Kunde existingKunde : emptyKundenListe) {
 			System.out.println(existingKunde);
 			++this.kundenNummer;
 		}

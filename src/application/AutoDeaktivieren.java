@@ -44,6 +44,7 @@ public class AutoDeaktivieren implements Serializable {
 	private Button handleAutoLoeschenButton;
 
 	// initialize für die Seite
+	@SuppressWarnings("unchecked")
 	public void initialize() {
 		/* hier findet die berechnung der Strings für die Combobox statt */
 
@@ -51,30 +52,20 @@ public class AutoDeaktivieren implements Serializable {
 		List<String> strings = new ArrayList<>();
 		// String markenString = new String();
 
-		// hier wird eine leere ArrayList erstellt
-		List<Auto> emptyAutoListe = new ArrayList<Auto>();
-
 		// hier startet der Import der bestehenden Autoliste
-		List<Auto> importAutoListe = new ArrayList<Auto>();
+		List<Auto> emptyAutoListe = new ArrayList<Auto>();
 		try {
 			FileInputStream fis = new FileInputStream("Autoliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importAutoListe = (ArrayList) ois.readObject();
+			emptyAutoListe = (ArrayList<Auto>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		/*
-		 * hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
-		 * der leeren Autoliste angefügt
-		 */
-		for (Auto existingAuto : importAutoListe) {
-			emptyAutoListe.add(existingAuto);
 
-		}
 		// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
 		for (int i = 0; i < emptyAutoListe.size(); i++) {
 			/*
@@ -97,32 +88,23 @@ public class AutoDeaktivieren implements Serializable {
 	}
 
 	// Methode um diverse Felder im GUI mit Infos zu befüllen
+	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeAuto() {
-		// hier wird eine leere ArrayList erstellt
-		List<Auto> emptyAutoListe = new ArrayList<Auto>();
-
 		// hier startet der Import der bestehenden Autoliste
-		List<Auto> importAutoListe = new ArrayList<Auto>();
+		List<Auto> emptyAutoListe = new ArrayList<Auto>();
 		try {
 			FileInputStream fis = new FileInputStream("Autoliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importAutoListe = (ArrayList) ois.readObject();
+			emptyAutoListe = (ArrayList<Auto>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		/*
-		 * hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
-		 * der leeren Autoliste angefügt
-		 */
-		for (Auto existingAuto : importAutoListe) {
-			emptyAutoListe.add(existingAuto);
 
-		}
 		// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
 		for (int i = 0; i < emptyAutoListe.size(); i++) {
 			// hier werden die entsprechenden Felder beschrieben
@@ -138,32 +120,23 @@ public class AutoDeaktivieren implements Serializable {
 	}
 
 	// Methode für den Button
+	@SuppressWarnings("unchecked")
 	@FXML
 	public void handleAutoDeaktivierenButton(ActionEvent event) {
-		// hier wird eine leere ArrayList erstellt
-		List<Auto> emptyAutoListe = new ArrayList<Auto>();
-
 		// hier startet der Import der bestehenden Autoliste
-		List<Auto> importAutoListe = new ArrayList<Auto>();
+		List<Auto> emptyAutoListe = new ArrayList<Auto>();
 		try {
 			FileInputStream fis = new FileInputStream("Autoliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importAutoListe = (ArrayList) ois.readObject();
+			emptyAutoListe = (ArrayList<Auto>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		/*
-		 * hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
-		 * der leeren Autoliste angefügt
-		 */
-		for (Auto existingAuto : importAutoListe) {
-			emptyAutoListe.add(existingAuto);
 
-		}
 		// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
 		for (int i = 0; i < emptyAutoListe.size(); i++) {
 			// hier wird der boolean deaktiviert des entsprechenden Autos auf true gesetzt

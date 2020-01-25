@@ -42,17 +42,15 @@ public class Auto implements Serializable {
 	}
 
 	// Methode für Autoregistration
+	@SuppressWarnings("unchecked")
 	public void autoErfassen(Auto varAuto) {
-		// hier wird eine leere Autoliste erstellt
-		List<Auto> emptyAutoListe = new ArrayList<Auto>();
-
 		// hier startet der Import der bestehenden Autoliste
-		List<Auto> importAutoListe = new ArrayList<Auto>();
+		List<Auto> emptyAutoListe = new ArrayList<Auto>();
 		try {
 			FileInputStream fis = new FileInputStream("Autoliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importAutoListe = (ArrayList) ois.readObject();
+			emptyAutoListe = (ArrayList<Auto>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
@@ -63,8 +61,7 @@ public class Auto implements Serializable {
 		 * hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
 		 * der leeren Autoliste angefügt und die ID hochgezählt
 		 */
-		for (Auto existingAuto : importAutoListe) {
-			emptyAutoListe.add(existingAuto);
+		for (Auto existingAuto : emptyAutoListe) {
 			System.out.println(existingAuto);
 			++this.id;
 		}
@@ -82,7 +79,6 @@ public class Auto implements Serializable {
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			// write object to file
 			oos.writeObject(emptyAutoListe);
-			System.out.println("Export Done");
 			// closing resources
 			oos.close();
 			fos.close();
