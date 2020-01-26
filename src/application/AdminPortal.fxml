@@ -23,22 +23,22 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="autoErfassen" mnemonicParsing="false" onAction="#handleAutoErfassen" prefHeight="50.0" prefWidth="178.0" text="Auto erfassen">
+            <Button fx:id="autoErfassen" mnemonicParsing="false" onAction="#handleAutoErfassen" prefHeight="50.0" prefWidth="178.0" text="Erfassen">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="autoDeaktivieren" mnemonicParsing="false" onAction="#handleAutoDeaktivieren" prefHeight="50.0" prefWidth="178.0" text="Auto deaktivieren" GridPane.rowIndex="1">
+            <Button fx:id="autoDeaktivieren" mnemonicParsing="false" onAction="#handleAutoDeaktivieren" prefHeight="50.0" prefWidth="178.0" text="Deaktivieren" GridPane.rowIndex="1">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="autoAktivieren" mnemonicParsing="false" onAction="#handleAutoAktivieren" prefHeight="50.0" prefWidth="178.0" text="Auto aktivieren" GridPane.rowIndex="2">
+            <Button fx:id="autoAktivieren" mnemonicParsing="false" onAction="#handleAutoAktivieren" prefHeight="50.0" prefWidth="178.0" text="Aktivieren" GridPane.rowIndex="2">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="autoNeuzuweisen" mnemonicParsing="false" onAction="#handleAutoNeuzuweisen" prefHeight="50.0" prefWidth="178.0" text="Auto neu zuweisen" GridPane.rowIndex="3">
+            <Button fx:id="autoNeuzuweisen" mnemonicParsing="false" onAction="#handleAutoNeuzuweisen" prefHeight="50.0" prefWidth="178.0" text="Neu zuweisen" GridPane.rowIndex="3">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -56,12 +56,12 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="kundeSperren" mnemonicParsing="false" onAction="#handleKundeSperren" prefHeight="50.0" prefWidth="178.0" text="Kunde sperren">
+            <Button fx:id="kundeSperren" mnemonicParsing="false" onAction="#handleKundeSperren" prefHeight="50.0" prefWidth="178.0" text="Sperren">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="kundeEntsperren" mnemonicParsing="false" onAction="#handleKundeEntsperren" prefHeight="50.0" prefWidth="194.0" text="Kunde entsperren" GridPane.rowIndex="1">
+            <Button fx:id="kundeEntsperren" mnemonicParsing="false" onAction="#handleKundeEntsperren" prefHeight="50.0" prefWidth="194.0" text="Entsperren" GridPane.rowIndex="1">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -79,36 +79,52 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="kundeSperren" mnemonicParsing="false" onAction="#handleKundeSperren" prefHeight="50.0" prefWidth="178.0" text="Kunde sperren" />
-            <Button fx:id="kundeEntsperren" mnemonicParsing="false" onAction="#handleKundeEntsperren" prefHeight="50.0" prefWidth="194.0" text="Kunde entsperren" GridPane.rowIndex="1" />
-            <Button fx:id="reparaturAnmelden" mnemonicParsing="false" onAction="#handleReparaturAnmelden" prefHeight="50.0" prefWidth="178.0" text="Reparatur anmelden">
+            <Button fx:id="kundeSperren1" mnemonicParsing="false" onAction="#handleKundeSperren" prefHeight="50.0" prefWidth="178.0" text="Kunde sperren" />
+            <Button fx:id="reparaturAnmelden" mnemonicParsing="false" onAction="#handleReparaturAnmelden" prefHeight="50.0" prefWidth="178.0" text="Anmelden">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="reservationAbschliessen" mnemonicParsing="false" onAction="#handleReservationAbschliessen" prefHeight="50.0" prefWidth="178.0" text="Reservation&#10;abschliessen" GridPane.rowIndex="1">
+            <Button fx:id="reservationAbschliessen" mnemonicParsing="false" onAction="#handleReservationAbschliessen" prefHeight="50.0" prefWidth="178.0" text="Abschliessen" GridPane.rowIndex="3">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
+            <Label alignment="CENTER" prefHeight="38.0" prefWidth="178.0" text="Reservation" textAlignment="CENTER" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </Label>
          </children>
       </GridPane>
-      <Line endX="-5.5" endY="277.0" layoutX="297.0" layoutY="93.0" startX="-5.5" startY="41.0" strokeMiterLimit="1.0" />
-      <Label alignment="CENTER" layoutX="67.0" layoutY="104.0" prefHeight="38.0" prefWidth="178.0" text="Auto" textAlignment="CENTER">
+      <Line endX="-5.5" endY="277.0" layoutX="297.0" layoutY="93.0" startX="-5.5" startY="41.0" strokeMiterLimit="1.0" strokeWidth="2.0" />
+      <Label alignment="CENTER" layoutX="67.0" layoutY="91.0" prefHeight="38.0" prefWidth="178.0" text="Auto" textAlignment="CENTER">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
       </Label>
-      <Line endX="-5.5" endY="277.0" layoutX="556.0" layoutY="91.0" startX="-5.5" startY="41.0" strokeMiterLimit="1.0" />
-      <Label alignment="CENTER" layoutX="333.0" layoutY="104.0" prefHeight="38.0" prefWidth="178.0" text="Kunde" textAlignment="CENTER">
+      <Line endX="-5.5" endY="277.0" layoutX="556.0" layoutY="91.0" startX="-5.5" startY="41.0" strokeMiterLimit="1.0" strokeWidth="2.0" />
+      <Label alignment="CENTER" layoutX="333.0" layoutY="91.0" prefHeight="38.0" prefWidth="178.0" text="Kunde" textAlignment="CENTER">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
       </Label>
-      <Label alignment="CENTER" layoutX="581.0" layoutY="104.0" prefHeight="38.0" prefWidth="178.0" text="Reparatur" textAlignment="CENTER">
+      <Label alignment="CENTER" layoutX="581.0" layoutY="91.0" prefHeight="38.0" prefWidth="178.0" text="Reparatur" textAlignment="CENTER">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
       </Label>
    </children>
 </AnchorPane>

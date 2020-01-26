@@ -66,7 +66,7 @@ public class AdminPortal {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setOpacity(1);
 		stage.setTitle("Auto deaktivieren");
-		stage.setScene(new Scene(root, 700, 700));
+		stage.setScene(new Scene(root, 600, 500));
 		stage.showAndWait();
 
 	}
@@ -81,7 +81,7 @@ public class AdminPortal {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setOpacity(1);
 		stage.setTitle("Auto aktivieren");
-		stage.setScene(new Scene(root, 700, 700));
+		stage.setScene(new Scene(root, 600, 500));
 		stage.showAndWait();
 
 	}
@@ -126,7 +126,7 @@ public class AdminPortal {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setOpacity(1);
 		stage.setTitle("Reservation abschliessen");
-		stage.setScene(new Scene(root, 950, 700));
+		stage.setScene(new Scene(root, 950, 800));
 		stage.showAndWait();
 
 	}
@@ -156,7 +156,7 @@ public class AdminPortal {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setOpacity(1);
 		stage.setTitle("Kunde entsperren");
-		stage.setScene(new Scene(root, 700, 700));
+		stage.setScene(new Scene(root, 500, 600));
 		stage.showAndWait();
 
 	}

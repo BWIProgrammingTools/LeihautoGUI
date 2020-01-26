@@ -107,7 +107,7 @@ public class Login {
 				stage.initModality(Modality.APPLICATION_MODAL);
 				stage.setOpacity(1);
 				stage.setTitle("Kundenportal");
-				stage.setScene(new Scene(root, 700, 700));
+				stage.setScene(new Scene(root, 600, 616));
 				stage.showAndWait();
 				return true;
 
@@ -167,7 +167,7 @@ public class Login {
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.setOpacity(1);
 			stage.setTitle("Passwort vergessen");
-			stage.setScene(new Scene(root, 450, 450));
+			stage.setScene(new Scene(root, 600, 400));
 			stage.showAndWait();
 		} else {
 			JOptionPane.showMessageDialog(null,

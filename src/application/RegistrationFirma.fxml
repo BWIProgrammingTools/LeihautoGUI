@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -23,7 +24,10 @@
       <Button fx:id="registration" layoutX="251.0" layoutY="609.0" mnemonicParsing="false" onAction="#handleRegistrationAbschliessenFirmenkundenButton" prefHeight="46.0" prefWidth="180.0" text="Registration abschliessen">
          <font>
             <Font name="System Bold" size="12.0" />
-         </font></Button>
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <TextField fx:id="kkAblaufdatum" layoutX="251.0" layoutY="533.0" prefWidth="180.0" promptText="Kreditkartenablaufdatum" />
       <TextField fx:id="kkPruefnummer" layoutX="251.0" layoutY="565.0" prefWidth="180.0" promptText="Kreditkartenprüfnummer" />
       <Label layoutX="32.0" layoutY="26.0" prefHeight="26.0" prefWidth="285.0" text="Registration Firmenkunden">
@@ -44,6 +48,6 @@
       <Label alignment="CENTER_RIGHT" layoutX="68.0" layoutY="505.0" prefHeight="17.0" prefWidth="180.0" text="Kreditkarteninhaber:" textAlignment="RIGHT" />
       <Label alignment="CENTER_RIGHT" layoutX="68.0" layoutY="537.0" prefHeight="17.0" prefWidth="180.0" text="Kreditkartenablaufdatum:" textAlignment="RIGHT" />
       <Label alignment="CENTER_RIGHT" layoutX="68.0" layoutY="569.0" prefHeight="17.0" prefWidth="180.0" text="Kreditkartenprüfnummer:" textAlignment="RIGHT" />
-      <Label alignment="CENTER_RIGHT" layoutX="65.0" layoutY="90.0" prefHeight="17.0" prefWidth="180.0" text="Firmenname:" />
+      <Label alignment="CENTER_RIGHT" layoutX="63.0" layoutY="90.0" prefHeight="17.0" prefWidth="180.0" text="Firmenname:" />
    </children>
 </AnchorPane>
