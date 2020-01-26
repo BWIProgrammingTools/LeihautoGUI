@@ -54,30 +54,20 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 		List<String> strings = new ArrayList<>();
 		// String markenString = new String();
 
-		// hier wird eine leere ArrayList erstellt
-		List<Integer> emptyFreieAutoListe = new ArrayList<Integer>();
-
 		// hier startet der Import der bestehenden FreiesAutoliste
-		List<Integer> importFreieAutoListe = new ArrayList<Integer>();
+		List<Integer> emptyFreieAutoListe = new ArrayList<Integer>();
 		try {
 			FileInputStream fis = new FileInputStream("FreieAutosListe.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importFreieAutoListe = (ArrayList<Integer>) ois.readObject();
+			emptyFreieAutoListe = (ArrayList<Integer>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		/*
-		 * hier werden die freien Autos der bestehenden Liste als Objekte
-		 * herausgefiltert und der leeren freie Autoliste angefügt
-		 */
-		for (Integer freiesAuto : importFreieAutoListe) {
-			emptyFreieAutoListe.add(freiesAuto);
 
-		}
 		/*
 		 * hier wird mit einer for Schlaufe durch die importierte FreiesAutoliste
 		 * iteriert
@@ -103,29 +93,18 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeAuto() {
-
-		// hier wird eine leere ArrayList erstellt
-		List<Auto> emptyAutoListe = new ArrayList<Auto>();
-
 		// hier startet der Import der bestehenden Autoliste
-		List<Auto> importAutoListe = new ArrayList<Auto>();
+		List<Auto> emptyAutoListe = new ArrayList<Auto>();
 		try {
 			FileInputStream fis = new FileInputStream("Autoliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importAutoListe = (ArrayList<Auto>) ois.readObject();
+			emptyAutoListe = (ArrayList<Auto>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
-		}
-		/*
-		 * hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
-		 * der leeren Autoliste angefügt
-		 */
-		for (Auto existingAuto : importAutoListe) {
-			emptyAutoListe.add(existingAuto);
 		}
 
 		// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
@@ -150,22 +129,19 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 		 * zuerst wird die LoginID hereingeladen (muss über die ArrayListe
 		 * geschehen,Integer alleine scheint nicht zu funktionieren)
 		 */
-		List<Integer> aktuelleReservationsIDList = new ArrayList<Integer>();
 		List<Integer> neueAktuelleReservationsIDList = new ArrayList<Integer>();
 		try {
 			FileInputStream fis = new FileInputStream("aktuelleReservationsID.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			aktuelleReservationsIDList = (ArrayList<Integer>) ois.readObject();
+			neueAktuelleReservationsIDList = (ArrayList<Integer>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		for (Integer varInt : aktuelleReservationsIDList) {
-			neueAktuelleReservationsIDList.add(varInt);
-		}
+
 		// hier wird die ID gesetzt
 		for (int i = 0; i < neueAktuelleReservationsIDList.size(); i++) {
 			aktuelleReservationsID = neueAktuelleReservationsIDList.get(i);
@@ -173,28 +149,18 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 
 		// hier startet der Import des von Datums für die Berechnung der Anzahl Tage
 
-		// hier wird eine leere ArrayList erstellt
-		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
-
 		// hier startet der Import der bestehenden reservationsliste
-		List<Reservation> importReservationsListe = new ArrayList<Reservation>();
+		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
 		try {
 			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importReservationsListe = (ArrayList<Reservation>) ois.readObject();
+			emptyReservationsListe = (ArrayList<Reservation>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
-		}
-		/*
-		 * hier werden die Reservationen der bestehenden Liste als Objekte
-		 * herausgefiltert und der leeren Reservationsliste angefügt
-		 */
-		for (Reservation existingReservation : importReservationsListe) {
-			emptyReservationsListe.add(existingReservation);
 		}
 
 		/*

@@ -63,6 +63,7 @@ public class RegistrationEinzel {
 	}
 
 	// Methode für den Registrierungsbutton
+	@SuppressWarnings("unchecked")
 	// 1. importiert die bestehende Kundenliste
 	// 2. erstellt eine neue ArrayList
 	// 3. erstellt ein neues Objekt Kunde
@@ -77,27 +78,18 @@ public class RegistrationEinzel {
 		this.usernameVorhanden = false;
 		// aktuelle Kundenliste reinladen um Usernamevergleich zu starten
 
-		// hier wird eine leere ArrayList erstellt
-		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
-
 		// hier startet der Import der bestehenden Kundenliste
-		List<Kunde> importKundenListe = new ArrayList<Kunde>();
+		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
 		try {
 			FileInputStream fis = new FileInputStream("Kundenliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importKundenListe = (ArrayList) ois.readObject();
+			emptyKundenListe = (ArrayList<Kunde>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
-		}
-
-		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
-		// der leeren Kundenliste angefügt
-		for (Kunde existingKunde : importKundenListe) {
-			emptyKundenListe.add(existingKunde);
 		}
 
 		// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert

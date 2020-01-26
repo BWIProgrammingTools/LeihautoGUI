@@ -3,39 +3,16 @@ package application;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
-import javax.print.DocFlavor.INPUT_STREAM;
 import javax.swing.JOptionPane;
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import model.Firmenkunde;
 import model.Kunde;
 
@@ -80,6 +57,7 @@ public class RegistrationFirma {
 	}
 
 	// Methode für den Registrierungsbutton
+	@SuppressWarnings("unchecked")
 	// 1. importiert die bestehende Kundenliste
 	// 2. erstellt eine neue ArrayList
 	// 3. erstellt ein neues Objekt Kunde
@@ -94,27 +72,18 @@ public class RegistrationFirma {
 		this.usernameVorhanden = false;
 		// aktuelle Kundenliste reinladen um Usernamevergleich zu starten
 
-		// hier wird eine leere ArrayList erstellt
-		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
-
 		// hier startet der Import der bestehenden Kundenliste
-		List<Kunde> importKundenListe = new ArrayList<Kunde>();
+		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
 		try {
 			FileInputStream fis = new FileInputStream("Kundenliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importKundenListe = (ArrayList) ois.readObject();
+			emptyKundenListe = (ArrayList<Kunde>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
-		}
-
-		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
-		// der leeren Kundenliste angefügt
-		for (Kunde existingKunde : importKundenListe) {
-			emptyKundenListe.add(existingKunde);
 		}
 
 		// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert

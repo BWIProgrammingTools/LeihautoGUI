@@ -82,30 +82,20 @@ public class AutoReservieren implements Serializable {
 		// Liste für Dropdown
 		List<String> strings = new ArrayList<>();
 
-		// hier wird eine leere ArrayList erstellt
-		List<Integer> emptyFreieAutoListe = new ArrayList<Integer>();
-
 		// hier startet der Import der bestehenden FreiesAutoliste
-		List<Integer> importFreieAutoListe = new ArrayList<Integer>();
+		List<Integer> emptyFreieAutoListe = new ArrayList<Integer>();
 		try {
 			FileInputStream fis = new FileInputStream("FreieAutosListe.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importFreieAutoListe = (ArrayList<Integer>) ois.readObject();
+			emptyFreieAutoListe = (ArrayList<Integer>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		/*
-		 * hier werden die freien Autos der bestehenden Liste als Objekte
-		 * herausgefiltert und der leeren freie Autoliste angefügt
-		 */
-		for (Integer freiesAuto : importFreieAutoListe) {
-			emptyFreieAutoListe.add(freiesAuto);
 
-		}
 		/*
 		 * hier wird mit einer for Schlaufe durch die importierte FreiesAutoliste
 		 * iteriert
@@ -123,48 +113,35 @@ public class AutoReservieren implements Serializable {
 		 * hereingeladen (muss über die ArrayListe geschehen, Integer alleine scheint
 		 * nicht zu funktionieren)
 		 */
-		List<Integer> eingeloggterUserIDList = new ArrayList<Integer>();
 		List<Integer> neueEingeloggterUserIDList = new ArrayList<Integer>();
 		try {
 			FileInputStream fis = new FileInputStream("EingeloggterUserList.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			eingeloggterUserIDList = (ArrayList<Integer>) ois.readObject();
+			neueEingeloggterUserIDList = (ArrayList<Integer>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		for (Integer varInt : eingeloggterUserIDList) {
-			neueEingeloggterUserIDList.add(varInt);
-		}
+
 		for (int i = 0; i < neueEingeloggterUserIDList.size(); i++) {
 			eingeloggterUserID = neueEingeloggterUserIDList.get(i);
 		}
 
-		// hier wird eine leere ArrayList erstellt
-		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
-
 		// hier startet der Import der bestehenden Kundenliste
-		List<Kunde> importKundenListe = new ArrayList<Kunde>();
+		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
 		try {
 			FileInputStream fis = new FileInputStream("Kundenliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importKundenListe = (ArrayList<Kunde>) ois.readObject();
+			emptyKundenListe = (ArrayList<Kunde>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
-		}
-		/*
-		 * hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
-		 * der leeren Kundenliste angefügt
-		 */
-		for (Kunde existingKunde : importKundenListe) {
-			emptyKundenListe.add(existingKunde);
 		}
 
 		// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
@@ -228,29 +205,18 @@ public class AutoReservieren implements Serializable {
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeAuto() {
-
-		// hier wird eine leere ArrayList erstellt
-		List<Auto> emptyAutoListe = new ArrayList<Auto>();
-
 		// hier startet der Import der bestehenden Autoliste
-		List<Auto> importAutoListe = new ArrayList<Auto>();
+		List<Auto> emptyAutoListe = new ArrayList<Auto>();
 		try {
 			FileInputStream fis = new FileInputStream("Autoliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importAutoListe = (ArrayList<Auto>) ois.readObject();
+			emptyAutoListe = (ArrayList<Auto>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
-		}
-		/*
-		 * hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
-		 * der leeren Autoliste angefügt
-		 */
-		for (Auto existingAuto : importAutoListe) {
-			emptyAutoListe.add(existingAuto);
 		}
 
 		// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
@@ -422,27 +388,18 @@ public class AutoReservieren implements Serializable {
 			 * hier wird das entsprechende Mail verschickt (zuerst muss die Kundenliste
 			 * reingeladen werden)
 			 */
-			// hier wird eine leere ArrayList erstellt
-			List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
-
 			// hier startet der Import der bestehenden Kundenliste
-			List<Kunde> importKundenListe = new ArrayList<Kunde>();
+			List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
 			try {
 				FileInputStream fis = new FileInputStream("Kundenliste.ser");
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				// write object to file
-				importKundenListe = (ArrayList<Kunde>) ois.readObject();
+				emptyKundenListe = (ArrayList<Kunde>) ois.readObject();
 				// closing resources
 				ois.close();
 				fis.close();
 			} catch (IOException | ClassNotFoundException e) {
 				e.printStackTrace();
-			}
-
-			// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
-			// der leeren Kundenliste angefügt
-			for (Kunde existingKunde : importKundenListe) {
-				emptyKundenListe.add(existingKunde);
 			}
 
 			// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
@@ -452,9 +409,10 @@ public class AutoReservieren implements Serializable {
 					mail = emptyKundenListe.get(i).getEmail();
 				}
 			}
-			//Message vor dem Schliessen des Fensters
-			JOptionPane.showMessageDialog(null, "Das Auto wurde reserviert.\nSie erhalten in Kürze eine Reservationsbestätigung.");
-			//hier wird das Mail versandt
+			// Message vor dem Schliessen des Fensters
+			JOptionPane.showMessageDialog(null,
+					"Das Auto wurde reserviert.\nSie erhalten in Kürze eine Reservationsbestätigung.");
+			// hier wird das Mail versandt
 			JavaMail.sendReservationsbestaetigung(mail, varReservation.getReservationsID());
 
 			// event, dass fenster geschlossen wird

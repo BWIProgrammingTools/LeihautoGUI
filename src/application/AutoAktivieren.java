@@ -75,7 +75,7 @@ public class AutoAktivieren implements Serializable {
 			 * hier werden die IDs der ComboBox hinzugefügt, wo der Boolean deaktiviert true
 			 * ist, da wir nur deaktivierte Autos angezeigt haben wollen
 			 */
-			if (emptyAutoListe.get(i).isDeaktiviert() == true) {
+			if (emptyAutoListe.get(i).isDeaktiviert()) {
 				strings.add(Integer.toString(emptyAutoListe.get(i).getId()));
 
 			}

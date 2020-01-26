@@ -57,26 +57,18 @@ public class Login {
 	@FXML
 	public boolean handleLogin() throws SQLException, IOException {
 
-		// hier wird eine leere ArrayList erstellt
-		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
-
 		// hier startet der Import der bestehenden Kundenliste
-		List<Kunde> importKundenListe = new ArrayList<Kunde>();
+		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
 		try {
 			FileInputStream fis = new FileInputStream("Kundenliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importKundenListe = (ArrayList<Kunde>) ois.readObject();
+			emptyKundenListe = (ArrayList<Kunde>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
-		}
-		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
-		// der leeren Kundenliste angefügt
-		for (Kunde existingKunde : importKundenListe) {
-			emptyKundenListe.add(existingKunde);
 		}
 
 		// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
@@ -87,9 +79,11 @@ public class Login {
 					&& emptyKundenListe.get(i).getPassword().compareTo(password.getText()) == 0
 					&& emptyKundenListe.get(i).isGesperrt() == false) {
 
-				// hier wird die ID des aktuell eingeloggten Users (mittels lokaler Variable) in
-				// ein File geschrieben (muss Liste sein, da die weiterverwendung mittels
-				// einfachem Integer nicht zu funktionieren scheint
+				/*
+				 * hier wird die ID des aktuell eingeloggten Users (mittels lokaler Variable) in
+				 * ein File geschrieben (muss Liste sein, da die weiterverwendung mittels
+				 * einfachem Integer nicht zu funktionieren scheint
+				 */
 				List<Integer> eingeloggterUserIDList = new ArrayList<Integer>();
 				eingeloggterUserIDList.add(emptyKundenListe.get(i).getKundenNummer());
 
@@ -176,7 +170,8 @@ public class Login {
 			stage.setScene(new Scene(root, 450, 450));
 			stage.showAndWait();
 		} else {
-			JOptionPane.showMessageDialog(null, "Sie haben zu viele falsche Versuche eingegeben.\nDiese Funktion ist deaktiviert.");
+			JOptionPane.showMessageDialog(null,
+					"Sie haben zu viele falsche Versuche eingegeben.\nDiese Funktion ist deaktiviert.");
 		}
 	}
 

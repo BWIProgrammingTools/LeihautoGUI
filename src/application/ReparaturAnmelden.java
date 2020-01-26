@@ -83,29 +83,24 @@ public class ReparaturAnmelden implements Serializable {
 		// Liste für Dropdown
 		List<String> strings = new ArrayList<>();
 
-		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
-
 		// hier startet der Import der bestehenden Kundenliste
-		List<Reservation> importReservationsListe = new ArrayList<Reservation>();
+		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
 		try {
 			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importReservationsListe = (ArrayList<Reservation>) ois.readObject();
+			emptyReservationsListe = (ArrayList<Reservation>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
-		// der leeren Kundenliste angefügt
-		for (Reservation existingReservation : importReservationsListe) {
-			emptyReservationsListe.add(existingReservation);
-		}
 
-		// hier wird mit einer for Schlaufe durch die importierte Reservationsliste
-		// iteriert
+		/*
+		 * hier wird mit einer for Schlaufe durch die importierte Reservationsliste
+		 * iteriert
+		 */
 		for (int i = 0; i < emptyReservationsListe.size(); i++) {
 			// hier werden die IDs der ComboBox hinzugefügt, wo der Boolean inReparatur
 			// false ist
@@ -126,30 +121,24 @@ public class ReparaturAnmelden implements Serializable {
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeReservationsAngaben() {
-		// hier wird eine leere ArrayList erstellt
-		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
-
 		// hier startet der Import der bestehenden reservationsliste
-		List<Reservation> importReservationsListe = new ArrayList<Reservation>();
+		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
 		try {
 			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importReservationsListe = (ArrayList<Reservation>) ois.readObject();
+			emptyReservationsListe = (ArrayList<Reservation>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
-		// der leeren Reservationsliste angefügt
-		for (Reservation existingReservation : importReservationsListe) {
-			emptyReservationsListe.add(existingReservation);
-		}
 
-		// hier wird mit einer for Schlaufe durch die importierte Reservationsliste
-		// iteriert
+		/*
+		 * hier wird mit einer for Schlaufe durch die importierte Reservationsliste
+		 * iteriert
+		 */
 		for (int i = 0; i < emptyReservationsListe.size(); i++) {
 			// wenn reservationsID = Combobox Zahl ist wird fortgefahren
 			if (emptyReservationsListe.get(i).getReservationsID() == Integer.parseInt(reservationsIDBox.getValue())) {
@@ -160,28 +149,20 @@ public class ReparaturAnmelden implements Serializable {
 
 				// hier wird wieder die komplette Autoliste reingeladen
 
-				// hier wird eine leere ArrayList erstellt
-				List<Auto> emptyAutoListe = new ArrayList<Auto>();
-
 				// hier startet der Import der bestehenden Autoliste
-				List<Auto> importAutoListe = new ArrayList<Auto>();
+				List<Auto> emptyAutoListe = new ArrayList<Auto>();
 				try {
 					FileInputStream fis = new FileInputStream("Autoliste.ser");
 					ObjectInputStream ois = new ObjectInputStream(fis);
 					// write object to file
-					importAutoListe = (ArrayList<Auto>) ois.readObject();
+					emptyAutoListe = (ArrayList<Auto>) ois.readObject();
 					// closing resources
 					ois.close();
 					fis.close();
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}
-				// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
-				// der leeren Autoliste angefügt
-				for (Auto existingAuto : importAutoListe) {
-					emptyAutoListe.add(existingAuto);
 
-				}
 				// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
 				for (int ii = 0; ii < emptyAutoListe.size(); ii++) {
 					// hier werden die entsprechenden Felder beschrieben
@@ -194,33 +175,26 @@ public class ReparaturAnmelden implements Serializable {
 					}
 				}
 
-				// hier wird eine lokal Variable für die entsprechende AutoID der Reservation
-				// vergeben
+				/*
+				 * hier wird eine lokal Variable für die entsprechende AutoID der Reservation
+				 * vergeben
+				 */
 				int kundenID = emptyReservationsListe.get(i).getKundenNummer();
 
 				// hier wird wieder die komplette Autoliste reingeladen
 
-				// hier wird eine leere ArrayList erstellt
-				List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
-
 				// hier startet der Import der bestehenden Kundenliste
-				List<Kunde> importKundenListe = new ArrayList<Kunde>();
+				List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
 				try {
 					FileInputStream fis = new FileInputStream("Kundenliste.ser");
 					ObjectInputStream ois = new ObjectInputStream(fis);
 					// write object to file
-					importKundenListe = (ArrayList<Kunde>) ois.readObject();
+					emptyKundenListe = (ArrayList<Kunde>) ois.readObject();
 					// closing resources
 					ois.close();
 					fis.close();
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
-				}
-
-				// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
-				// der leeren Kundenliste angefügt
-				for (Kunde existingKunde : importKundenListe) {
-					emptyKundenListe.add(existingKunde);
 				}
 
 				// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
@@ -256,30 +230,24 @@ public class ReparaturAnmelden implements Serializable {
 	@FXML
 	public void handleReparaturAnmeldenButton(ActionEvent event) {
 
-		// hier wird eine leere ArrayList erstellt
-		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
-
 		// hier startet der Import der bestehenden Kundenliste
-		List<Reservation> importReservationsListe = new ArrayList<Reservation>();
+		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
 		try {
 			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			// write object to file
-			importReservationsListe = (ArrayList<Reservation>) ois.readObject();
+			emptyReservationsListe = (ArrayList<Reservation>) ois.readObject();
 			// closing resources
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		// hier werden die kunden der bestehenden Liste als Objekte herausgefiltert und
-		// der leeren Kundenliste angefügt
-		for (Reservation existingReservation : importReservationsListe) {
-			emptyReservationsListe.add(existingReservation);
-		}
 
-		// hier wird mit einer for Schlaufe durch die importierte Reservationsliste
-		// iteriert
+		/*
+		 * hier wird mit einer for Schlaufe durch die importierte Reservationsliste
+		 * iteriert
+		 */
 		for (int i = 0; i < emptyReservationsListe.size(); i++) {
 			// wenn reservationsID = Combobox Zahl ist wird fortgefahren
 			if (emptyReservationsListe.get(i).getReservationsID() == Integer.parseInt(reservationsIDBox.getValue())) {
@@ -292,31 +260,25 @@ public class ReparaturAnmelden implements Serializable {
 				// vergeben
 				int autoID = emptyReservationsListe.get(i).getAutoID();
 
-				// hier wird wieder die komplette Autoliste reingeladen, um den boolean
-				// blockiert auf dem Auto mit der entsprechenden ID zu setzen
-
-				// hier wird eine leere ArrayList erstellt
-				List<Auto> emptyAutoListe = new ArrayList<Auto>();
+				/*
+				 * hier wird wieder die komplette Autoliste reingeladen, um den boolean
+				 * blockiert auf dem Auto mit der entsprechenden ID zu setzen
+				 */
 
 				// hier startet der Import der bestehenden Autoliste
-				List<Auto> importAutoListe = new ArrayList<Auto>();
+				List<Auto> emptyAutoListe = new ArrayList<Auto>();
 				try {
 					FileInputStream fis = new FileInputStream("Autoliste.ser");
 					ObjectInputStream ois = new ObjectInputStream(fis);
 					// write object to file
-					importAutoListe = (ArrayList<Auto>) ois.readObject();
+					emptyAutoListe = (ArrayList<Auto>) ois.readObject();
 					// closing resources
 					ois.close();
 					fis.close();
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}
-				// hier werden die Autos der bestehenden Liste als Objekte herausgefiltert und
-				// der leeren Autoliste angefügt
-				for (Auto existingAuto : importAutoListe) {
-					emptyAutoListe.add(existingAuto);
 
-				}
 				// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
 				for (int ii = 0; ii < emptyAutoListe.size(); ii++) {
 					// hier wird der boolean blockiert in der Klasse Auto geändert
