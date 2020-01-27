@@ -86,7 +86,6 @@ public class AutoAktivieren implements Serializable {
 		// hier wird die Liste der entsprechenden IDs der Combobox hinzugefügt
 		autoIDBox.setItems(FXCollections.observableArrayList(strings));
 	}
-	
 
 	/**
 	 * Hier werden die Textfelder der Szene anhand der gewählten AutoID gesetzt
@@ -132,46 +131,50 @@ public class AutoAktivieren implements Serializable {
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void handleAutoAktivierenButton(ActionEvent event) {
-		// hier startet der Import der bestehenden Autoliste
-		List<Auto> emptyAutoListe = new ArrayList<Auto>();
-		try {
-			FileInputStream fis = new FileInputStream("Autoliste.ser");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			// write object to file
-			emptyAutoListe = (ArrayList<Auto>) ois.readObject();
-			// closing resources
-			ois.close();
-			fis.close();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
-		for (int i = 0; i < emptyAutoListe.size(); i++) {
-			// hier wird der boolean deaktiviert des entsprechenden Autos auf true gesetzt
-			if (emptyAutoListe.get(i).getId() == Integer.parseInt(autoIDBox.getValue())) {
-				emptyAutoListe.get(i).setDeaktiviert(false);
-				JOptionPane.showMessageDialog(null,
-						"Das Auto mit der ID " + emptyAutoListe.get(i).getId() + " wurde aktiviert");
+		if (!autoIDBox.getSelectionModel().isEmpty()) {
+			// hier startet der Import der bestehenden Autoliste
+			List<Auto> emptyAutoListe = new ArrayList<Auto>();
+			try {
+				FileInputStream fis = new FileInputStream("Autoliste.ser");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				// write object to file
+				emptyAutoListe = (ArrayList<Auto>) ois.readObject();
+				// closing resources
+				ois.close();
+				fis.close();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
 			}
-		}
 
-		// hier wird die aktualisierte Autoliste wieder herausgeschrieben
-		try {
-			FileOutputStream fos = new FileOutputStream("Autoliste.ser");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			// write object to file
-			oos.writeObject(emptyAutoListe);
-			// closing resources
-			oos.close();
-			fos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+			// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
+			for (int i = 0; i < emptyAutoListe.size(); i++) {
+				// hier wird der boolean deaktiviert des entsprechenden Autos auf true gesetzt
+				if (emptyAutoListe.get(i).getId() == Integer.parseInt(autoIDBox.getValue())) {
+					emptyAutoListe.get(i).setDeaktiviert(false);
+					JOptionPane.showMessageDialog(null,
+							"Das Auto mit der ID " + emptyAutoListe.get(i).getId() + " wurde aktiviert");
+				}
+			}
+
+			// hier wird die aktualisierte Autoliste wieder herausgeschrieben
+			try {
+				FileOutputStream fos = new FileOutputStream("Autoliste.ser");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				// write object to file
+				oos.writeObject(emptyAutoListe);
+				// closing resources
+				oos.close();
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			/*
+			 * dieses Event sorgt dafür, dass nach dem Drücken des Buttons das Gui
+			 * geschlossen wird
+			 */
+			((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
+		} else {
+			JOptionPane.showMessageDialog(null, "Eine AutoID muss selektiert werden.");
 		}
-		/*
-		 * dieses Event sorgt dafür, dass nach dem Drücken des Buttons das Gui
-		 * geschlossen wird
-		 */
-		((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
 	}
 }

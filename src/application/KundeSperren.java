@@ -155,48 +155,55 @@ public class KundeSperren implements Serializable {
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void handleKundeSperrenButton(ActionEvent event) {
-		// hier wird eine leere ArrayList erstellt
+		if (!kundenIDBox.getSelectionModel().isEmpty() && !sperrgrund.getText().isEmpty()) {
+			// hier wird eine leere ArrayList erstellt
 
-		// hier startet der Import der bestehenden Kundenliste
-		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
-		try {
-			FileInputStream fis = new FileInputStream("Kundenliste.ser");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			// write object to file
-			emptyKundenListe = (ArrayList<Kunde>) ois.readObject();
-			// closing resources
-			ois.close();
-			fis.close();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
-		for (int i = 0; i < emptyKundenListe.size(); i++) {
-			// hier wird der entsprechende Kunde gemäss ID gesperrt
-			if (emptyKundenListe.get(i).getKundenNummer() == Integer.parseInt(kundenIDBox.getValue())) {
-				emptyKundenListe.get(i).lockKunde(sperrgrund.getText().toString());
-
-				// Messagebox vor dem Schliessen
-				JOptionPane.showMessageDialog(null, "Der Kunde mit der ID " + emptyKundenListe.get(i).getKundenNummer()
-						+ " wurde blockiert.\nGrund dafür ist: " + emptyKundenListe.get(i).getLockReason());
+			// hier startet der Import der bestehenden Kundenliste
+			List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
+			try {
+				FileInputStream fis = new FileInputStream("Kundenliste.ser");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				// write object to file
+				emptyKundenListe = (ArrayList<Kunde>) ois.readObject();
+				// closing resources
+				ois.close();
+				fis.close();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
 			}
-		}
 
-		// hier wird die aktualisierte kundenliste wieder herausgeschrieben
-		try {
-			FileOutputStream fos = new FileOutputStream("Kundenliste.ser");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			// write object to file
-			oos.writeObject(emptyKundenListe);
-			// closing resources
-			oos.close();
-			fos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
+			for (int i = 0; i < emptyKundenListe.size(); i++) {
+				// hier wird der entsprechende Kunde gemäss ID gesperrt
+				if (emptyKundenListe.get(i).getKundenNummer() == Integer.parseInt(kundenIDBox.getValue())) {
+					emptyKundenListe.get(i).lockKunde(sperrgrund.getText().toString());
 
-		// hier wird das Fenster geschlossen
-		((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
+					// Messagebox vor dem Schliessen
+					JOptionPane.showMessageDialog(null,
+							"Der Kunde mit der ID " + emptyKundenListe.get(i).getKundenNummer()
+									+ " wurde blockiert.\nGrund dafür ist: " + emptyKundenListe.get(i).getLockReason());
+				}
+			}
+
+			// hier wird die aktualisierte kundenliste wieder herausgeschrieben
+			try {
+				FileOutputStream fos = new FileOutputStream("Kundenliste.ser");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				// write object to file
+				oos.writeObject(emptyKundenListe);
+				// closing resources
+				oos.close();
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			// hier wird das Fenster geschlossen
+			((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
+		} else if (sperrgrund.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Ein Sperrgrund muss angegeben werden.");
+		} else {
+			JOptionPane.showMessageDialog(null, "Eine KundenID muss selektiert werden.");
+		}
 	}
 }

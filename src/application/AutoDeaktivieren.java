@@ -85,7 +85,6 @@ public class AutoDeaktivieren implements Serializable {
 
 	}
 
-
 	/**
 	 * Hier werden die Textfelder der Szene anhand der gewählten AutoID gesetzt
 	 */
@@ -122,56 +121,58 @@ public class AutoDeaktivieren implements Serializable {
 
 	/**
 	 * Durch das Drücken des Auto deaktiveren Buttons passiert in dieser Methode
-	 * folgendes:
-	 * 1. Die Liste aller Autos wird importiert
-	 * 2. Der Boolean deaktivert des entsprechend ausgewählten Autos (Combobox) wird auf true gesetzt
-	 * 3. Eine MessageBox wird angezeigt
-	 * 4. Die aktualisierte AutoListe wird wieder exportiert
-	 * 5. Die Szene wird geschlossen
+	 * folgendes: 1. Die Liste aller Autos wird importiert 2. Der Boolean deaktivert
+	 * des entsprechend ausgewählten Autos (Combobox) wird auf true gesetzt 3. Eine
+	 * MessageBox wird angezeigt 4. Die aktualisierte AutoListe wird wieder
+	 * exportiert 5. Die Szene wird geschlossen
 	 */
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void handleAutoDeaktivierenButton(ActionEvent event) {
-		// hier startet der Import der bestehenden Autoliste
-		List<Auto> emptyAutoListe = new ArrayList<Auto>();
-		try {
-			FileInputStream fis = new FileInputStream("Autoliste.ser");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			// write object to file
-			emptyAutoListe = (ArrayList<Auto>) ois.readObject();
-			// closing resources
-			ois.close();
-			fis.close();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
-		for (int i = 0; i < emptyAutoListe.size(); i++) {
-			// hier wird der boolean deaktiviert des entsprechenden Autos auf true gesetzt
-			if (emptyAutoListe.get(i).getId() == Integer.parseInt(autoIDBox.getValue())) {
-				emptyAutoListe.get(i).setDeaktiviert(true);
-				JOptionPane.showMessageDialog(null,
-						"Das Auto mit der ID " + emptyAutoListe.get(i).getId() + " wurde deaktiviert");
+		if (!autoIDBox.getSelectionModel().isEmpty()) {
+			// hier startet der Import der bestehenden Autoliste
+			List<Auto> emptyAutoListe = new ArrayList<Auto>();
+			try {
+				FileInputStream fis = new FileInputStream("Autoliste.ser");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				// write object to file
+				emptyAutoListe = (ArrayList<Auto>) ois.readObject();
+				// closing resources
+				ois.close();
+				fis.close();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
 			}
-		}
 
-		// hier wird die aktualisierte Autoliste wieder herausgeschrieben
-		try {
-			FileOutputStream fos = new FileOutputStream("Autoliste.ser");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			// write object to file
-			oos.writeObject(emptyAutoListe);
-			// closing resources
-			oos.close();
-			fos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+			// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
+			for (int i = 0; i < emptyAutoListe.size(); i++) {
+				// hier wird der boolean deaktiviert des entsprechenden Autos auf true gesetzt
+				if (emptyAutoListe.get(i).getId() == Integer.parseInt(autoIDBox.getValue())) {
+					emptyAutoListe.get(i).setDeaktiviert(true);
+					JOptionPane.showMessageDialog(null,
+							"Das Auto mit der ID " + emptyAutoListe.get(i).getId() + " wurde deaktiviert");
+				}
+			}
+
+			// hier wird die aktualisierte Autoliste wieder herausgeschrieben
+			try {
+				FileOutputStream fos = new FileOutputStream("Autoliste.ser");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				// write object to file
+				oos.writeObject(emptyAutoListe);
+				// closing resources
+				oos.close();
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			/*
+			 * dieses event sorgt, dass das Fenster nach dem Drücken des Buttons geschlossen
+			 * wird
+			 */
+			((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
+		} else {
+			JOptionPane.showMessageDialog(null, "Eine AutoID muss selektiert werden.");
 		}
-		/*
-		 * dieses event sorgt, dass das Fenster nach dem Drücken des Buttons geschlossen
-		 * wird
-		 */
-		((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
 	}
 }

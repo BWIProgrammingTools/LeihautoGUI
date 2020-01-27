@@ -279,7 +279,9 @@ public class ReservationAbschliessen implements Serializable {
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void handleReservationAbschliessenButton(ActionEvent event) {
-		if (reparaturKosten.getText().isEmpty()) {
+		if (reservationsIDBox.getSelectionModel().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Eine ReservationsID muss selektiert werden.");
+		} else if (reparaturKosten.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null,
 					"Der Betrag für die Reparaturkosten muss erfasst oder auf 0 gesetzt werden");
 		} else if (verzugsTage.getText().isEmpty()) {

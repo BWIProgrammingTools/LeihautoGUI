@@ -9,6 +9,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -133,7 +136,8 @@ public class AutoNeuzuweisung implements Serializable {
 
 	/**
 	 * Hier werden die Textfelder der Szene anhand der gewählten ReservationsID
-	 * gesetzt und die gewählte ID in ein File für eine spätere Verwendung geeschrieben
+	 * gesetzt und die gewählte ID in ein File für eine spätere Verwendung
+	 * geeschrieben
 	 */
 	@SuppressWarnings("unchecked")
 	@FXML
@@ -271,173 +275,177 @@ public class AutoNeuzuweisung implements Serializable {
 
 	/**
 	 * Durch das Drücken des Auto selektieren Buttons passiert in dieser Methode
-	 * folgendes:
-	 * 1. Die Reservationsliste wird importiert
-	 * 2. Das Von und Bis-Datum der gewählten Reservation (Combobox) wird in zwei Files exportiert
-	 * 3. Die freien Autos werden ermittelt (die Liste aller Autos wird importiert, die IDs der in diesem
-	 *    Zeitraum reservierten Autos (nur diejenigen, bei welchen die Reservation noch nicht abgeschlossen
-	 *    wurde), die IDs aller blockierten und die IDs aller deaktiverten Autos werden von der 
-	 *    kompletten Autoliste abgezogen). Die freien Autos werden ebenfalls in eine neue Liste exportiert.
+	 * folgendes: 1. Die Reservationsliste wird importiert 2. Das Von und Bis-Datum
+	 * der gewählten Reservation (Combobox) wird in zwei Files exportiert 3. Die
+	 * freien Autos werden ermittelt (die Liste aller Autos wird importiert, die IDs
+	 * der in diesem Zeitraum reservierten Autos (nur diejenigen, bei welchen die
+	 * Reservation noch nicht abgeschlossen wurde), die IDs aller blockierten und
+	 * die IDs aller deaktiverten Autos werden von der kompletten Autoliste
+	 * abgezogen). Die freien Autos werden ebenfalls in eine neue Liste exportiert.
 	 * 4. Die nächste Szene wird geöffnet
 	 */
 	@SuppressWarnings("unchecked")
 	public void handleAutoSelektierenButton(ActionEvent event) throws IOException {
-		/*
-		 * zuerst werden die ArrayListen gecleared, damit bei doppelter Ausführung die
-		 * Liste nicht mit doppelten Elementen befüllt wird
-		 */
-		reservierteIDs.clear();
-		alleAutoIDs.clear();
+		if (!reservationsID.getSelectionModel().isEmpty()) {
+			/*
+			 * zuerst werden die ArrayListen gecleared, damit bei doppelter Ausführung die
+			 * Liste nicht mit doppelten Elementen befüllt wird
+			 */
+			reservierteIDs.clear();
+			alleAutoIDs.clear();
 
-		// hier werden die von und bis daten herausgeschrieben
+			// hier werden die von und bis daten herausgeschrieben
 
-		// hier startet der Import der bestehenden Reservationsliste
-		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
-		try {
-			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			// write object to file
-			emptyReservationsListe = (ArrayList<Reservation>) ois.readObject();
-			// closing resources
-			ois.close();
-			fis.close();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+			// hier startet der Import der bestehenden Reservationsliste
+			List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
+			try {
+				FileInputStream fis = new FileInputStream("Reservationsliste.ser");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				// write object to file
+				emptyReservationsListe = (ArrayList<Reservation>) ois.readObject();
+				// closing resources
+				ois.close();
+				fis.close();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 
-		/*
-		 * hier wird mit einer for Schlaufe durch die importierte Reservationsliste
-		 * iteriert
-		 */
-		for (int i = 0; i < emptyReservationsListe.size(); i++) {
-			// wenn reservationsID = Combobox Zahl ist wird fortgefahren
-			if (emptyReservationsListe.get(i).getReservationsID() == Integer.parseInt(reservationsID.getValue())) {
-				/*
-				 * lokale Variable für entsprechendes reservationsVon der ausgewählten
-				 * Reservation
-				 */
-				GregorianCalendar kalenderVon = emptyReservationsListe.get(i).getReservationVon();
-
-				/*
-				 * lokale Variable für entsprechendes reservationsVon der ausgewählten
-				 * reservation
-				 */
-				GregorianCalendar kalenderBis = emptyReservationsListe.get(i).getReservationBis();
-
-				// Die Reservationsliste für den Vergleich erneut komplett reingeladen werden
-
-				// hier startet der Import der bestehenden Reservationsliste
-				List<Reservation> emptyReservationsListe2 = new ArrayList<Reservation>();
-				try {
-					FileInputStream fis = new FileInputStream("Reservationsliste.ser");
-					ObjectInputStream ois = new ObjectInputStream(fis);
-					// write object to file
-					emptyReservationsListe2 = (ArrayList<Reservation>) ois.readObject();
-					// closing resources
-					ois.close();
-					fis.close();
-				} catch (IOException | ClassNotFoundException e) {
-					e.printStackTrace();
-				}
-
-				/*
-				 * hier werden diejenigen Autos herausgesucht, welche zum angegebenen Zeitpunkt
-				 * NICHT verfügbar sind
-				 */
-				for (int ii = 0; ii < emptyReservationsListe2.size(); ii++) {
+			/*
+			 * hier wird mit einer for Schlaufe durch die importierte Reservationsliste
+			 * iteriert
+			 */
+			for (int i = 0; i < emptyReservationsListe.size(); i++) {
+				// wenn reservationsID = Combobox Zahl ist wird fortgefahren
+				if (emptyReservationsListe.get(i).getReservationsID() == Integer.parseInt(reservationsID.getValue())) {
+					/*
+					 * lokale Variable für entsprechendes reservationsVon der ausgewählten
+					 * Reservation
+					 */
+					GregorianCalendar kalenderVon = emptyReservationsListe.get(i).getReservationVon();
 
 					/*
-					 * dieser Vergleich sollte die belegten Autos der Liste im angegebenen Zeitaum
-					 * ausgeben
+					 * lokale Variable für entsprechendes reservationsVon der ausgewählten
+					 * reservation
 					 */
-					if (kalenderVon.before(emptyReservationsListe2.get(ii).getReservationBis())
-							&& kalenderBis.after(emptyReservationsListe2.get(ii).getReservationVon())
-							&& emptyReservationsListe2.get(ii).isIstGereinigt() == false) {
+					GregorianCalendar kalenderBis = emptyReservationsListe.get(i).getReservationBis();
+
+					// Die Reservationsliste für den Vergleich erneut komplett reingeladen werden
+
+					// hier startet der Import der bestehenden Reservationsliste
+					List<Reservation> emptyReservationsListe2 = new ArrayList<Reservation>();
+					try {
+						FileInputStream fis = new FileInputStream("Reservationsliste.ser");
+						ObjectInputStream ois = new ObjectInputStream(fis);
+						// write object to file
+						emptyReservationsListe2 = (ArrayList<Reservation>) ois.readObject();
+						// closing resources
+						ois.close();
+						fis.close();
+					} catch (IOException | ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+
+					/*
+					 * hier werden diejenigen Autos herausgesucht, welche zum angegebenen Zeitpunkt
+					 * NICHT verfügbar sind
+					 */
+					for (int ii = 0; ii < emptyReservationsListe2.size(); ii++) {
 
 						/*
-						 * hier wird die entsprechende AutoID, welche reserviert ist der ArrayListe
-						 * reservierteID geadded
+						 * dieser Vergleich sollte die belegten Autos der Liste im angegebenen Zeitaum
+						 * ausgeben
 						 */
-						reservierteIDs.add(emptyReservationsListe2.get(ii).getAutoID());
+						if (kalenderVon.before(emptyReservationsListe2.get(ii).getReservationBis())
+								&& kalenderBis.after(emptyReservationsListe2.get(ii).getReservationVon())
+								&& emptyReservationsListe2.get(ii).isIstGereinigt() == false) {
 
+							/*
+							 * hier wird die entsprechende AutoID, welche reserviert ist der ArrayListe
+							 * reservierteID geadded
+							 */
+							reservierteIDs.add(emptyReservationsListe2.get(ii).getAutoID());
+
+						}
 					}
-				}
 
-				// hier startet der Import der bestehenden Autoliste
-				List<Auto> emptyAutoListe = new ArrayList<Auto>();
-				try {
-					FileInputStream fis = new FileInputStream("Autoliste.ser");
-					ObjectInputStream ois = new ObjectInputStream(fis);
-					// write object to file
-					emptyAutoListe = (ArrayList<Auto>) ois.readObject();
-					// closing resources
-					ois.close();
-					fis.close();
-				} catch (IOException | ClassNotFoundException e) {
-					e.printStackTrace();
-				}
-
-				// hier werden alle AutoIDs der alleAutoIDs Arrayliste hinzugefüt
-				for (int iii = 0; iii < emptyAutoListe.size(); iii++) {
-					alleAutoIDs.add(emptyAutoListe.get(iii).getId());
-				}
-
-				/*
-				 * hier werden alle deaktivierten AutoIDs in die deaktivierteAutoIDs Arrayliste
-				 * geladen
-				 */
-				for (int iiii = 0; iiii < emptyAutoListe.size(); iiii++) {
-					// if, damit deaktivierte und in reparatur autos nicht angezeigt werden
-					if (emptyAutoListe.get(iiii).isDeaktiviert()) {
-						alleDeaktiviertenAutoIDs.add(emptyAutoListe.get(iiii).getId());
+					// hier startet der Import der bestehenden Autoliste
+					List<Auto> emptyAutoListe = new ArrayList<Auto>();
+					try {
+						FileInputStream fis = new FileInputStream("Autoliste.ser");
+						ObjectInputStream ois = new ObjectInputStream(fis);
+						// write object to file
+						emptyAutoListe = (ArrayList<Auto>) ois.readObject();
+						// closing resources
+						ois.close();
+						fis.close();
+					} catch (IOException | ClassNotFoundException e) {
+						e.printStackTrace();
 					}
-				}
-				/*
-				 * hier werden alle blockierten AutoIDs in die blockiertealleAutoIDs Arrayliste
-				 * geladen
-				 */
-				for (int iiiii = 0; iiiii < emptyAutoListe.size(); iiiii++) {
-					// if, damit deaktivierte und in reparatur autos nicht angezeigt werden
-					if (emptyAutoListe.get(iiiii).isBlockiert()) {
-						alleBlockiertenAutoIDs.add(emptyAutoListe.get(iiiii).getId());
+
+					// hier werden alle AutoIDs der alleAutoIDs Arrayliste hinzugefüt
+					for (int iii = 0; iii < emptyAutoListe.size(); iii++) {
+						alleAutoIDs.add(emptyAutoListe.get(iii).getId());
 					}
+
+					/*
+					 * hier werden alle deaktivierten AutoIDs in die deaktivierteAutoIDs Arrayliste
+					 * geladen
+					 */
+					for (int iiii = 0; iiii < emptyAutoListe.size(); iiii++) {
+						// if, damit deaktivierte und in reparatur autos nicht angezeigt werden
+						if (emptyAutoListe.get(iiii).isDeaktiviert()) {
+							alleDeaktiviertenAutoIDs.add(emptyAutoListe.get(iiii).getId());
+						}
+					}
+					/*
+					 * hier werden alle blockierten AutoIDs in die blockiertealleAutoIDs Arrayliste
+					 * geladen
+					 */
+					for (int iiiii = 0; iiiii < emptyAutoListe.size(); iiiii++) {
+						// if, damit deaktivierte und in reparatur autos nicht angezeigt werden
+						if (emptyAutoListe.get(iiiii).isBlockiert()) {
+							alleBlockiertenAutoIDs.add(emptyAutoListe.get(iiiii).getId());
+						}
+					}
+
+					/*
+					 * hier ziehen wir die IDs der reservierten,deaktiverten und blockierten Autos
+					 * von allen IDs ab
+					 */
+					alleAutoIDs.removeAll(reservierteIDs);
+					alleAutoIDs.removeAll(alleDeaktiviertenAutoIDs);
+					alleAutoIDs.removeAll(alleBlockiertenAutoIDs);
+
+					// hier wird die Liste mit den freien Autos herausgeschrieben
+					try {
+						FileOutputStream fos = new FileOutputStream("FreieAutosListe.ser");
+						ObjectOutputStream oos = new ObjectOutputStream(fos);
+						// write object to file
+						oos.writeObject(alleAutoIDs);
+						// closing resources
+						oos.close();
+						fos.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+					// hier wird der neue Dialog für die eigentliche Reservation geöffnet
+					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AutoZuweisungAuswaehlen.fxml"));
+					Parent root = fxmlLoader.load();
+					Stage stage = new Stage();
+					stage.initModality(Modality.APPLICATION_MODAL);
+					stage.setOpacity(1);
+					stage.setTitle("Auto auswählen");
+					stage.setScene(new Scene(root, 900, 700));
+					stage.showAndWait();
+
 				}
-
-				/*
-				 * hier ziehen wir die IDs der reservierten,deaktiverten und blockierten Autos
-				 * von allen IDs ab
-				 */
-				alleAutoIDs.removeAll(reservierteIDs);
-				alleAutoIDs.removeAll(alleDeaktiviertenAutoIDs);
-				alleAutoIDs.removeAll(alleBlockiertenAutoIDs);
-
-				// hier wird die Liste mit den freien Autos herausgeschrieben
-				try {
-					FileOutputStream fos = new FileOutputStream("FreieAutosListe.ser");
-					ObjectOutputStream oos = new ObjectOutputStream(fos);
-					// write object to file
-					oos.writeObject(alleAutoIDs);
-					// closing resources
-					oos.close();
-					fos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				// hier wird der neue Dialog für die eigentliche Reservation geöffnet
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AutoZuweisungAuswaehlen.fxml"));
-				Parent root = fxmlLoader.load();
-				Stage stage = new Stage();
-				stage.initModality(Modality.APPLICATION_MODAL);
-				stage.setOpacity(1);
-				stage.setTitle("Auto auswählen");
-				stage.setScene(new Scene(root, 900, 700));
-				stage.showAndWait();
-
 			}
+			// event dass Fenster geschlossen wird
+			((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
+		} else {
+			JOptionPane.showMessageDialog(null, "Eine ReservationsID muss selektiert werden.");
 		}
-		// event dass Fenster geschlossen wird
-		((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
 	}
 
 }

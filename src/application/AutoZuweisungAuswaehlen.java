@@ -130,74 +130,78 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 	 */
 	@SuppressWarnings("unchecked")
 	public void handleAutoZuweisungAuswaehlenButton(ActionEvent event) {
-		// hier findet die berechnung der Fahrerfelder statt
+		if (!autoIDBox.getSelectionModel().isEmpty()) {
+			// hier findet die berechnung der Fahrerfelder statt
 
-		/*
-		 * zuerst wird die LoginID hereingeladen (muss über die ArrayListe
-		 * geschehen,Integer alleine scheint nicht zu funktionieren)
-		 */
-		List<Integer> neueAktuelleReservationsIDList = new ArrayList<Integer>();
-		try {
-			FileInputStream fis = new FileInputStream("aktuelleReservationsID.ser");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			// write object to file
-			neueAktuelleReservationsIDList = (ArrayList<Integer>) ois.readObject();
-			// closing resources
-			ois.close();
-			fis.close();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		// hier wird die ID gesetzt
-		for (int i = 0; i < neueAktuelleReservationsIDList.size(); i++) {
-			aktuelleReservationsID = neueAktuelleReservationsIDList.get(i);
-		}
-
-		// hier startet der Import des von Datums für die Berechnung der Anzahl Tage
-
-		// hier startet der Import der bestehenden reservationsliste
-		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
-		try {
-			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			// write object to file
-			emptyReservationsListe = (ArrayList<Reservation>) ois.readObject();
-			// closing resources
-			ois.close();
-			fis.close();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		/*
-		 * hier wird mit einer for Schlaufe durch die importierte Reservationsliste
-		 * iteriert
-		 */
-		for (int i = 0; i < emptyReservationsListe.size(); i++) {
-			if (emptyReservationsListe.get(i).getReservationsID() == aktuelleReservationsID) {
-				emptyReservationsListe.get(i).setAutoID(Integer.parseInt(autoIDBox.getValue()));
-
-				// Message vor dem Schliessen
-				JOptionPane.showMessageDialog(null, "Das Auto mit der ID " + autoIDBox.getValue()
-						+ " wurde der Reservation mit der ID " + aktuelleReservationsID + " neu zugewiesen");
-			}
-
-			// hier wird die aktualisierte Reservationsliste wieder herausgeschrieben
+			/*
+			 * zuerst wird die LoginID hereingeladen (muss über die ArrayListe
+			 * geschehen,Integer alleine scheint nicht zu funktionieren)
+			 */
+			List<Integer> neueAktuelleReservationsIDList = new ArrayList<Integer>();
 			try {
-				FileOutputStream fos = new FileOutputStream("Reservationsliste.ser");
-				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				FileInputStream fis = new FileInputStream("aktuelleReservationsID.ser");
+				ObjectInputStream ois = new ObjectInputStream(fis);
 				// write object to file
-				oos.writeObject(emptyReservationsListe);
+				neueAktuelleReservationsIDList = (ArrayList<Integer>) ois.readObject();
 				// closing resources
-				oos.close();
-				fos.close();
-			} catch (IOException e) {
+				ois.close();
+				fis.close();
+			} catch (IOException | ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-		}
 
-		// event dass Fenster geschlossen wird
-		((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
+			// hier wird die ID gesetzt
+			for (int i = 0; i < neueAktuelleReservationsIDList.size(); i++) {
+				aktuelleReservationsID = neueAktuelleReservationsIDList.get(i);
+			}
+
+			// hier startet der Import des von Datums für die Berechnung der Anzahl Tage
+
+			// hier startet der Import der bestehenden reservationsliste
+			List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
+			try {
+				FileInputStream fis = new FileInputStream("Reservationsliste.ser");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				// write object to file
+				emptyReservationsListe = (ArrayList<Reservation>) ois.readObject();
+				// closing resources
+				ois.close();
+				fis.close();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+
+			/*
+			 * hier wird mit einer for Schlaufe durch die importierte Reservationsliste
+			 * iteriert
+			 */
+			for (int i = 0; i < emptyReservationsListe.size(); i++) {
+				if (emptyReservationsListe.get(i).getReservationsID() == aktuelleReservationsID) {
+					emptyReservationsListe.get(i).setAutoID(Integer.parseInt(autoIDBox.getValue()));
+
+					// Message vor dem Schliessen
+					JOptionPane.showMessageDialog(null, "Das Auto mit der ID " + autoIDBox.getValue()
+							+ " wurde der Reservation mit der ID " + aktuelleReservationsID + " neu zugewiesen");
+				}
+
+				// hier wird die aktualisierte Reservationsliste wieder herausgeschrieben
+				try {
+					FileOutputStream fos = new FileOutputStream("Reservationsliste.ser");
+					ObjectOutputStream oos = new ObjectOutputStream(fos);
+					// write object to file
+					oos.writeObject(emptyReservationsListe);
+					// closing resources
+					oos.close();
+					fos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+			// event dass Fenster geschlossen wird
+			((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
+		} else {
+			JOptionPane.showMessageDialog(null, "Eine AutoID muss selektiert werden.");
+		}
 	}
 }

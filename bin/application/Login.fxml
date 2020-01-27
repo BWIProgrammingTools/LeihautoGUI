@@ -15,11 +15,11 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="registrationEinzel" layoutX="111.0" layoutY="345.0" mnemonicParsing="false" onAction="#handleRegistrationButtonEinzel" prefHeight="42.0" prefWidth="216.0" text="Registrieren für Einzelkunden">
+      <Button fx:id="registrationEinzel" layoutX="111.0" layoutY="345.0" mnemonicParsing="false" onAction="#handleRegistrationButtonEinzel" prefHeight="42.0" prefWidth="216.0" text="Registrierung Einzelkunden">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="registrationFirma" layoutX="111.0" layoutY="400.0" mnemonicParsing="false" onAction="#handleRegistrationButtonFirma" prefHeight="42.0" prefWidth="216.0" text="Registrieren für Firmenkunden">
+      <Button fx:id="registrationFirma" layoutX="111.0" layoutY="400.0" mnemonicParsing="false" onAction="#handleRegistrationButtonFirma" prefHeight="42.0" prefWidth="216.0" text="Registrierung Firmenkunden">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>

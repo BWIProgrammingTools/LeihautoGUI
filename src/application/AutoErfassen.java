@@ -1,5 +1,7 @@
 package application;
 
+import javax.swing.JOptionPane;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -57,10 +59,14 @@ public class AutoErfassen {
 	 */
 	@FXML
 	public void handleAutoErfassenButton() {
-		// Das Auto wird hier erstellt und als Objekt übergeben
-		Auto varAuto = new Auto(markeBox.getValue(), getriebeBox.getValue(), treibstoffBox.getValue(),
-				farbeBox.getValue(), Double.parseDouble(kostenProTag.getText()));
-		varAuto.autoErfassen(varAuto);
+		if (!kostenProTag.getText().isEmpty()) {
+			// Das Auto wird hier erstellt und als Objekt übergeben
+			Auto varAuto = new Auto(markeBox.getValue(), getriebeBox.getValue(), treibstoffBox.getValue(),
+					farbeBox.getValue(), Double.parseDouble(kostenProTag.getText()));
+			varAuto.autoErfassen(varAuto);
+		} else {
+			JOptionPane.showMessageDialog(null, "Ein Tagespreis muss gesetzt werden.");
+		}
 	}
 
 }

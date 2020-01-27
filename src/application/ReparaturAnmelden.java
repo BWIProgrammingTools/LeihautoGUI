@@ -240,101 +240,105 @@ public class ReparaturAnmelden implements Serializable {
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void handleReparaturAnmeldenButton(ActionEvent event) {
+		if (!reservationsIDBox.getSelectionModel().isEmpty()) {
+			// hier startet der Import der bestehenden Kundenliste
+			List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
+			try {
+				FileInputStream fis = new FileInputStream("Reservationsliste.ser");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				// write object to file
+				emptyReservationsListe = (ArrayList<Reservation>) ois.readObject();
+				// closing resources
+				ois.close();
+				fis.close();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 
-		// hier startet der Import der bestehenden Kundenliste
-		List<Reservation> emptyReservationsListe = new ArrayList<Reservation>();
-		try {
-			FileInputStream fis = new FileInputStream("Reservationsliste.ser");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			// write object to file
-			emptyReservationsListe = (ArrayList<Reservation>) ois.readObject();
-			// closing resources
-			ois.close();
-			fis.close();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		/*
-		 * hier wird mit einer for Schlaufe durch die importierte Reservationsliste
-		 * iteriert
-		 */
-		for (int i = 0; i < emptyReservationsListe.size(); i++) {
-			// wenn reservationsID = Combobox Zahl ist wird fortgefahren
-			if (emptyReservationsListe.get(i).getReservationsID() == Integer.parseInt(reservationsIDBox.getValue())) {
-				// hier wird der boolean needsReparatur in der Klasse Reservation geändert
-				// wenn die Reparatur abgeschlossen ist, muss man das wieder ändern (Reservation
-				// beendet Button)
-				emptyReservationsListe.get(i).setInReparatus(true);
-
-				// hier wird eine lokal Variable für die entsprechende AutoID der Reservation
-				// vergeben
-				int autoID = emptyReservationsListe.get(i).getAutoID();
-
-				/*
-				 * hier wird wieder die komplette Autoliste reingeladen, um den boolean
-				 * blockiert auf dem Auto mit der entsprechenden ID zu setzen
-				 */
-
-				// hier startet der Import der bestehenden Autoliste
-				List<Auto> emptyAutoListe = new ArrayList<Auto>();
-				try {
-					FileInputStream fis = new FileInputStream("Autoliste.ser");
-					ObjectInputStream ois = new ObjectInputStream(fis);
-					// write object to file
-					emptyAutoListe = (ArrayList<Auto>) ois.readObject();
-					// closing resources
-					ois.close();
-					fis.close();
-				} catch (IOException | ClassNotFoundException e) {
-					e.printStackTrace();
-				}
-
-				// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
-				for (int ii = 0; ii < emptyAutoListe.size(); ii++) {
-					// hier wird der boolean blockiert in der Klasse Auto geändert
+			/*
+			 * hier wird mit einer for Schlaufe durch die importierte Reservationsliste
+			 * iteriert
+			 */
+			for (int i = 0; i < emptyReservationsListe.size(); i++) {
+				// wenn reservationsID = Combobox Zahl ist wird fortgefahren
+				if (emptyReservationsListe.get(i).getReservationsID() == Integer
+						.parseInt(reservationsIDBox.getValue())) {
+					// hier wird der boolean needsReparatur in der Klasse Reservation geändert
 					// wenn die Reparatur abgeschlossen ist, muss man das wieder ändern (Reservation
 					// beendet Button)
-					if (emptyAutoListe.get(ii).getId() == autoID) {
-						emptyAutoListe.get(ii).setBlockiert(true);
+					emptyReservationsListe.get(i).setInReparatus(true);
 
-						// Message vor dem Schliessen
-						// Messagebox vor dem Schliessen
-						JOptionPane.showMessageDialog(null, "Das Auto mit der ID " + emptyAutoListe.get(ii).getId()
-								+ " von der Reservation " + emptyReservationsListe.get(i).getReservationsID()
-								+ " wurde für die Reservation angemeldet.\nBitte die entsprechende Garage kontaktieren.");
+					// hier wird eine lokal Variable für die entsprechende AutoID der Reservation
+					// vergeben
+					int autoID = emptyReservationsListe.get(i).getAutoID();
+
+					/*
+					 * hier wird wieder die komplette Autoliste reingeladen, um den boolean
+					 * blockiert auf dem Auto mit der entsprechenden ID zu setzen
+					 */
+
+					// hier startet der Import der bestehenden Autoliste
+					List<Auto> emptyAutoListe = new ArrayList<Auto>();
+					try {
+						FileInputStream fis = new FileInputStream("Autoliste.ser");
+						ObjectInputStream ois = new ObjectInputStream(fis);
+						// write object to file
+						emptyAutoListe = (ArrayList<Auto>) ois.readObject();
+						// closing resources
+						ois.close();
+						fis.close();
+					} catch (IOException | ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+
+					// hier wird mit einer for Schlaufe durch die importierte Autoliste iteriert
+					for (int ii = 0; ii < emptyAutoListe.size(); ii++) {
+						// hier wird der boolean blockiert in der Klasse Auto geändert
+						// wenn die Reparatur abgeschlossen ist, muss man das wieder ändern (Reservation
+						// beendet Button)
+						if (emptyAutoListe.get(ii).getId() == autoID) {
+							emptyAutoListe.get(ii).setBlockiert(true);
+
+							// Message vor dem Schliessen
+							// Messagebox vor dem Schliessen
+							JOptionPane.showMessageDialog(null, "Das Auto mit der ID " + emptyAutoListe.get(ii).getId()
+									+ " von der Reservation " + emptyReservationsListe.get(i).getReservationsID()
+									+ " wurde für die Reservation angemeldet.\nBitte die entsprechende Garage kontaktieren.");
+						}
+					}
+
+					// hier wird die aktualisierte Autoliste wieder herausgeschrieben
+					try {
+						FileOutputStream fos = new FileOutputStream("Autoliste.ser");
+						ObjectOutputStream oos = new ObjectOutputStream(fos);
+						// write object to file
+						oos.writeObject(emptyAutoListe);
+						// closing resources
+						oos.close();
+						fos.close();
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
 				}
 
-				// hier wird die aktualisierte Autoliste wieder herausgeschrieben
-				try {
-					FileOutputStream fos = new FileOutputStream("Autoliste.ser");
-					ObjectOutputStream oos = new ObjectOutputStream(fos);
-					// write object to file
-					oos.writeObject(emptyAutoListe);
-					// closing resources
-					oos.close();
-					fos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 			}
 
+			// hier wird die aktualisierte Reservationsliste wieder herausgeschrieben
+			try {
+				FileOutputStream fos = new FileOutputStream("Reservationsliste.ser");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				// write object to file
+				oos.writeObject(emptyReservationsListe);
+				// closing resources
+				oos.close();
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
+		} else {
+			JOptionPane.showMessageDialog(null, "Eine ReservationsID muss selektiert werden.");
 		}
-
-		// hier wird die aktualisierte Reservationsliste wieder herausgeschrieben
-		try {
-			FileOutputStream fos = new FileOutputStream("Reservationsliste.ser");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			// write object to file
-			oos.writeObject(emptyReservationsListe);
-			// closing resources
-			oos.close();
-			fos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
 	}
 
 }

@@ -145,44 +145,48 @@ public class KundeEntsperren implements Serializable {
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void handleKundeEntsperrenButton(ActionEvent event) {
-		// hier startet der Import der bestehenden Kundenliste
-		List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
-		try {
-			FileInputStream fis = new FileInputStream("Kundenliste.ser");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			// write object to file
-			emptyKundenListe = (ArrayList<Kunde>) ois.readObject();
-			// closing resources
-			ois.close();
-			fis.close();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
-		for (int i = 0; i < emptyKundenListe.size(); i++) {
-			// hier wird der entsprechende Kunde gemäss ID entsperrt
-			if (emptyKundenListe.get(i).getKundenNummer() == Integer.parseInt(kundenIDBox.getValue())) {
-				emptyKundenListe.get(i).unlockKunde();
-
-				// Messagebox vor dem Schliessen
-				JOptionPane.showMessageDialog(null,
-						"Der Kunde mit der ID " + emptyKundenListe.get(i).getKundenNummer() + " wurde entsperrt.");
+		if (!kundenIDBox.getSelectionModel().isEmpty()) {
+			// hier startet der Import der bestehenden Kundenliste
+			List<Kunde> emptyKundenListe = new ArrayList<Kunde>();
+			try {
+				FileInputStream fis = new FileInputStream("Kundenliste.ser");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				// write object to file
+				emptyKundenListe = (ArrayList<Kunde>) ois.readObject();
+				// closing resources
+				ois.close();
+				fis.close();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
 			}
-		}
 
-		// hier wird die aktualisierte kundenliste wieder herausgeschrieben
-		try {
-			FileOutputStream fos = new FileOutputStream("Kundenliste.ser");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			// write object to file
-			oos.writeObject(emptyKundenListe);
-			// closing resources
-			oos.close();
-			fos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+			// hier wird mit einer for Schlaufe durch die importierte Kundenliste iteriert
+			for (int i = 0; i < emptyKundenListe.size(); i++) {
+				// hier wird der entsprechende Kunde gemäss ID entsperrt
+				if (emptyKundenListe.get(i).getKundenNummer() == Integer.parseInt(kundenIDBox.getValue())) {
+					emptyKundenListe.get(i).unlockKunde();
+
+					// Messagebox vor dem Schliessen
+					JOptionPane.showMessageDialog(null,
+							"Der Kunde mit der ID " + emptyKundenListe.get(i).getKundenNummer() + " wurde entsperrt.");
+				}
+			}
+
+			// hier wird die aktualisierte kundenliste wieder herausgeschrieben
+			try {
+				FileOutputStream fos = new FileOutputStream("Kundenliste.ser");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				// write object to file
+				oos.writeObject(emptyKundenListe);
+				// closing resources
+				oos.close();
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
+		} else {
+			JOptionPane.showMessageDialog(null, "Eine KundenID muss selektiert werden.");
 		}
-		((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
 	}
 }
