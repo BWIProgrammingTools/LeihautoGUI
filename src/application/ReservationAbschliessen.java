@@ -100,7 +100,10 @@ public class ReservationAbschliessen implements Serializable {
 	// Variable, da mit lokaler nicht funktioniert
 	private String mail;
 
-	// initialize für combobox
+	/**
+	 * Initialize für die aktuelle Szene mit den ReservationsIDs der offenen
+	 * Reservationen in der Combobox
+	 */
 	@SuppressWarnings("unchecked")
 	public void initialize() {
 		// hier wird eine leere ArrayList erstellt
@@ -141,10 +144,10 @@ public class ReservationAbschliessen implements Serializable {
 		reservationsIDBox.setItems(FXCollections.observableArrayList(strings));
 	}
 
-	public ReservationAbschliessen() {
-
-	}
-
+	/**
+	 * Hier werden die Textfelder der Szene anhand der gewählten ReservationsID
+	 * gesetzt
+	 */
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeReservationsAngaben() {
@@ -256,6 +259,23 @@ public class ReservationAbschliessen implements Serializable {
 		}
 	}
 
+	/**
+	 * Sofern alle notwendigen Felder ausgefüllt wurden, wird Reservationsliste
+	 * importiert und die entsprechenden Kosten berechnet. Sofern die Reservation
+	 * für die Reparatur angemeldet wurde, werden die Reparaturkosten gemäss
+	 * TextField-Eingabe berücksichtigt und mit den Verzugskosten (berechnet anhand
+	 * der Anzahl Verzugstage*(Pauschale von 100+Reservationskosten pro Tag)) und
+	 * weiteren Kosten zusammengezählt. Dieser Betrag wird von der
+	 * Sicherheitsleistung über 1000 subtrahiert. Ist der Betrag grösser als 0,
+	 * müssen wir dem Kunden eine Rückvergütung vornehmen und falls er unter 0 ist,
+	 * wird der Betrag *-1 gerechnet, was dem vom Kunden geschuldeten Betrag
+	 * entspricht. Alle Infos werden in den entsprechenden Attributen der
+	 * Reservation gesetzt, ein .docx wird erstellt (es werden nur die Kosten
+	 * aufgelistet, welche nicht = 0 sind), am vorgegebenen Speicherort abgelegt und
+	 * dem Kunden wird eine Abschlussbestätigung per Mail versandt mit dem Dokument
+	 * als Anhang. Am Schluss erscheint eine Messagebox und die Szene schliesst
+	 * sich.
+	 */
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void handleReservationAbschliessenButton(ActionEvent event) {

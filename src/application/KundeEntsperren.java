@@ -30,7 +30,7 @@ public class KundeEntsperren implements Serializable {
 	// Listen für ComboBoxen
 	ObservableList<String> IdList = FXCollections.observableArrayList();
 
-	//Felder im GUI
+	// Felder im GUI
 	@FXML
 	private ComboBox<String> kundenIDBox;
 
@@ -55,7 +55,10 @@ public class KundeEntsperren implements Serializable {
 	@FXML
 	private Button kundeentsperren;
 
-	// initialize für das Fenster
+	/**
+	 * Initialize für die aktuelle Szene mit den KundenIDs der gesperrten Kunden in
+	 * der Combobox
+	 */
 	@SuppressWarnings("unchecked")
 	public void initialize() {
 		// hier findet die berechnung der Strings für die Combobox statt
@@ -87,11 +90,9 @@ public class KundeEntsperren implements Serializable {
 		kundenIDBox.setItems(FXCollections.observableArrayList(strings));
 	}
 
-
-	public KundeEntsperren() {
-
-	}
-
+	/**
+	 * Hier werden die Textfelder der Szene anhand der gewählten KundenID gesetzt
+	 */
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeKunde() {
@@ -134,6 +135,13 @@ public class KundeEntsperren implements Serializable {
 
 	}
 
+	/**
+	 * Durch das Drücken des Kunde entsperren Buttons passiert in dieser Methode
+	 * folgendes: 1. Die Liste aller Kunden wird importiert 2. Der Boolean blockiert
+	 * des entsprechend ausgewählten Autos (Combobox) wird auf false gesetzt 3. Eine
+	 * MessageBox wird angezeigt 4. Die aktualisierte Kundenliste wird wieder
+	 * exportiert 5. Die Szene wird geschlossen
+	 */
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void handleKundeEntsperrenButton(ActionEvent event) {
@@ -158,8 +166,8 @@ public class KundeEntsperren implements Serializable {
 				emptyKundenListe.get(i).unlockKunde();
 
 				// Messagebox vor dem Schliessen
-				JOptionPane.showMessageDialog(null, "Der Kunde mit der ID " + emptyKundenListe.get(i).getKundenNummer()
-						+ " wurde entsperrt.");
+				JOptionPane.showMessageDialog(null,
+						"Der Kunde mit der ID " + emptyKundenListe.get(i).getKundenNummer() + " wurde entsperrt.");
 			}
 		}
 

@@ -60,7 +60,7 @@ public class Reservation implements Serializable {
 
 	// Methode für das erfassen der Reservationen
 	@SuppressWarnings({ "unchecked", "unused" })
-	public void ReservationErfassen(Reservation varReservation) {
+	public void reservationErfassen(Reservation varReservation) {
 		// hier startet der Import der bestehenden Reservationsliste
 		List<Reservation> emptyReservationListe = new ArrayList<Reservation>();
 		try {

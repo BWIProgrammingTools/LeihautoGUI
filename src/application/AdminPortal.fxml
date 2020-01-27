@@ -79,7 +79,6 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="kundeSperren1" mnemonicParsing="false" onAction="#handleKundeSperren" prefHeight="50.0" prefWidth="178.0" text="Kunde sperren" />
             <Button fx:id="reparaturAnmelden" mnemonicParsing="false" onAction="#handleReparaturAnmelden" prefHeight="50.0" prefWidth="178.0" text="Anmelden">
                <cursor>
                   <Cursor fx:constant="HAND" />

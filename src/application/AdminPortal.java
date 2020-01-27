@@ -34,14 +34,14 @@ public class AdminPortal {
 	@SuppressWarnings("unused")
 	private MainAdmin parent;
 
-
-	
 	// Konstruktor
 	public AdminPortal() {
 
 	}
 
-	// neues Fenster (AutoErfassen) öffnen
+	/**
+	 * Beim Drücken auf den Auto erfassen Button wird hier die neue Szene geladen
+	 */
 	@FXML
 	public void handleAutoErfassen() throws SQLException, IOException {
 
@@ -56,7 +56,9 @@ public class AdminPortal {
 
 	}
 
-	// neues Fenster (Auto deaktivieren) öffnen
+	/**
+	 * Beim Drücken auf den Auto deaktiveren Button wird hier die neue Szene geladen
+	 */
 	@FXML
 	public void handleAutoDeaktivieren() throws SQLException, IOException {
 
@@ -71,7 +73,9 @@ public class AdminPortal {
 
 	}
 
-	// neues Fenster (Auto aktivieren) öffnen
+	/**
+	 * Beim Drücken auf den Auto aktivieren Button wird hier die neue Szene geladen
+	 */
 	@FXML
 	public void handleAutoAktivieren() throws SQLException, IOException {
 
@@ -86,7 +90,10 @@ public class AdminPortal {
 
 	}
 
-	// neues Fenster (Auto neu zuweisen) öffnen
+	/**
+	 * Beim Drücken auf den Auto neu zuweisen Button wird hier die neue Szene
+	 * geladen
+	 */
 	@FXML
 	public void handleAutoNeuzuweisen() throws SQLException, IOException {
 
@@ -101,7 +108,10 @@ public class AdminPortal {
 
 	}
 
-	// neues Fenster (Reparatur anmelden) öffnen
+	/**
+	 * Beim Drücken auf den Anmelden Button unter Reparatur wird hier die neue Szene
+	 * geladen
+	 */
 	@FXML
 	public void handleReparaturAnmelden() throws SQLException, IOException {
 
@@ -116,7 +126,10 @@ public class AdminPortal {
 
 	}
 
-	// neues Fenster (Reservation abschliessen) öffnen
+	/**
+	 * Beim Drücken auf den Abschliessen Button unter Reservation wird hier die neue
+	 * Szene geladen
+	 */
 	@FXML
 	public void handleReservationAbschliessen() throws SQLException, IOException {
 
@@ -131,7 +144,9 @@ public class AdminPortal {
 
 	}
 
-	// neues Fenster (Kunde sperren sperren) öffnen
+	/**
+	 * Beim Drücken auf den Kunde sperren Button wird hier die neue Szene geladen
+	 */
 	@FXML
 	public void handleKundeSperren() throws SQLException, IOException {
 
@@ -146,7 +161,9 @@ public class AdminPortal {
 
 	}
 
-	// neues Fenster (Kunde entsperren sperren) öffnen
+	/**
+	 * Beim Drücken auf den Kunde entsperren Button wird hier die neue Szene geladen
+	 */
 	@FXML
 	public void handleKundeEntsperren() throws SQLException, IOException {
 

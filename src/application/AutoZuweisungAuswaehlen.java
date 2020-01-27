@@ -46,7 +46,10 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 	// funktioniert nicht als lokale Variable, deshalb hier
 	public int aktuelleReservationsID;
 
-	// initialize des Fensters
+	/**
+	 * Initialize für die aktuelle Szene mit den AutoIDs der ermittelten freien
+	 * Autos Liste in der Combobox
+	 */
 	@SuppressWarnings("unchecked")
 	public void initialize() {
 
@@ -84,12 +87,9 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 
 	}
 
-	// Konsturktor
-	public AutoZuweisungAuswaehlen() {
-
-	}
-
-	// Methode für das Beschreiben der Felder
+	/**
+	 * Hier werden die Textfelder der Szene anhand der gewählten AutoID gesetzt
+	 */
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeAuto() {
@@ -120,7 +120,14 @@ public class AutoZuweisungAuswaehlen implements Serializable {
 
 	}
 
-	// Methode für den AutoReservierenButton
+	/**
+	 * Durch das Drücken des Auto reservieren Buttons passiert in dieser Methode
+	 * folgendes: 1. Die ID der aktuellen Reservation wird von der vorher
+	 * generierten Liste importiert 2. Die komplette ReservationsListe wird
+	 * importiert 3. Bei der entsprechenden Reservation wird die AutoID aus der
+	 * Combobox neu gesetzt 4. Eine MessageBox wird angezeigt und das Fenster
+	 * geschlossen
+	 */
 	@SuppressWarnings("unchecked")
 	public void handleAutoZuweisungAuswaehlenButton(ActionEvent event) {
 		// hier findet die berechnung der Fahrerfelder statt

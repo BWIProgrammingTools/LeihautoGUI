@@ -10,11 +10,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AutoDeaktivieren">
    <children>
+      <ComboBox fx:id="autoIDBox" layoutX="225.0" layoutY="100.0" onAction="#zeigeAuto" prefWidth="150.0" promptText="AutoID" />
       <Button fx:id="autodeaktivieren" layoutX="225.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleAutoDeaktivierenButton" prefHeight="61.0" prefWidth="149.0" text="Jetzt deaktivieren">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <ComboBox fx:id="autoIDBox" layoutX="225.0" layoutY="100.0" onAction="#zeigeAuto" prefWidth="150.0" promptText="AutoID" />
       <TextField fx:id="autoMarkeField" editable="false" layoutX="226.0" layoutY="140.0" promptText="Automarke" />
       <TextField fx:id="autoFarbeField" editable="false" layoutX="226.0" layoutY="180.0" promptText="Farbe" />
       <TextField fx:id="autoGetriebeField" editable="false" layoutX="226.0" layoutY="220.0" promptText="Getriebe" />

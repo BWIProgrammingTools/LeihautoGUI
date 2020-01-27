@@ -10,15 +10,15 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="562.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AutoErfassen">
    <children>
-      <Button fx:id="autoerfassen" layoutX="231.0" layoutY="375.0" mnemonicParsing="false" onAction="#handleAutoErfassenButton" prefHeight="62.0" prefWidth="149.0" text="Jetzt erfassen">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></Button>
       <ComboBox fx:id="markeBox" layoutX="230.0" layoutY="150.0" prefWidth="150.0" promptText="Marke" />
       <ComboBox fx:id="farbeBox" layoutX="230.0" layoutY="185.0" prefWidth="150.0" promptText="Farbe" />
       <ComboBox fx:id="getriebeBox" layoutX="230.0" layoutY="220.0" prefWidth="150.0" promptText="Getriebeart" />
       <ComboBox fx:id="treibstoffBox" layoutX="230.0" layoutY="255.0" prefWidth="150.0" promptText="Treibstoff" />
       <TextField fx:id="kostenProTag" layoutX="231.0" layoutY="317.0" promptText="Tagespreis" />
+      <Button fx:id="autoerfassen" layoutX="231.0" layoutY="375.0" mnemonicParsing="false" onAction="#handleAutoErfassenButton" prefHeight="62.0" prefWidth="149.0" text="Jetzt erfassen">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <Label layoutX="42.0" layoutY="45.0" prefHeight="26.0" prefWidth="285.0" text="Auto erfassen">
          <font>
             <Font name="System Bold" size="15.0" />
@@ -28,5 +28,6 @@
       <Label alignment="CENTER_RIGHT" layoutX="49.0" layoutY="189.0" prefHeight="17.0" prefWidth="180.0" text="Farbe: " />
       <Label alignment="CENTER_RIGHT" layoutX="49.0" layoutY="224.0" prefHeight="17.0" prefWidth="180.0" text="Getriebe: " />
       <Label alignment="CENTER_RIGHT" layoutX="49.0" layoutY="259.0" prefHeight="17.0" prefWidth="180.0" text="Treibstoff: " />
+      <Label alignment="CENTER_RIGHT" layoutX="48.0" layoutY="321.0" prefHeight="17.0" prefWidth="180.0" text="Tagespreis:" />
    </children>
 </AnchorPane>

@@ -58,17 +58,13 @@ public class RegistrationEinzel {
 
 	boolean usernameVorhanden;
 
-	public RegistrationEinzel() {
-
-	}
-
-	// Methode für den Registrierungsbutton
+	/**
+	 * Sofern alle Felder ausgefüllt, der Username nicht bereits vorhanden ist, das
+	 * Alter 18 oder älter ist, wird ein Objekt Einzelkunde erstellt und als
+	 * Parameter der Methode registration, welche in der Klasse Kunde definiert ist,
+	 * übergeben
+	 */
 	@SuppressWarnings("unchecked")
-	// 1. importiert die bestehende Kundenliste
-	// 2. erstellt eine neue ArrayList
-	// 3. erstellt ein neues Objekt Kunde
-	// 4. added das Objekt ebenfalls der ArrayList
-	// 5. exportiert die neue ArrayList wieder als Kundenliste
 	@FXML
 	public void handleRegistrationAbschliessenButton(ActionEvent event) {
 		/*

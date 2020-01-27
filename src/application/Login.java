@@ -41,10 +41,6 @@ public class Login {
 	@SuppressWarnings("unused")
 	private MainKunde parent;
 
-	public Login() {
-
-	}
-
 	public static int getPasswortCounter() {
 		return passwortCounter;
 	}
@@ -53,6 +49,16 @@ public class Login {
 		Login.passwortCounter = passwortCounter;
 	}
 
+	/**
+	 * Durch das Drücken des Login Buttons passiert in dieser Methode folgendes: 1.
+	 * Die Kundenliste wird importiert 2. Wenn der Username und das Passwort mit
+	 * einem Kunden matchen und der Kunde nicht gesperrt ist, wird die nächste Szene
+	 * geöffnet und die UserID in einer Liste als File, für die spätere Verwendung,
+	 * exportiert 3. Wenn der Username und das Passwort mit einem Kunden matchen und
+	 * der Kunde gesperrt ist, wird der Login verweigert und der Sperrgrund
+	 * angezeigt 4. Wenn Username oder Passwort falsch ist, wird der Login
+	 * verweigert
+	 */
 	@SuppressWarnings("unchecked")
 	@FXML
 	public boolean handleLogin() throws SQLException, IOException {
@@ -128,6 +134,9 @@ public class Login {
 		return false;
 	}
 
+	/**
+	 * Durch das Drücken des Button wird die nächste Szene geöffnet
+	 */
 	@FXML
 	// neues Fenster (Registration) öffnen
 	public void handleRegistrationButtonEinzel() throws SQLException, IOException {
@@ -144,6 +153,9 @@ public class Login {
 
 	@FXML
 
+	/**
+	 * Durch das Drücken des Button wird die nächste Szene geöffnet
+	 */
 	public void handleRegistrationButtonFirma() throws SQLException, IOException {
 
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RegistrationFirma.fxml"));
@@ -157,7 +169,10 @@ public class Login {
 	}
 
 	@FXML
-	// neues Fenster (pw vergessen) öffnen
+	/**
+	 * Durch das Drücken des Button wird die nächste Szene geöffnet, sofern der
+	 * passwortCounter grösser/gleich 0 ist
+	 */
 	public void handlePasswordForgotButton() throws SQLException, IOException {
 
 		if (passwortCounter >= 0) {

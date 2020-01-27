@@ -9,10 +9,10 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="722.0" prefWidth="633.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RegistrationEinzel">
    <children>
-      <TextField fx:id="strasseUndNummer" layoutX="278.0" layoutY="181.0" prefHeight="26.0" prefWidth="180.0" promptText="Strasse und Nummer" />
+      <TextField fx:id="vorname" layoutX="279.0" layoutY="66.0" prefHeight="25.0" prefWidth="180.0" promptText="Vorname" />      
       <TextField fx:id="nachname" layoutX="279.0" layoutY="98.0" prefHeight="25.0" prefWidth="180.0" promptText="Nachname" />
-      <TextField fx:id="vorname" layoutX="279.0" layoutY="66.0" prefHeight="25.0" prefWidth="180.0" promptText="Vorname" />
       <TextField fx:id="fuehrerausweisNummer" layoutX="279.0" layoutY="131.0" prefHeight="25.0" prefWidth="180.0" promptText="Führerscheinnummer" />
+      <TextField fx:id="strasseUndNummer" layoutX="278.0" layoutY="181.0" prefHeight="26.0" prefWidth="180.0" promptText="Strasse und Nummer" />      
       <TextField fx:id="ort" layoutX="278.0" layoutY="214.0" prefWidth="180.0" promptText="Ort" />
       <TextField fx:id="plz" layoutX="278.0" layoutY="246.0" prefWidth="180.0" promptText="PLZ" />
       <TextField fx:id="land" layoutX="278.0" layoutY="280.0" prefWidth="180.0" promptText="Land" />
@@ -23,15 +23,15 @@
       <TextField fx:id="passwort" layoutX="278.0" layoutY="447.0" prefWidth="180.0" promptText="Passwort" />
       <TextField fx:id="kkNummer" layoutX="278.0" layoutY="481.0" prefWidth="180.0" promptText="Kreditkartennummer" />
       <TextField fx:id="kkInhaber" layoutX="278.0" layoutY="514.0" prefWidth="180.0" promptText="Kreditkarteninhaber" />
+      <TextField fx:id="kkAblaufdatum" layoutX="278.0" layoutY="546.0" prefWidth="180.0" promptText="Kreditkartenablaufdatum" />
+      <TextField fx:id="kkPruefnummer" layoutX="278.0" layoutY="578.0" prefWidth="180.0" promptText="Kreditkartenprüfnummer" />
       <Button fx:id="registration" layoutX="278.0" layoutY="620.0" mnemonicParsing="false" onAction="#handleRegistrationAbschliessenButton" prefHeight="48.0" prefWidth="180.0" text="Registration abschliessen">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></Button>
-      <TextField fx:id="kkAblaufdatum" layoutX="278.0" layoutY="546.0" prefWidth="180.0" promptText="Kreditkartenablaufdatum" />
-      <TextField fx:id="kkPruefnummer" layoutX="278.0" layoutY="578.0" prefWidth="180.0" promptText="Kreditkartenprüfnummer" />
+         </cursor></Button>      
       <Label alignment="CENTER_RIGHT" layoutX="90.0" layoutY="186.0" prefHeight="17.0" prefWidth="180.0" text="Strasse und Nummer:" />
       <Label alignment="CENTER_RIGHT" layoutX="90.0" layoutY="218.0" prefHeight="17.0" prefWidth="180.0" text="Ort:" textAlignment="RIGHT" />
       <Label alignment="CENTER_RIGHT" layoutX="90.0" layoutY="250.0" prefHeight="17.0" prefWidth="180.0" text="Postleitzahl:" textAlignment="RIGHT" />

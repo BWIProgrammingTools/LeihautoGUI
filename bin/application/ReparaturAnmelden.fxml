@@ -11,11 +11,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="734.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ReparaturAnmelden">
    <children>
+      <ComboBox fx:id="reservationsIDBox" layoutX="164.0" layoutY="162.0" onAction="#zeigeReservationsAngaben" prefHeight="25.0" prefWidth="149.0" promptText="Reservations ID" />
       <Button fx:id="reparaturanmelden" layoutX="219.0" layoutY="457.0" mnemonicParsing="false" onAction="#handleReparaturAnmeldenButton" prefHeight="66.0" prefWidth="296.0" text="Reparatur jetzt anmelden">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <ComboBox fx:id="reservationsIDBox" layoutX="164.0" layoutY="162.0" onAction="#zeigeReservationsAngaben" prefHeight="25.0" prefWidth="149.0" promptText="Reservations ID" />
       <TextField fx:id="kundenNameField" editable="false" layoutX="167.0" layoutY="197.0" promptText="Nachname" />
       <TextField fx:id="kundenVornameField" editable="false" layoutX="167.0" layoutY="232.0" promptText="Vorname" />
       <TextField fx:id="firmenNameField" editable="false" layoutX="167.0" layoutY="267.0" promptText="Firmenname" />

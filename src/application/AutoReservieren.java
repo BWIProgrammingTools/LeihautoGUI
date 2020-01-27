@@ -74,7 +74,10 @@ public class AutoReservieren implements Serializable {
 	private int eingeloggterUserID;
 	private String mail;
 
-	// initialize des Fensters
+	/**
+	 * Initialize für die aktuelle Szene mit den AutoIDs der ermittelten freien
+	 * Autos Liste in der Combobox
+	 */
 	@SuppressWarnings("unchecked")
 	public void initialize() {
 		// hier findet die berechnung der Strings für die Combobox statt
@@ -196,12 +199,11 @@ public class AutoReservieren implements Serializable {
 
 	}
 
-	// Konstruktor
-	public AutoReservieren() {
-
-	}
-
-	// Methode für Anzeige der Autos
+	/**
+	 * Hier werden die Textfelder der Szene anhand der gewählten AutoID und der
+	 * importierten Von und Bis Daten aus der vom KundenPortal generierten Liste
+	 * gesetzt
+	 */
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeAuto() {
@@ -275,7 +277,16 @@ public class AutoReservieren implements Serializable {
 
 	}
 
-	/** Methode für den AutoReservierenButton */
+	/**
+	 * Durch das Drücken des Auto reservieren Buttons passiert in dieser Methode
+	 * folgendes: 1. Das vorher gewählte Von und Bis Datum wird importiert 2. Ein
+	 * Objekt der Reservation wird gemäss dessen Konstruktor erstellt und in der
+	 * Methode ReservationErfassen, welche in der Klasse Reservation definiert ist,
+	 * als Paramether übergeben 3. Ein .docx wird mit diversen Angaben befüllt und
+	 * an einem vordefinierten Speicherort abgelegt und als E-Mail an die beim
+	 * Kunden hinterlegte E-Mail Adresse verschickt. 4. Eine MessageBox wird
+	 * angezeigt und die Szene wird geschlossen
+	 */
 	@SuppressWarnings("unchecked")
 	public void handleAutoReservierenButton(ActionEvent event) {
 		if (fahrerVornameField.getText().isEmpty() || fahrerNachnameField.getText().isEmpty()
@@ -314,7 +325,7 @@ public class AutoReservieren implements Serializable {
 					this.eingeloggterUserID, fahrerVornameField.getText(), fahrerNachnameField.getText(),
 					Long.parseLong(fuehrerscheinField.getText()), kalenderVon, kalenderBis,
 					Double.parseDouble(reservationsKosten.getText()));
-			varReservation.ReservationErfassen(varReservation);
+			varReservation.reservationErfassen(varReservation);
 
 			// .docx Dokument erzeugen
 			@SuppressWarnings("resource")

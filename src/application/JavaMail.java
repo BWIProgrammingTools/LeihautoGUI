@@ -19,6 +19,10 @@ import javax.mail.internet.MimeMultipart;
 
 public class JavaMail {
 
+	/**
+	 * Methode für das Versenden der Reservationsbestätigung, welche in der Klasse
+	 * AutoReservieren aufgerufen wird
+	 */
 	public static void sendReservationsbestaetigung(String empfaenger, int reservationsnummer) {
 		String to = empfaenger;
 
@@ -75,6 +79,10 @@ public class JavaMail {
 		}
 	}
 
+	/**
+	 * Methode für das Versenden der Abschlussbestätigung, welche in der Klasse
+	 * ReservationAbschliessen aufgerufen wird
+	 */
 	public static void sendAbschlussbestaetigung(String empfaenger, int reservationsnummer) {
 		String to = empfaenger;
 
@@ -131,6 +139,10 @@ public class JavaMail {
 		}
 	}
 
+	/**
+	 * Methode für das Versenden des Passworts, welche in der Klasse PasswordForgot
+	 * aufgerufen wird
+	 */
 	public static void sendPasswortVergessen(String empfaenger, String passwort) {
 		String to = empfaenger;
 

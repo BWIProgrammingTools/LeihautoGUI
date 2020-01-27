@@ -86,6 +86,10 @@ public class KundenPortal implements Serializable {
 
 	}
 
+	/**
+	 * Initialize für die aktuelle Szene mit den Kundendaten gemäss der UserID ovn
+	 * der EingeloggterUserList
+	 */
 	@SuppressWarnings("unchecked")
 	public void initialize() {
 		// hier findet die berechnung der Fahrerfelder statt
@@ -150,6 +154,19 @@ public class KundenPortal implements Serializable {
 		}
 	}
 
+	/**
+	 * Durch das Drücken des Freie Autos anzeigen Buttons passiert in dieser Methode
+	 * folgendes, sofern das Bis Datum nach dem Von Datum ist: 1. Das Von und Bis
+	 * Datum wird vom Datepicker gelesen, zersetzt und in die lokalen Variablen
+	 * kalenderVon und kalenderBis übergeben und ebenfalls, für die Verwendung in
+	 * der nächsten Szene, in je eine Liste exportiert 2. Die freien Autos werden
+	 * ermittelt (die Liste aller Autos wird importiert, die IDs der in diesem
+	 * Zeitraum reservierten Autos (nur diejenigen, bei welchen die Reservation noch
+	 * nicht abgeschlossen wurde), die IDs aller blockierten und die IDs aller
+	 * deaktiverten Autos werden von der kompletten Autoliste abgezogen). Die freien
+	 * Autos werden ebenfalls in eine neue Liste exportiert 3. Die neue Szene wird
+	 * geöffnet
+	 */
 	@SuppressWarnings("unchecked")
 	public void handleFreieAutosButton() throws IOException {
 		/*

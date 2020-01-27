@@ -74,7 +74,10 @@ public class ReparaturAnmelden implements Serializable {
 	@FXML
 	private Button reparaturanmelden;
 
-	// initialize für combobox
+	/**
+	 * Initialize für die aktuelle Szene mit den ReservationsIDs, welche nicht
+	 * abgeschlossen oder bereits in Reparatur sind in der Combobox
+	 */
 	@SuppressWarnings("unchecked")
 	public void initialize() {
 		// hier wird eine leere ArrayList erstellt
@@ -114,10 +117,10 @@ public class ReparaturAnmelden implements Serializable {
 		reservationsIDBox.setItems(FXCollections.observableArrayList(strings));
 	}
 
-	public ReparaturAnmelden() {
-
-	}
-
+	/**
+	 * Hier werden die Textfelder der Szene anhand der gewählten ReservationsID
+	 * gesetzt
+	 */
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeReservationsAngaben() {
@@ -226,6 +229,14 @@ public class ReparaturAnmelden implements Serializable {
 
 	}
 
+	/**
+	 * Anhand der gewählten ReservationsID wird der Boolean inReparatur auf der
+	 * entsprechenden Reservation auf True gesetzt. Die entsprechende AutoID der
+	 * Reservation wird als lokale Variable gespeichert. Im nächsten Schritt wird
+	 * die lokal gespeicherte AutoID in der AutoListe (vorher importiert) gesucht
+	 * und dort wo es eine Übereinstimmung gibt, wird der Boolean blockiert auf true
+	 * gesetzt. Am Schluss wird eine MessageBox angezeigt und die Szene geschlossen.
+	 */
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void handleReparaturAnmeldenButton(ActionEvent event) {
@@ -291,7 +302,7 @@ public class ReparaturAnmelden implements Serializable {
 						// Messagebox vor dem Schliessen
 						JOptionPane.showMessageDialog(null, "Das Auto mit der ID " + emptyAutoListe.get(ii).getId()
 								+ " von der Reservation " + emptyReservationsListe.get(i).getReservationsID()
-								+ "wurde für die Reservation angemeldet.\nBitte die entsprechende Garage kontaktieren.");
+								+ " wurde für die Reservation angemeldet.\nBitte die entsprechende Garage kontaktieren.");
 					}
 				}
 

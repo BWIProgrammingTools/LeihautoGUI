@@ -9,21 +9,21 @@
 
 <AnchorPane prefHeight="606.0" prefWidth="438.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Login">
    <children>
+      <TextField fx:id="username" layoutX="111.0" layoutY="130.0" prefHeight="25.0" prefWidth="216.0" promptText="User" />
+      <TextField fx:id="password" layoutX="111.0" layoutY="180.0" prefHeight="25.0" prefWidth="216.0" promptText="Passwort" />
       <Button fx:id="login" layoutX="111.0" layoutY="290.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="42.0" prefWidth="216.0" text="Login">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <TextField fx:id="username" layoutX="111.0" layoutY="130.0" prefHeight="25.0" prefWidth="216.0" promptText="User" />
-      <TextField fx:id="password" layoutX="111.0" layoutY="180.0" prefHeight="25.0" prefWidth="216.0" promptText="Passwort" />
       <Button fx:id="registrationEinzel" layoutX="111.0" layoutY="345.0" mnemonicParsing="false" onAction="#handleRegistrationButtonEinzel" prefHeight="42.0" prefWidth="216.0" text="Registrieren für Einzelkunden">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="forgot" layoutX="111.0" layoutY="455.0" mnemonicParsing="false" onAction="#handlePasswordForgotButton" prefHeight="42.0" prefWidth="216.0" text="Passwort vergessen">
+      <Button fx:id="registrationFirma" layoutX="111.0" layoutY="400.0" mnemonicParsing="false" onAction="#handleRegistrationButtonFirma" prefHeight="42.0" prefWidth="216.0" text="Registrieren für Firmenkunden">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="registrationFirma" layoutX="111.0" layoutY="400.0" mnemonicParsing="false" onAction="#handleRegistrationButtonFirma" prefHeight="42.0" prefWidth="216.0" text="Registrieren für Firmenkunden">
+      <Button fx:id="forgot" layoutX="111.0" layoutY="455.0" mnemonicParsing="false" onAction="#handlePasswordForgotButton" prefHeight="42.0" prefWidth="216.0" text="Passwort vergessen">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>

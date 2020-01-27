@@ -49,13 +49,12 @@ public class AutoErfassen {
 		treibstoffBox.setItems(treibstoffList);
 	}
 
-	
-	// Konstruktor
-	public AutoErfassen() {
-
-	}
-
-	// Methode für den Button
+	/**
+	 * Durch das Drücken des Auto erfassen Buttons passiert in dieser Methode
+	 * folgendes: 1. Ein Objekt Auto wird gemäss Konstruktor des Autos erzeugt 2.
+	 * Das Objekt wird in der Methode autoErfassen, welche in der Klasse Auto
+	 * definiert ist, als Parameter übergeben
+	 */
 	@FXML
 	public void handleAutoErfassenButton() {
 		// Das Auto wird hier erstellt und als Objekt übergeben

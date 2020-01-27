@@ -47,7 +47,10 @@ public class AutoAktivieren implements Serializable {
 	@FXML
 	private Button handleAutoLoeschenButton;
 
-	// initialize für neues Fenster
+	/**
+	 * Initialize für die aktuelle Szene mit den AutoIDs der deaktiverten Autos in
+	 * der Combobox
+	 */
 	@SuppressWarnings("unchecked")
 	public void initialize() {
 		/* hier findet die berechnung der Strings für die Combobox statt */
@@ -83,13 +86,11 @@ public class AutoAktivieren implements Serializable {
 		// hier wird die Liste der entsprechenden IDs der Combobox hinzugefügt
 		autoIDBox.setItems(FXCollections.observableArrayList(strings));
 	}
+	
 
-	// Konstruktor
-	public AutoAktivieren() {
-
-	}
-
-	// Methode um diverse Felder im GUI mit Infos zu befüllen
+	/**
+	 * Hier werden die Textfelder der Szene anhand der gewählten AutoID gesetzt
+	 */
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeAuto() {
@@ -121,7 +122,13 @@ public class AutoAktivieren implements Serializable {
 
 	}
 
-	// methode für den Button
+	/**
+	 * Durch das Drücken des Auto aktiveren Buttons passiert in dieser Methode
+	 * folgendes: 1. Die Liste aller Autos wird importiert 2. Der Boolean deaktivert
+	 * des entsprechend ausgewählten Autos (Combobox) wird auf false gesetzt 3. Eine
+	 * MessageBox wird angezeigt 4. Die aktualisierte AutoListe wird wieder
+	 * exportiert 5. Die Szene wird geschlossen
+	 */
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void handleAutoAktivierenButton(ActionEvent event) {

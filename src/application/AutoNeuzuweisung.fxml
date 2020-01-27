@@ -12,14 +12,14 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="741.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AutoNeuzuweisung">
    <children>
       <ComboBox fx:id="reservationsID" layoutX="176.0" layoutY="143.0" onAction="#zeigeReservationsAngaben" prefWidth="150.0" promptText="ReservationsID" />
-      <TextField fx:id="kundenNameField" editable="false" layoutX="176.0" layoutY="178.0" promptText="Name oder Firmenname" />
-      <TextField fx:id="kundenVornameField" editable="false" layoutX="176.0" layoutY="213.0" promptText="Vorname" />
-      <TextField fx:id="kundenPLZField" editable="false" layoutX="176.0" layoutY="283.0" promptText="PLZ" />
-      <TextField fx:id="kundenOrtField" editable="false" layoutX="176.0" layoutY="318.0" promptText="Ort" />
       <Button fx:id="AutoSelektierenButton" layoutX="238.0" layoutY="436.0" mnemonicParsing="false" onAction="#handleAutoSelektierenButton" prefHeight="58.0" prefWidth="264.0" text="Neues Auto selektieren">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
+      <TextField fx:id="kundenNameField" editable="false" layoutX="176.0" layoutY="178.0" promptText="Name oder Firmenname" />
+      <TextField fx:id="kundenVornameField" editable="false" layoutX="176.0" layoutY="213.0" promptText="Vorname" />
+      <TextField fx:id="kundenPLZField" editable="false" layoutX="176.0" layoutY="283.0" promptText="PLZ" />
+      <TextField fx:id="kundenOrtField" editable="false" layoutX="176.0" layoutY="318.0" promptText="Ort" />
       <TextField fx:id="kundenStrasseField" editable="false" layoutX="176.0" layoutY="248.0" promptText="Strasse und Nummer" />
       <TextField fx:id="telNummer" editable="false" layoutX="176.0" layoutY="353.0" promptText="Telefonnummer" />
       <TextField fx:id="autoIDField" editable="false" layoutX="492.0" layoutY="179.0" promptText="Auto ID" />

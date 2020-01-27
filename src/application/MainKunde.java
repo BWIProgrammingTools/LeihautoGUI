@@ -11,7 +11,6 @@ import javafx.stage.StageStyle;
 
 public class MainKunde extends Application {
 
-	//testkommentar
 	private Stage primaryStage;
 	private AnchorPane layout;
 

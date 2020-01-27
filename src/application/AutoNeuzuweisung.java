@@ -87,7 +87,9 @@ public class AutoNeuzuweisung implements Serializable {
 	// Integer arrayList für alle blockierte AutoIDs
 	List<Integer> alleBlockiertenAutoIDs = new ArrayList<Integer>();
 
-	// initialize des Fensters
+	/**
+	 * Initialize für die aktuelle Szene mit den ReservationsIDs in der Combobox
+	 */
 	@SuppressWarnings("unchecked")
 	public void initialize() throws IOException {
 
@@ -129,12 +131,10 @@ public class AutoNeuzuweisung implements Serializable {
 		reservationsID.setItems(FXCollections.observableArrayList(strings));
 	}
 
-	// Konstruktor
-	public AutoNeuzuweisung() {
-
-	}
-
-	// methode für den Button
+	/**
+	 * Hier werden die Textfelder der Szene anhand der gewählten ReservationsID
+	 * gesetzt und die gewählte ID in ein File für eine spätere Verwendung geeschrieben
+	 */
 	@SuppressWarnings("unchecked")
 	@FXML
 	public void zeigeReservationsAngaben() {
@@ -269,7 +269,17 @@ public class AutoNeuzuweisung implements Serializable {
 
 	}
 
-	// Methode für die AutoSelektierung
+	/**
+	 * Durch das Drücken des Auto selektieren Buttons passiert in dieser Methode
+	 * folgendes:
+	 * 1. Die Reservationsliste wird importiert
+	 * 2. Das Von und Bis-Datum der gewählten Reservation (Combobox) wird in zwei Files exportiert
+	 * 3. Die freien Autos werden ermittelt (die Liste aller Autos wird importiert, die IDs der in diesem
+	 *    Zeitraum reservierten Autos (nur diejenigen, bei welchen die Reservation noch nicht abgeschlossen
+	 *    wurde), die IDs aller blockierten und die IDs aller deaktiverten Autos werden von der 
+	 *    kompletten Autoliste abgezogen). Die freien Autos werden ebenfalls in eine neue Liste exportiert.
+	 * 4. Die nächste Szene wird geöffnet
+	 */
 	@SuppressWarnings("unchecked")
 	public void handleAutoSelektierenButton(ActionEvent event) throws IOException {
 		/*

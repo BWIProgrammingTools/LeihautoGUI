@@ -11,12 +11,12 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="649.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.KundeSperren">
    <children>
+      <ComboBox fx:id="kundenIDBox" layoutX="224.0" layoutY="120.0" onAction="#zeigeKunde" prefWidth="150.0" promptText="Kunden ID" />
       <TextArea fx:id="sperrgrund" layoutX="78.0" layoutY="365.0" prefHeight="150.0" prefWidth="459.0" promptText="hier den Sperrgrund eingeben" />
       <Button fx:id="kundesperren" layoutX="226.0" layoutY="527.0" mnemonicParsing="false" onAction="#handleKundeSperrenButton" prefHeight="53.0" prefWidth="149.0" text="Kunde sperren">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <ComboBox fx:id="kundenIDBox" layoutX="224.0" layoutY="120.0" onAction="#zeigeKunde" prefWidth="150.0" promptText="Kunden ID" />
       <TextField fx:id="kundenNameField" editable="false" layoutX="225.0" layoutY="155.0" promptText="Nachname" />
       <TextField fx:id="kundenVornameField" editable="false" layoutX="225.0" layoutY="190.0" promptText="Vorname" />
       <TextField fx:id="firmenNameField" editable="false" layoutX="225.0" layoutY="225.0" promptText="Firmenname" />

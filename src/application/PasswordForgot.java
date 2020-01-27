@@ -29,6 +29,12 @@ public class PasswordForgot {
 
 	}
 
+	/**
+	 * Bei korrekter Eingabe der Daten wird ein Mail mit dem Passwort an die beim
+	 * Kunden hinterlegte E-Mail Adresse versant. Sind die Daten falsch, wird eine
+	 * MessageBox angezeigt und der Passwortcounter um 1 verringert. Die Szene wird
+	 * in jedem Falle anschliessend beendet.
+	 */
 	@SuppressWarnings("unchecked")
 	@FXML
 	public boolean handlePasswordForgot(ActionEvent event) {
