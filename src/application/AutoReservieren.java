@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -179,7 +180,10 @@ public class AutoReservieren implements Serializable {
 			e.printStackTrace();
 		}
 		// Textfeld wird gesetzt
-		reserviertVon.setText(String.valueOf(kalenderVon.getTime()));
+		SimpleDateFormat kalenderVonSimple = new SimpleDateFormat("dd.MM.yyyy");
+		kalenderVonSimple.setCalendar(kalenderVon);
+		String dateFormattedVon = kalenderVonSimple.format(kalenderVon.getTime());
+		reserviertVon.setText(String.valueOf(dateFormattedVon));
 
 		// hier startet der Import des bis Datums
 		GregorianCalendar kalenderBis = new GregorianCalendar();
@@ -195,7 +199,10 @@ public class AutoReservieren implements Serializable {
 			e.printStackTrace();
 		}
 		// Textfeld wird gesetzt
-		reserviertBis.setText(String.valueOf(kalenderBis.getTime()));
+		SimpleDateFormat kalenderBisSimple = new SimpleDateFormat("dd.MM.yyyy");
+		kalenderBisSimple.setCalendar(kalenderBis);
+		String dateFormattedBis = kalenderBisSimple.format(kalenderBis.getTime());
+		reserviertBis.setText(String.valueOf(dateFormattedBis));
 
 	}
 
@@ -306,6 +313,9 @@ public class AutoReservieren implements Serializable {
 			} catch (IOException | ClassNotFoundException e) {
 				e.printStackTrace();
 			}
+			SimpleDateFormat kalenderVonSimple = new SimpleDateFormat("dd.MM.yyyy");
+			kalenderVonSimple.setCalendar(kalenderVon);
+			String dateFormattedVon = kalenderVonSimple.format(kalenderVon.getTime());
 
 			// hier startet der Import des bis Datums für die Berechnung der Anzahl Tage
 			GregorianCalendar kalenderBis = new GregorianCalendar();
@@ -320,6 +330,10 @@ public class AutoReservieren implements Serializable {
 			} catch (IOException | ClassNotFoundException e) {
 				e.printStackTrace();
 			}
+			SimpleDateFormat kalenderBisSimple = new SimpleDateFormat("dd.MM.yyyy");
+			kalenderBisSimple.setCalendar(kalenderBis);
+			String dateFormattedBis = kalenderBisSimple.format(kalenderBis.getTime());
+
 			// hier wird die Reservation instanziert und als Objekt weitergegeben
 			Reservation varReservation = new Reservation(Integer.parseInt(autoIDBox.getValue()),
 					this.eingeloggterUserID, fahrerVornameField.getText(), fahrerNachnameField.getText(),
@@ -363,8 +377,7 @@ public class AutoReservieren implements Serializable {
 			}
 			run2.addBreak();
 			run2.addBreak();
-			run2.setText(
-					"Das Auto ist vom " + kalenderVon.getTime() + " bis zum " + kalenderBis.getTime() + " reserviert.");
+			run2.setText("Das Auto ist vom " + dateFormattedVon + " bis zum " + dateFormattedBis + " reserviert.");
 			run2.addBreak();
 			run2.setText("Die Reservationskosten betragen CHF " + varReservation.getReservationsKosten()
 					+ ". Zusätzlich wird Ihnen eine Sicherheitsleistung von CHF "

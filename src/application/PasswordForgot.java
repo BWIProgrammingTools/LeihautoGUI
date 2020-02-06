@@ -60,6 +60,10 @@ public class PasswordForgot {
 					&& emptyKundenListe.get(i).getEmail().compareTo(email.getText()) == 0
 					&& emptyKundenListe.get(i).getAlter() == Integer.parseInt(alter.getText())) {
 
+				// Counter zurücksetzen
+				Login.setPasswortCounter(2);
+
+				// messagebox
 				JOptionPane.showMessageDialog(null,
 						"Ein E-Mail mit dem Passwort wurde an die entsprechende Mailadresse verschickt");
 

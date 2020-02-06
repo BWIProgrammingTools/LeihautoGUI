@@ -13,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -173,8 +174,21 @@ public class ReservationAbschliessen implements Serializable {
 			// hier wird die entsprechende Reservation gemäss Dropdown ausgewählt
 			if (emptyReservationsListe.get(i).getReservationsID() == Integer.parseInt(reservationsIDBox.getValue())) {
 				// hier werden die ersten Textfelder beschrieben
-				reserviertVon.setText(String.valueOf(emptyReservationsListe.get(i).getReservationVon().getTime()));
-				reserviertBis.setText(String.valueOf(emptyReservationsListe.get(i).getReservationBis().getTime()));
+
+				// VonDatum umformatieren
+				SimpleDateFormat kalenderVonSimple = new SimpleDateFormat("dd.MM.yyyy");
+				kalenderVonSimple.setCalendar(emptyReservationsListe.get(i).getReservationVon());
+				String dateFormattedVon = kalenderVonSimple
+						.format(emptyReservationsListe.get(i).getReservationVon().getTime());
+
+				// BisDatum umformatieren
+				SimpleDateFormat kalenderBisSimple = new SimpleDateFormat("dd.MM.yyyy");
+				kalenderBisSimple.setCalendar(emptyReservationsListe.get(i).getReservationBis());
+				String dateFormattedBis = kalenderBisSimple
+						.format(emptyReservationsListe.get(i).getReservationBis().getTime());
+
+				reserviertVon.setText(String.valueOf(dateFormattedVon));
+				reserviertBis.setText(String.valueOf(dateFormattedBis));
 				gesamtKosten.setText(String.valueOf(emptyReservationsListe.get(i).getReservationsKosten()));
 				nachnameFahrer.setText(emptyReservationsListe.get(i).getFahrerNachname());
 				vornameFahrer.setText(emptyReservationsListe.get(i).getFahrerVorname());
